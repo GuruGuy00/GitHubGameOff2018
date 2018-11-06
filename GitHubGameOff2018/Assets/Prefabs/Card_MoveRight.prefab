@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 114273793014425630}
   - component: {fileID: 114221260062181724}
   m_Layer: 5
-  m_Name: Card_MoveLeft
+  m_Name: Card_MoveRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
