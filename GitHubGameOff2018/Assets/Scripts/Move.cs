@@ -23,47 +23,27 @@ public class Move : MonoBehaviour {
     {
 
         moveList.Add("Left");
+        Debug.Log("Submitted : Move Left");
     }
 
     public void AddRightMove()
     {
 
         moveList.Add("Right");
+        Debug.Log("Submitted : Move Right");
     }
 
     public void AddJumpMove()
     {
         moveList.Add("Jump");
+        Debug.Log("Submitted : Jump");
 
     }
 
     public void SubmitMoves()
     {
-        foreach (string move in moveList)
-        {
+        playerController.setMoveList(moveList);
 
-            Debug.Log(move);
-            switch (move)
-            {
-                case "Right":
-                    playerController.MoveRight();
-                    break;
-                case "Left":
-                    playerController.MoveLeft();
-                    break;
-                case "Jump":
-                    playerController.MoveUp();
-                    playerController.MoveUp();
-                    playerController.MoveUp();
-                    playerController.MoveRight();
-                    break;
-                default:
-                    break;
-            }
-         
-        }
-
-        moveList.Clear();
     }
 
 }

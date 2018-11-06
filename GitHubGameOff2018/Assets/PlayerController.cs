@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+
 public class PlayerController : MonoBehaviour {
 
     //Used the below refrence to get things going
@@ -19,6 +20,9 @@ public class PlayerController : MonoBehaviour {
     public float smoothTime = 0.25f;
 
     //ToDo: Get better movements tile by tile
+    private List<string> moveList = new List<string>();
+    private bool isMoving = false;
+    private bool isProccessingMoves = false;
 
     // Use this for initialization
     void Start () {
@@ -35,63 +39,70 @@ public class PlayerController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        //Vector3Int newPos =  Vector3Int.CeilToInt(playerLoc);
-
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        if (isProccessingMoves)
         {
-            newPos = new Vector3Int((int)playerLoc.x, (int)playerLoc.y + 1, 0);
+            if (!isMoving)
+            {
+                switch (moveList[0].ToString())
+                {
+                    case "Right":
+                        MoveRight();
+                        break;
+                    case "Left":
+                        MoveLeft();
+                        break;
+                    default:
+                        break;
+                }
+
+                Debug.Log("Processing Move : " + moveList[0]);
+                moveList.RemoveAt(0);
+
+            }
+
+            //ToDo : Play around to see which works the best?
+            transform.position = Vector3.SmoothDamp(transform.position, newPos, ref currentVelocity, smoothTime);
+            //transform.position = Vector3.Lerp(transform.position, newPos, smoothTime);
+            //transform.position = Vector3.MoveTowards(transform.position, newPos, 0.0f);
+
+
+            if ( Mathf.Approximately(transform.position.x ,(float)newPos.x) && Mathf.Approximately(transform.position.y, (float)newPos.y) )
+            {
+                isMoving = false;
+                if (moveList.Count == 0)
+                {
+                    //ToDo : maybe add an update to the postion so that we are exactly where we wanted to be.
+                    isProccessingMoves = false;
+                }
+            }
         }
-
-        if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            newPos = new Vector3Int((int)playerLoc.x + 1, (int)playerLoc.y, 0);
-            
-        }
-
-        if (Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            newPos = new Vector3Int((int)playerLoc.x, (int)playerLoc.y - 1, 0);
-        }
-
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            newPos = new Vector3Int((int)playerLoc.x - 1, (int)playerLoc.y, 0); ;
-        }
-
-        playerLoc = groundTilemap.CellToWorld(newPos);
-        //transform.position = playerLoc;
-        transform.position = Vector3.SmoothDamp(transform.position, newPos, ref currentVelocity, smoothTime);
-
-        Debug.Log(getCell(groundTilemap, playerLoc));
 
     }
 
     public void MoveRight()
     {
-        //newPos = Vector3Int.CeilToInt(playerLoc);
+        isMoving = true;
         newPos = new Vector3Int((int)playerLoc.x + 1, (int)playerLoc.y, 0);
         playerLoc = groundTilemap.CellToWorld(newPos);
-        //transform.position = playerLoc;
-        transform.position = Vector3.SmoothDamp(transform.position, newPos, ref currentVelocity, smoothTime);
+        
     }
 
     public void MoveLeft()
     {
-        //Vector3Int newPos = Vector3Int.CeilToInt(playerLoc);
+        isMoving = true;
+        
         newPos = new Vector3Int((int)playerLoc.x - 1, (int)playerLoc.y, 0);
         playerLoc = groundTilemap.CellToWorld(newPos);
-        //transform.position = playerLoc;
-        transform.position = Vector3.SmoothDamp(transform.position, newPos, ref currentVelocity, smoothTime);
+
     }
 
     public void MoveUp()
     {
-        //Vector3Int newPos = Vector3Int.CeilToInt(playerLoc);
+        isMoving = true;
+
         newPos = new Vector3Int((int)playerLoc.x, (int)playerLoc.y + 1, 0);
         playerLoc = groundTilemap.CellToWorld(newPos);
-        //transform.position = playerLoc;
-        transform.position = Vector3.SmoothDamp(transform.position, newPos, ref currentVelocity, smoothTime);
-
+        
     }
 
     private TileBase getCell(Tilemap tilemap, Vector2 cellWorldPos)
@@ -99,5 +110,10 @@ public class PlayerController : MonoBehaviour {
         return tilemap.GetTile(tilemap.WorldToCell(cellWorldPos));
     }
 
+    public void setMoveList(List<string> moves)
+    {
+        moveList = moves;
+        isProccessingMoves = true;
+    }
     
 }
