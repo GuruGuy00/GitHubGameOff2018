@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour {
     public Tilemap groundTilemap;
     public Vector3 playerLoc;
     public Vector3 LocTest;
+    private Vector3 startPos;
 
     public Vector3Int newPos;
 
@@ -28,9 +29,15 @@ public class PlayerController : MonoBehaviour {
     void Start () {
 
         //ToDo : fix this up, need to read start pos from var
-        LocTest = groundTilemap.CellToWorld(new Vector3Int(-8, -4, 0));
-        transform.position = groundTilemap.CellToWorld(new Vector3Int(-8, -4, 0));
-        playerLoc = groundTilemap.CellToWorld(new Vector3Int(-8, -4, 0));
+        startPos = transform.position;
+
+        LocTest = groundTilemap.CellToWorld(Vector3Int.CeilToInt(startPos));
+        transform.position = groundTilemap.CellToWorld(Vector3Int.CeilToInt(startPos));
+        playerLoc = groundTilemap.CellToWorld(Vector3Int.CeilToInt(startPos));
+
+        //LocTest = groundTilemap.CellToWorld(new Vector3Int(-8, -4, 0));
+        //transform.position = groundTilemap.CellToWorld(new Vector3Int(-8, -4, 0));
+        //playerLoc = groundTilemap.CellToWorld(new Vector3Int(-8, -4, 0));
 
         newPos = Vector3Int.CeilToInt(playerLoc);
         
@@ -51,7 +58,11 @@ public class PlayerController : MonoBehaviour {
                     case "Left":
                         MoveLeft();
                         break;
+                    case "Jump":
+                        Debug.Log("JUMP DOES NOT WORK YET!!!");
+                        break;
                     default:
+                        Debug.Log("Move " + moveList[0].ToString() + " Not implamented yet!");
                         break;
                 }
 

@@ -2,14 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class CardDisplay : MonoBehaviour {
 
     public Card card;
 
-    public Text nameText;
-    public Text descriptionText;
-    public Text actionText;
+    //public Text nameTextOld;
+    //public Text descriptionTextOld;
+    //public Text actionTextOld;
+
+    public TextMeshProUGUI actionText;
+    public TextMeshProUGUI nameText;
+    public TextMeshProUGUI descriptionText;
 
     public Image artworkImage;
 
