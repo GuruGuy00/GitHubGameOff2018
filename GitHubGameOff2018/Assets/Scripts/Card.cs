@@ -9,5 +9,6 @@ public class Card : ScriptableObject {
     public string description;
     public Sprite artwork;
     public int actionCost;
+    public string moveName;
 	
 }

@@ -40,6 +40,12 @@ public class Move : MonoBehaviour {
 
     }
 
+    public void AddMove(string move)
+    {
+        moveList.Add(move);
+        Debug.Log("Submitted : " + move);
+    }
+
     public void SubmitMoves()
     {
         playerController.setMoveList(moveList);

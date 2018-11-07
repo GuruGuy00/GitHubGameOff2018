@@ -13,15 +13,25 @@ public class CardDisplay : MonoBehaviour {
 
     public Image artworkImage;
 
-    void Start ()
+    private Move moveManager;
+
+    void Start()
     {
-		if (card != null)
+        moveManager = GameObject.FindObjectOfType<Move>();
+
+        if (card != null)
         {
             nameText.text = card.cardName;
             descriptionText.text = card.description;
             actionText.text = card.actionCost.ToString();
             artworkImage.sprite = card.artwork;
         }
-	}
+    }
+
+    public void PlayCard()
+    {
+        moveManager.AddMove(card.moveName);
+        moveManager.SubmitMoves();
+    }
 
 }
