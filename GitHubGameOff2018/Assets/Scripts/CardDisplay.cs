@@ -35,8 +35,8 @@ public class CardDisplay : MonoBehaviour {
 
     public void PlayCard()
     {
-        moveManager.AddMove(card.moveName);
-        moveManager.SubmitMoves();
+        //moveManager.AddMove(card.moveName);
+        //moveManager.SubmitMoves();
     }
 
 }
