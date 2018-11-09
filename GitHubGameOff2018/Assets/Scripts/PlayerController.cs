@@ -31,13 +31,13 @@ public class PlayerController : MonoBehaviour {
         //ToDo : fix this up, need to read start pos from var
         startPos = transform.position;
 
-        LocTest = groundTilemap.CellToWorld(Vector3Int.CeilToInt(startPos));
-        transform.position = groundTilemap.CellToWorld(Vector3Int.CeilToInt(startPos));
-        playerLoc = groundTilemap.CellToWorld(Vector3Int.CeilToInt(startPos));
+        //LocTest = groundTilemap.CellToWorld(Vector3Int.CeilToInt(startPos));
+        //transform.position = groundTilemap.CellToWorld(Vector3Int.CeilToInt(startPos));
+        //playerLoc = groundTilemap.CellToWorld(Vector3Int.CeilToInt(startPos));
 
-        //LocTest = groundTilemap.CellToWorld(new Vector3Int(-8, -4, 0));
-        //transform.position = groundTilemap.CellToWorld(new Vector3Int(-8, -4, 0));
-        //playerLoc = groundTilemap.CellToWorld(new Vector3Int(-8, -4, 0));
+        LocTest = startPos;
+        transform.position = startPos;
+        playerLoc = startPos;
 
         newPos = Vector3Int.CeilToInt(playerLoc);
         
@@ -94,7 +94,8 @@ public class PlayerController : MonoBehaviour {
     {
         isMoving = true;
         newPos = new Vector3Int((int)playerLoc.x + 1, (int)playerLoc.y, 0);
-        playerLoc = groundTilemap.CellToWorld(newPos);
+        playerLoc = newPos;
+        //playerLoc = groundTilemap.CellToWorld(newPos);
         
     }
 
@@ -103,7 +104,8 @@ public class PlayerController : MonoBehaviour {
         isMoving = true;
         
         newPos = new Vector3Int((int)playerLoc.x - 1, (int)playerLoc.y, 0);
-        playerLoc = groundTilemap.CellToWorld(newPos);
+        playerLoc = newPos;
+        //playerLoc = groundTilemap.CellToWorld(newPos);
 
     }
 
@@ -112,8 +114,9 @@ public class PlayerController : MonoBehaviour {
         isMoving = true;
 
         newPos = new Vector3Int((int)playerLoc.x, (int)playerLoc.y + 1, 0);
-        playerLoc = groundTilemap.CellToWorld(newPos);
-        
+        playerLoc = newPos;
+        //playerLoc = groundTilemap.CellToWorld(newPos);
+
     }
 
     private TileBase getCell(Tilemap tilemap, Vector2 cellWorldPos)
