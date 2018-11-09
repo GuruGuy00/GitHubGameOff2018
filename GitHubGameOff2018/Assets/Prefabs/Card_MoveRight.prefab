@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 114724721142315164}
   - component: {fileID: 114273793014425630}
   - component: {fileID: 114221260062181724}
+  - component: {fileID: 114960426154146356}
   m_Layer: 5
   m_Name: Card_MoveRight
   m_TagString: Untagged
@@ -774,6 +775,17 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114960426154146356
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1015916441253448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe5702c0f58cdf24891f194b20cc1120, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114999226195453926
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -921,7 +933,7 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1015916441253448}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -934,7 +946,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 350, y: 0.000002861}
+  m_AnchoredPosition: {x: -0.000010058517, y: 0.000022856286}
   m_SizeDelta: {x: 123, y: 174}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224514392642007352
