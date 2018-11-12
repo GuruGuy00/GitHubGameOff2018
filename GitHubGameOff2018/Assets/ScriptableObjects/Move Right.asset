@@ -13,6 +13,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: Move Right
   description: Move one space to the right.
-  artwork: {fileID: 21300000, guid: d85b962d5b02b8d469aee91e76ed27fb, type: 3}
+  artwork: {fileID: 21300000, guid: 6b690a54623524342a80f3c0d6cd1bf3, type: 3}
   actionCost: 1
   moveName: Right
