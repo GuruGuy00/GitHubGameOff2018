@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class CardDragHandler : MonoBehaviour,IBeginDragHandler, IDragHandler, IEndDragHandler
+public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     //ToDo : need much work... 
     //Ref Code https://forum.unity.com/threads/inventory-drag-and-drop-code.518046/
@@ -26,6 +26,8 @@ public class CardDragHandler : MonoBehaviour,IBeginDragHandler, IDragHandler, IE
         parentObject = this.transform.parent.gameObject;
 
         transform.SetParent(GameObject.Find("MovingCard").transform);
+
+        GetComponent<CanvasGroup>().blocksRaycasts = false;
     }
     public void OnDrag(PointerEventData eventData)
     {
@@ -44,7 +46,7 @@ public class CardDragHandler : MonoBehaviour,IBeginDragHandler, IDragHandler, IE
             //NEW CODE -- NEED TO RESET TO THE LAST PARENT WE HAD
             this.transform.SetParent(parentObject.transform);
         }
-
+        GetComponent<CanvasGroup>().blocksRaycasts = true;
     }
 
     public void setStartPos(Vector3 newStartPos)
