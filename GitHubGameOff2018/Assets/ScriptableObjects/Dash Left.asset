@@ -11,8 +11,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b2ef75efb381ab47b5d1c14a3d5b8f3, type: 3}
   m_Name: Dash Left
   m_EditorClassIdentifier: 
-  cardName: 
-  description: 
-  artwork: {fileID: 0}
-  actionCost: 0
-  moveName: 
+  cardName: Dash Left
+  description: Sprint two spaces to the left.
+  artwork: {fileID: 21300000, guid: 2c84500a3dd4bb54da15fc8f501f8d66, type: 3}
+  actionCost: 2
+  moveName: DashLeft
