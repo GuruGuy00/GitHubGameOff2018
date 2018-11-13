@@ -630,17 +630,17 @@ Prefab:
     - target: {fileID: 224730597716451974, guid: 1d519fc7e3f308744a376f746cb215d0,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.0019474
+      value: -0.00011283
       objectReference: {fileID: 0}
     - target: {fileID: 224730597716451974, guid: 1d519fc7e3f308744a376f746cb215d0,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 19.706
+      value: 21.045
       objectReference: {fileID: 0}
     - target: {fileID: 224994383518913058, guid: 1d519fc7e3f308744a376f746cb215d0,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -9.1878
+      value: -9.1877
       objectReference: {fileID: 0}
     - target: {fileID: 224994383518913058, guid: 1d519fc7e3f308744a376f746cb215d0,
         type: 2}
@@ -710,6 +710,36 @@ Prefab:
     - target: {fileID: 114379099485264774, guid: 1d519fc7e3f308744a376f746cb215d0,
         type: 2}
       propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224023288352214272, guid: 1d519fc7e3f308744a376f746cb215d0,
+        type: 2}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224909009287287034, guid: 1d519fc7e3f308744a376f746cb215d0,
+        type: 2}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114724721142315164, guid: 1d519fc7e3f308744a376f746cb215d0,
+        type: 2}
+      propertyPath: m_Color.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114724721142315164, guid: 1d519fc7e3f308744a376f746cb215d0,
+        type: 2}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114724721142315164, guid: 1d519fc7e3f308744a376f746cb215d0,
+        type: 2}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114724721142315164, guid: 1d519fc7e3f308744a376f746cb215d0,
+        type: 2}
+      propertyPath: m_RaycastTarget
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
