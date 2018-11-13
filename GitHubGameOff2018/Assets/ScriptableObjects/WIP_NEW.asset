@@ -11,7 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b2ef75efb381ab47b5d1c14a3d5b8f3, type: 3}
   m_Name: WIP_NEW
   m_EditorClassIdentifier: 
-  cardName: Move Right
+  cardName: MOVE RIGHT
   description: Move 1 Space to the Right
   artwork: {fileID: 0}
   actionCost: 1
