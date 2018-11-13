@@ -8,6 +8,19 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
     public Transform parentToReturnTo = null;
 
+    void Start()
+    {
+        //If we didn't set a Parent To Return To, set it to the Hand gameobject
+        if (parentToReturnTo == null)
+        {
+            GameObject hand = GameObject.FindGameObjectWithTag("Hand");
+            if (hand != null)
+            {
+                parentToReturnTo = hand.transform;
+            }
+        }
+    }
+
     public void OnBeginDrag(PointerEventData eventData)
     {
         Debug.Log("OnBeginDrag");
