@@ -8,10 +8,6 @@ public class CardDisplay : MonoBehaviour {
 
     public Card card;
 
-    //public Text nameTextOld;
-    //public Text descriptionTextOld;
-    //public Text actionTextOld;
-
     public TextMeshProUGUI actionText;
     public TextMeshProUGUI nameText;
     public TextMeshProUGUI descriptionText;
@@ -22,8 +18,6 @@ public class CardDisplay : MonoBehaviour {
 
     void Start()
     {
-        moveManager = GameObject.FindObjectOfType<Move>();
-
         if (card != null)
         {
             nameText.text = card.cardName;
@@ -31,12 +25,6 @@ public class CardDisplay : MonoBehaviour {
             actionText.text = card.actionCost.ToString();
             artworkImage.sprite = card.artwork;
         }
-    }
-
-    public void PlayCard()
-    {
-        //moveManager.AddMove(card.moveName);
-        //moveManager.SubmitMoves();
     }
 
 }

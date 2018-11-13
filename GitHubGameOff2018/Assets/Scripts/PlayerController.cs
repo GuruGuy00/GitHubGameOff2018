@@ -58,6 +58,12 @@ public class PlayerController : MonoBehaviour {
                     case "Left":
                         MoveLeft();
                         break;
+                    case "DashRight":
+                        DashRight();
+                        break;
+                    case "DashLeft":
+                        DashLeft();
+                        break;
                     case "Jump":
                         Debug.Log("JUMP DOES NOT WORK YET!!!");
                         break;
@@ -107,6 +113,20 @@ public class PlayerController : MonoBehaviour {
         playerLoc = newPos;
         //playerLoc = groundTilemap.CellToWorld(newPos);
 
+    }
+
+    public void DashRight()
+    {
+        isMoving = true;
+        newPos = new Vector3Int((int)playerLoc.x + 2, (int)playerLoc.y, 0);
+        playerLoc = newPos;
+    }
+
+    public void DashLeft()
+    {
+        isMoving = true;
+        newPos = new Vector3Int((int)playerLoc.x - 2, (int)playerLoc.y, 0);
+        playerLoc = newPos;
     }
 
     public void MoveUp()

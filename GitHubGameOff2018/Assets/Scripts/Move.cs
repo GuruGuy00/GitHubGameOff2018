@@ -8,9 +8,10 @@ public class Move : MonoBehaviour {
     PlayerController playerController;
     List<string> moveList = new List<string>();
 
+    public Transform playCardsParents;
+
 	// Use this for initialization
 	void Start () {
-       
         playerController = player.GetComponent<PlayerController>();
 	}
 	
@@ -48,8 +49,12 @@ public class Move : MonoBehaviour {
 
     public void SubmitMoves()
     {
+        CardDisplay[] cardsToPlay = playCardsParents.GetComponentsInChildren<CardDisplay>();
+        foreach (CardDisplay cardInfo in cardsToPlay)
+        {
+            moveList.Add(cardInfo.card.moveName);
+        }
         playerController.setMoveList(moveList);
-
     }
 
 }
