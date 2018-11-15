@@ -12,8 +12,12 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
     public GameObject placeHolder = null;
 
+    private GameObject[] dropZones;
+
     void Start()
     {
+        //Cache a list of drop zones for future use
+        dropZones = GameObject.FindGameObjectsWithTag("Dropzone");
         //If we didn't set a Parent To Return To, set it to the Hand gameobject
         if (parentToReturnTo == null)
         {
@@ -44,6 +48,8 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         this.transform.SetParent(this.transform.parent.parent);
 
         GetComponent<CanvasGroup>().blocksRaycasts = false;
+
+        HighlightDropZones();
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -56,25 +62,40 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         }
 
         int newSiblingIndex = placeHolderParent.childCount;
+        bool isVertical = placeHolderParent.name == "Played";
 
         for (int i = 0; i < placeHolderParent.childCount; i++)
         {
-            //ToDo Update this to handle Vertical Zones
-            if (this.transform.position.x < placeHolderParent.GetChild(i).position.x)
+            if (isVertical)
             {
-                newSiblingIndex = i;
-
-                if (placeHolder.transform.GetSiblingIndex() < newSiblingIndex)
+                if (this.transform.position.y > placeHolderParent.GetChild(i).position.y)
                 {
-                    newSiblingIndex--;
+                    newSiblingIndex = UpdateSiblingIndex(newSiblingIndex, i);
+                    break;
                 }
-
-                break;
+            }
+            else
+            {
+                if (this.transform.position.x < placeHolderParent.GetChild(i).position.x)
+                {
+                    newSiblingIndex = UpdateSiblingIndex(newSiblingIndex, i);
+                    break;
+                }
             }
         }
 
         placeHolder.transform.SetSiblingIndex(newSiblingIndex);
 
+    }
+
+    private int UpdateSiblingIndex(int indexToUpdate, int updateIndex)
+    {
+        indexToUpdate = updateIndex;
+        if (placeHolder.transform.GetSiblingIndex() < indexToUpdate)
+        {
+            indexToUpdate--;
+        }
+        return indexToUpdate;
     }
 
     public void OnEndDrag(PointerEventData eventData)
@@ -85,5 +106,23 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         GetComponent<CanvasGroup>().blocksRaycasts = true;
 
         Destroy(placeHolder);
+
+        UnhighlightDropZones();
+    }
+
+    private void HighlightDropZones()
+    {
+        foreach (GameObject dropZone in dropZones)
+        {
+            dropZone.GetComponent<Outline>().enabled = true;
+        }
+    }
+
+    private void UnhighlightDropZones()
+    {
+        foreach (GameObject dropZone in dropZones)
+        {
+            dropZone.GetComponent<Outline>().enabled = false;
+        }
     }
 }
