@@ -954,6 +954,36 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 114360461840611454, guid: 37709a4c96b406243942382f0b155aa8,
+        type: 2}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114360461840611454, guid: 37709a4c96b406243942382f0b155aa8,
+        type: 2}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114018474639256082, guid: 37709a4c96b406243942382f0b155aa8,
+        type: 2}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114018474639256082, guid: 37709a4c96b406243942382f0b155aa8,
+        type: 2}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114121481821904950, guid: 37709a4c96b406243942382f0b155aa8,
+        type: 2}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114121481821904950, guid: 37709a4c96b406243942382f0b155aa8,
+        type: 2}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 37709a4c96b406243942382f0b155aa8, type: 2}
   m_IsPrefabAsset: 0
@@ -1115,6 +1145,36 @@ Prefab:
         type: 2}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114214585104743130, guid: 1d274ce96650d624baf77bccf5abb4bb,
+        type: 2}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114214585104743130, guid: 1d274ce96650d624baf77bccf5abb4bb,
+        type: 2}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114561203612514554, guid: 1d274ce96650d624baf77bccf5abb4bb,
+        type: 2}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114561203612514554, guid: 1d274ce96650d624baf77bccf5abb4bb,
+        type: 2}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114172095285833364, guid: 1d274ce96650d624baf77bccf5abb4bb,
+        type: 2}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114172095285833364, guid: 1d274ce96650d624baf77bccf5abb4bb,
+        type: 2}
+      propertyPath: m_isInputParsingRequired
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1d274ce96650d624baf77bccf5abb4bb, type: 2}
@@ -4406,9 +4466,10 @@ GameObject:
   - component: {fileID: 1396578675}
   - component: {fileID: 1396578677}
   - component: {fileID: 1396578676}
+  - component: {fileID: 1396578678}
   m_Layer: 5
-  m_Name: Image (2)
-  m_TagString: Untagged
+  m_Name: PlayedCardsDropzone
+  m_TagString: Dropzone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4465,6 +4526,20 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1396578674}
   m_CullTransparentMesh: 0
+--- !u!114 &1396578678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1396578674}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -900027084, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 1, g: 1, b: 1, a: 0.5019608}
+  m_EffectDistance: {x: 10, y: -10}
+  m_UseGraphicAlpha: 0
 --- !u!1 &1412170226
 GameObject:
   m_ObjectHideFlags: 0
@@ -4889,9 +4964,10 @@ GameObject:
   - component: {fileID: 1641159916}
   - component: {fileID: 1641159918}
   - component: {fileID: 1641159917}
+  - component: {fileID: 1641159919}
   m_Layer: 5
-  m_Name: Image (3)
-  m_TagString: Untagged
+  m_Name: HandDropzone
+  m_TagString: Dropzone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4948,6 +5024,20 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1641159915}
   m_CullTransparentMesh: 0
+--- !u!114 &1641159919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1641159915}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -900027084, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 1, g: 1, b: 1, a: 0.5019608}
+  m_EffectDistance: {x: 10, y: -10}
+  m_UseGraphicAlpha: 0
 --- !u!224 &1686044198 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 224491057780359874, guid: 37709a4c96b406243942382f0b155aa8,
