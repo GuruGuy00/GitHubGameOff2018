@@ -21,16 +21,16 @@ public class DRopzonePulse : MonoBehaviour
     private bool closeEnough = false;
 
     // Attach the coroutine
-    void Awake()
-    {
-        // Find the Outline element we want to use
-        this.outline = this.gameObject.GetComponent<Outline>();
-        // Start the coroutine
-        this.routine = StartCoroutine(this.Pulse());
-    }
+    //void Awake()
+    //{
+    //    // Find the Outline element we want to use
+    //    this.outline = this.gameObject.GetComponent<Outline>();
+    //    // Start the coroutine
+    //    this.routine = StartCoroutine(this.Pulse());
+    //}
 
-    IEnumerator Pulse()
-    {
+    //IEnumerator Pulse()
+    //{
         /*
         // Run this indefinitely
         while (keepGoing)
@@ -62,5 +62,5 @@ public class DRopzonePulse : MonoBehaviour
             }
         }
         */
-    }
+    //}
 }
