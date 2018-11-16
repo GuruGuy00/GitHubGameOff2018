@@ -12,12 +12,16 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
     public GameObject placeHolder = null;
 
-    private GameObject[] dropZones;
+    private Transform pulseParent;
 
     void Start()
     {
         //Cache a list of drop zones for future use
-        dropZones = GameObject.FindGameObjectsWithTag("Dropzone");
+        GameObject pulseGO = GameObject.FindGameObjectWithTag("DropzonePulse");
+        if (pulseGO != null)
+        {
+            pulseParent = pulseGO.transform;
+        }
         //If we didn't set a Parent To Return To, set it to the Hand gameobject
         if (parentToReturnTo == null)
         {
@@ -49,7 +53,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
         GetComponent<CanvasGroup>().blocksRaycasts = false;
 
-        HighlightDropZones();
+        ToggleDropzonePulse(true);
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -107,22 +111,18 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
         Destroy(placeHolder);
 
-        UnhighlightDropZones();
+        ToggleDropzonePulse(false);
     }
 
-    private void HighlightDropZones()
+    private void ToggleDropzonePulse(bool newVal)
     {
-        foreach (GameObject dropZone in dropZones)
+        if (pulseParent != null)
         {
-            dropZone.GetComponent<Outline>().enabled = true;
-        }
-    }
-
-    private void UnhighlightDropZones()
-    {
-        foreach (GameObject dropZone in dropZones)
-        {
-            dropZone.GetComponent<Outline>().enabled = false;
+            for (int i = 0; i < pulseParent.childCount; i++)
+            {
+                GameObject pulser = pulseParent.GetChild(i).gameObject;
+                pulseParent.GetChild(i).gameObject.SetActive(newVal);
+            }
         }
     }
 }

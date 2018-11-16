@@ -3,28 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DropzonePulse : MonoBehaviour
+public class OtherPulse : MonoBehaviour
 {
-    public float approachSpeed = 0.02f;
+    public float approachSpeed = 0.015f;
     public float alphaUpperBound = 1f;
-    public float alphaLowerBound = 0.25f;
+    public float alphaLowerBound = 0.15f;
     private float currentAlpha = 0.5f;
 
-    private Outline outline;
+    private Image img;
 
     private Coroutine routine;
     private bool keepGoing = true;
 
     void Awake()
     {
-        outline = gameObject.GetComponent<Outline>();
+        img = gameObject.GetComponent<Image>();
         // Start the coroutine
-        routine = StartCoroutine(Pulse());
-    }
-
-    public void StartPulse()
-    {
-        StopAllCoroutines();
         routine = StartCoroutine(Pulse());
     }
 
@@ -33,14 +27,14 @@ public class DropzonePulse : MonoBehaviour
         // Run this indefinitely
         while (keepGoing)
         {
-            Color outlineColor = outline.effectColor;
+            Color c = img.color;
 
             // Raise the alpha for a few seconds
             while (currentAlpha != alphaUpperBound)
             {
                 currentAlpha = Mathf.MoveTowards(currentAlpha, alphaUpperBound, approachSpeed);
-                outlineColor.a = currentAlpha;
-                outline.effectColor = outlineColor;
+                c.a = currentAlpha;
+                img.color = c;
                 Debug.Log("Current Alpha: " + currentAlpha);
                 yield return new WaitForEndOfFrame();
             }
@@ -49,8 +43,8 @@ public class DropzonePulse : MonoBehaviour
             while (currentAlpha != alphaLowerBound)
             {
                 currentAlpha = Mathf.MoveTowards(currentAlpha, alphaLowerBound, approachSpeed);
-                outlineColor.a = currentAlpha;
-                outline.effectColor = outlineColor;
+                c.a = currentAlpha;
+                img.color = c;
                 Debug.Log("Current Alpha: " + currentAlpha);
                 yield return new WaitForEndOfFrame();
             }
