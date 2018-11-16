@@ -22,6 +22,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         {
             pulseParent = pulseGO.transform;
         }
+
         //If we didn't set a Parent To Return To, set it to the Hand gameobject
         if (parentToReturnTo == null)
         {
