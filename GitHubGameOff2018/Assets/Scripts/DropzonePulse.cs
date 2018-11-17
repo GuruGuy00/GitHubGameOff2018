@@ -5,53 +5,59 @@ using UnityEngine.UI;
 
 public class DropzonePulse : MonoBehaviour
 {
-    public float approachSpeed = 0.02f;
+    public float approachSpeed = 0.015f;
     public float alphaUpperBound = 1f;
-    public float alphaLowerBound = 0.25f;
-    private float currentAlpha = 0.5f;
+    public float alphaLowerBound = 0.15f;
 
-    private Outline outline;
-
-    private Coroutine routine;
-    private bool keepGoing = true;
+    private Image img;
 
     void Awake()
     {
-        outline = gameObject.GetComponent<Outline>();
-        // Start the coroutine
-        routine = StartCoroutine(Pulse());
+        img = gameObject.GetComponent<Image>();
     }
 
     public void StartPulse()
     {
         StopAllCoroutines();
-        routine = StartCoroutine(Pulse());
+        StartCoroutine(Pulse());
+    }
+
+    public void StopPulse()
+    {
+        StopAllCoroutines();
+        StartCoroutine(RevertPulse());
+    }
+
+    IEnumerator RevertPulse()
+    {
+        // Make sure we set the alpha back to the original value
+        Color c = img.color;
+        while (c.a != alphaUpperBound)
+        {
+            c.a = Mathf.MoveTowards(c.a, alphaUpperBound, approachSpeed);
+            img.color = c;
+            yield return new WaitForEndOfFrame();
+        }
     }
 
     IEnumerator Pulse()
     {
         // Run this indefinitely
-        while (keepGoing)
+        while (true)
         {
-            Color outlineColor = outline.effectColor;
-
+            Color c = img.color;
             // Raise the alpha for a few seconds
-            while (currentAlpha != alphaUpperBound)
+            while (c.a != alphaUpperBound)
             {
-                currentAlpha = Mathf.MoveTowards(currentAlpha, alphaUpperBound, approachSpeed);
-                outlineColor.a = currentAlpha;
-                outline.effectColor = outlineColor;
-                Debug.Log("Current Alpha: " + currentAlpha);
+                c.a = Mathf.MoveTowards(c.a, alphaUpperBound, approachSpeed);
+                img.color = c;
                 yield return new WaitForEndOfFrame();
             }
-
             // Lower the alpha for a few seconds
-            while (currentAlpha != alphaLowerBound)
+            while (c.a != alphaLowerBound)
             {
-                currentAlpha = Mathf.MoveTowards(currentAlpha, alphaLowerBound, approachSpeed);
-                outlineColor.a = currentAlpha;
-                outline.effectColor = outlineColor;
-                Debug.Log("Current Alpha: " + currentAlpha);
+                c.a = Mathf.MoveTowards(c.a, alphaLowerBound, approachSpeed);
+                img.color = c;
                 yield return new WaitForEndOfFrame();
             }
         }

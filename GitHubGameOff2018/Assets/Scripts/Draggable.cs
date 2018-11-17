@@ -12,17 +12,12 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
     public GameObject placeHolder = null;
 
-    private Transform pulseParent;
+    private DropzonePulse[] dropzones;
 
     void Start()
     {
-        //Cache a list of drop zones for future use
-        GameObject pulseGO = GameObject.FindGameObjectWithTag("DropzonePulse");
-        if (pulseGO != null)
-        {
-            pulseParent = pulseGO.transform;
-        }
-
+        //Cache dropzones for future use
+        dropzones = Transform.FindObjectsOfType<DropzonePulse>();
         //If we didn't set a Parent To Return To, set it to the Hand gameobject
         if (parentToReturnTo == null)
         {
@@ -117,12 +112,15 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
     private void ToggleDropzonePulse(bool newVal)
     {
-        if (pulseParent != null)
+        for (int i = 0; i < dropzones.Length; i++)
         {
-            for (int i = 0; i < pulseParent.childCount; i++)
+            if (newVal)
             {
-                GameObject pulser = pulseParent.GetChild(i).gameObject;
-                pulseParent.GetChild(i).gameObject.SetActive(newVal);
+                dropzones[i].StartPulse();
+            }
+            else
+            {
+                dropzones[i].StopPulse();
             }
         }
     }
