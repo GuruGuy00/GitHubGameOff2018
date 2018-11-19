@@ -8,12 +8,13 @@ public class Deck : MonoBehaviour {
     public GameObject handPanel;
 
     public List<GameObject> cards;
-    public List<GameObject> playdeck;
+    public List<GameObject> playDeck;
     public List<GameObject> hand;
+    public List<GameObject> toPlay;
 
 	// Use this for initialization
 	void Start () {
-            playdeck = ShuffleDeck(cards);
+            playDeck = ShuffleDeck(cards);
     }
 	
 	// Update is called once per frame
@@ -41,11 +42,19 @@ public class Deck : MonoBehaviour {
 
         while (hand.Count < 4)
         {
-            Instantiate(playdeck[0], handPanel.transform);
-            hand.Add(playdeck[0]);
-            playdeck.RemoveAt(0);
+            GameObject newGO = Instantiate(playDeck[0], handPanel.transform);
+            newGO.name = playDeck[0].name;
+            hand.Add(playDeck[0]);
+            playDeck.RemoveAt(0);
 
         }
+    }
+
+    public void HandToPlay(GameObject card)
+    {
+        int index = hand.FindIndex(x => x.name.Equals(card.name));
+        toPlay.Add(hand[index]);
+        hand.RemoveAt(index);
     }
 
 }

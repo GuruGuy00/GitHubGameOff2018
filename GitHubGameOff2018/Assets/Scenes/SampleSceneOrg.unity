@@ -1721,7 +1721,7 @@ GameObject:
   - component: {fileID: 1130859045}
   m_Layer: 0
   m_Name: Deck
-  m_TagString: Untagged
+  m_TagString: Deck
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1753,8 +1753,9 @@ MonoBehaviour:
   - {fileID: 1879006326759084, guid: b9208fe945d290547a46c7b139a1ba66, type: 2}
   - {fileID: 1879006326759084, guid: b9208fe945d290547a46c7b139a1ba66, type: 2}
   - {fileID: 1015916441253448, guid: 1d519fc7e3f308744a376f746cb215d0, type: 2}
-  playdeck: []
+  playDeck: []
   hand: []
+  toPlay: []
 --- !u!4 &1130859046
 Transform:
   m_ObjectHideFlags: 0
@@ -4642,7 +4643,7 @@ GameObject:
   - component: {fileID: 1547077838}
   - component: {fileID: 1547077840}
   m_Layer: 5
-  m_Name: Deck
+  m_Name: DeckPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

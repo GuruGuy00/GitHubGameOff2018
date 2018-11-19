@@ -10,7 +10,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 
     private Vector3 startPOS;
     private GameObject parentObject;
-
+    
     private void Start()
     {
         startPOS = transform.position;
@@ -46,6 +46,9 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
             //NEW CODE -- NEED TO RESET TO THE LAST PARENT WE HAD
             this.transform.SetParent(parentObject.transform);
         }
+
+
+
         GetComponent<CanvasGroup>().blocksRaycasts = true;
     }
 

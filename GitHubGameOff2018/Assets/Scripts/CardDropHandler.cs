@@ -5,6 +5,8 @@ using UnityEngine.EventSystems;
 
 public class CardDropHandler : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointerExitHandler {
 
+
+
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (eventData.pointerDrag == null)

@@ -14,8 +14,12 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
     private DropzonePulse[] dropzones;
 
+    GameObject deck;
+
     void Start()
     {
+        deck = GameObject.FindGameObjectWithTag("Deck");
+
         //Cache dropzones for future use
         dropzones = Transform.FindObjectsOfType<DropzonePulse>();
         //If we didn't set a Parent To Return To, set it to the Hand gameobject
@@ -106,6 +110,13 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         GetComponent<CanvasGroup>().blocksRaycasts = true;
 
         Destroy(placeHolder);
+
+        if (gameObject.transform.parent.name == "Played")
+        {
+            deck.GetComponent<Deck>().HandToPlay(gameObject);
+            Debug.Log(gameObject.name + ": Dropped in Played Zone");
+        }
+        
 
         ToggleDropzonePulse(false);
     }
