@@ -7,12 +7,15 @@ public class Move : MonoBehaviour {
     public GameObject player; 
     PlayerController playerController;
     List<string> moveList = new List<string>();
-
+    
     public Transform playCardsParents;
+
+    Deck deck;
 
 	// Use this for initialization
 	void Start () {
         playerController = player.GetComponent<PlayerController>();
+        deck = GetComponent<Deck>();
 	}
 	
 	// Update is called once per frame
@@ -52,6 +55,7 @@ public class Move : MonoBehaviour {
         CardDisplay[] cardsToPlay = playCardsParents.GetComponentsInChildren<CardDisplay>();
         foreach (CardDisplay cardInfo in cardsToPlay)
         {
+            //ToDo : larp this or something to make it look nice
             moveList.Add(cardInfo.card.moveName);
         }
         playerController.setMoveList(moveList);
