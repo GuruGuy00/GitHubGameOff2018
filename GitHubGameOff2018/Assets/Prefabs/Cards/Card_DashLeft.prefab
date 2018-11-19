@@ -142,6 +142,7 @@ GameObject:
   - component: {fileID: 225813462864091050}
   - component: {fileID: 114619471025339154}
   - component: {fileID: 114776223858769258}
+  - component: {fileID: 114668608550710720}
   m_Layer: 5
   m_Name: Card_DashLeft
   m_TagString: Untagged
@@ -663,6 +664,17 @@ MonoBehaviour:
   nameText: {fileID: 114360461840611454}
   descriptionText: {fileID: 114018474639256082}
   artworkImage: {fileID: 114706805722438176}
+--- !u!114 &114668608550710720
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1494097451504456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b14d9e024a08f748bde7200c9ac21bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114706805722438176
 MonoBehaviour:
   m_ObjectHideFlags: 1
