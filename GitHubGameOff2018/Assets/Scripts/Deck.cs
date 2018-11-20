@@ -17,8 +17,9 @@ public class Deck : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-            //playDeck = ShuffleDeck(cards);
-            playDeck = ShuffleDeck2();
+        
+        playDeck = ShuffleDeck2();
+        Deal();    
     }
 	
 	// Update is called once per frame

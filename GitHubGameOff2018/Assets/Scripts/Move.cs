@@ -60,7 +60,7 @@ public class Move : MonoBehaviour {
         }
         deck.GetComponent<Deck>().DiscardCards();
         playerController.setMoveList(moveList);
-
+        deck.GetComponent<Deck>().Deal(); //ToDo : maybe move else where for when the moves are compleated
     }
 
 }

@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour {
     private List<string> moveList = new List<string>();
     private bool isMoving = false;
     private bool isProccessingMoves = false;
-
+    
     void Start () {
 
         //ToDo : fix this up, need to read start pos from var
@@ -115,6 +115,7 @@ public class PlayerController : MonoBehaviour {
             {
                 //ToDo : maybe add an update to the postion so that we are exactly where we wanted to be.
                 isProccessingMoves = false;
+                
             }
         }
     }
