@@ -59,18 +59,12 @@ public class Deck : MonoBehaviour {
 
     public void Deal()
     {
-
-        while (hand.Count < 4)
+        while (hand.Count < 4 && playDeck.Count > 0)
         {
-
-            //GameObject newGO = Instantiate(playDeck[0], handPanel.transform);
-            //hand.Add(newGO);
-
-            playDeck[0].transform.SetParent(handPanel.transform);
-
-            hand.Add(playDeck[0]);
+            GameObject newGO = Instantiate(playDeck[0], handPanel.transform);
+            newGO.transform.SetParent(handPanel.transform);
+            hand.Add(newGO);
             playDeck.RemoveAt(0);
-
         }
     }
 

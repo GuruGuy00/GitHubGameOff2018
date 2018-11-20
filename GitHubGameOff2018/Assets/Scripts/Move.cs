@@ -41,7 +41,6 @@ public class Move : MonoBehaviour {
     {
         moveList.Add("Jump");
         Debug.Log("Submitted : Jump");
-
     }
 
     public void AddMove(string move)
