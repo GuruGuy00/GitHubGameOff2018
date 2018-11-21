@@ -16,3 +16,4 @@ MonoBehaviour:
   artwork: {fileID: 21300000, guid: 6b690a54623524342a80f3c0d6cd1bf3, type: 3}
   actionCost: 1
   moveName: Right
+  moveTo: {x: 1, y: 0, z: 0}

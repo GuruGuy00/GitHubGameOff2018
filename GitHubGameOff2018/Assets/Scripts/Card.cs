@@ -10,5 +10,5 @@ public class Card : ScriptableObject {
     public Sprite artwork;
     public int actionCost;
     public string moveName;
-	
+    public Vector3Int moveTo;
 }

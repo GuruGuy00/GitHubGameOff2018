@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour {
     //https://github.com/Cawotte/SmallWorld_WeeklyJam40
 
     public Tilemap groundTilemap;
+    public TileBase tileBase;
     public Vector3Int playerWorldLoc;
     public Vector3Int playerTileLoc;
     private Vector3 startPos;
@@ -24,13 +25,15 @@ public class PlayerController : MonoBehaviour {
     private List<string> moveList = new List<string>();
     private bool isMoving = false;
     private bool isProccessingMoves = false;
-    
+
+
     void Start () {
 
         //ToDo : fix this up, need to read start pos from var
         startPos = transform.position;
         playerWorldLoc = Vector3Int.CeilToInt(startPos);
-        playerTileLoc = playerWorldLoc + worldLocToTileLoc;
+        playerTileLoc = getCellPos(groundTilemap, transform.position);
+        //playerTileLoc = playerWorldLoc + worldLocToTileLoc;
 
         //LocTest = groundTilemap.CellToWorld(Vector3Int.CeilToInt(startPos));
         //transform.position = groundTilemap.CellToWorld(Vector3Int.CeilToInt(startPos));
@@ -50,7 +53,11 @@ public class PlayerController : MonoBehaviour {
         ApplyMoves(newPos);
 
         playerWorldLoc = newPos;
-        playerTileLoc = playerWorldLoc + worldLocToTileLoc;
+        playerTileLoc = getCellPos(groundTilemap, transform.position);
+        //groundTilemap.SetTile(new Vector3Int(playerTileLoc.x+1, playerTileLoc.y, playerTileLoc.z),tileBase);
+
+        //playerTileLoc = playerWorldLoc + worldLocToTileLoc;
+        //currentCell = getCellPos(groundTilemap, transform.position);
     }
 
     private Vector3Int ProcessMoves(Vector3Int currPos)
@@ -186,6 +193,13 @@ public class PlayerController : MonoBehaviour {
 
     private TileBase getCell(Tilemap tilemap, Vector2 cellWorldPos)
     {
+        
         return tilemap.GetTile(tilemap.WorldToCell(cellWorldPos));
     }
+
+    private Vector3Int getCellPos(Tilemap tilemap, Vector2 cellWorldPos)
+    {
+        return tilemap.WorldToCell(cellWorldPos);
+    }
+
 }
