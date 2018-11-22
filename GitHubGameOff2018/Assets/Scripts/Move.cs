@@ -8,31 +8,26 @@ public class Move : MonoBehaviour {
     PlayerController playerController;
     List<string> moveList = new List<string>();
     
-    public Transform playCardsParents;
+    public Transform playCardsParent;
 
     GameObject deck;
+    Deck deckScript;
 
 	// Use this for initialization
 	void Start () {
         playerController = player.GetComponent<PlayerController>();
         deck = GameObject.FindGameObjectWithTag("Deck");
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+        deckScript = deck.GetComponent<Deck>();
+    }
 
     public void AddLeftMove()
     {
-
         moveList.Add("Left");
         Debug.Log("Submitted : Move Left");
     }
 
     public void AddRightMove()
     {
-
         moveList.Add("Right");
         Debug.Log("Submitted : Move Right");
     }
@@ -51,16 +46,16 @@ public class Move : MonoBehaviour {
 
     public void SubmitMoves()
     {
-        CardDisplay[] cardsToPlay = playCardsParents.GetComponentsInChildren<CardDisplay>();
+        CardDisplay[] cardsToPlay = playCardsParent.GetComponentsInChildren<CardDisplay>();
         foreach (CardDisplay cardInfo in cardsToPlay)
         {
             //ToDo : larp this or something to make it look nice
             moveList.Add(cardInfo.card.moveName);
 
         }
-        deck.GetComponent<Deck>().DiscardCards();
+        deckScript.DiscardCards();
         playerController.setMoveList(moveList);
-        deck.GetComponent<Deck>().Deal(); //ToDo : maybe move else where for when the moves are compleated
+        deckScript.Deal(); //ToDo : maybe move else where for when the moves are compleated
     }
 
 }

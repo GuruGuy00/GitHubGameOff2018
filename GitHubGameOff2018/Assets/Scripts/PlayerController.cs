@@ -25,7 +25,10 @@ public class PlayerController : MonoBehaviour {
     private List<string> moveList = new List<string>();
     private bool isMoving = false;
     private bool isProccessingMoves = false;
-
+    private bool jumpedThisTurn = false;
+    private bool gravityApplied = false;
+    private bool isTurnEnding = false;
+    public bool grounded = false;
 
     void Start () {
 
@@ -43,66 +46,69 @@ public class PlayerController : MonoBehaviour {
     }
 	
 	void Update () {
-        bool grounded = IsPlayerGrounded();
+        grounded = IsPlayerGrounded();
 
-        Vector3Int newPos = ProcessMoves(playerWorldLoc);
-
-        //TODO: determine how exactly we want to handle gravity
-        //newPos = ProcessGravity(newPos, !grounded);
+        Vector3Int newPos = playerWorldLoc;
+        if (isProccessingMoves)
+        {
+            newPos = ProcessMoves(newPos, grounded);
+        }
+        else if (isTurnEnding)
+        {
+            newPos = ProcessGravity(newPos, !grounded);
+        }
 
         ApplyMoves(newPos);
-
         playerWorldLoc = newPos;
         playerTileLoc = getCellPos(groundTilemap, transform.position);
-        //groundTilemap.SetTile(new Vector3Int(playerTileLoc.x+1, playerTileLoc.y, playerTileLoc.z),tileBase);
 
+        //groundTilemap.SetTile(new Vector3Int(playerTileLoc.x+1, playerTileLoc.y, playerTileLoc.z),tileBase);
         //playerTileLoc = playerWorldLoc + worldLocToTileLoc;
         //currentCell = getCellPos(groundTilemap, transform.position);
     }
 
-    private Vector3Int ProcessMoves(Vector3Int currPos)
+    private Vector3Int ProcessMoves(Vector3Int newPos, bool isGrounded)
     {
-        Vector3Int newPos = currPos;
-
-        if (isProccessingMoves)
+        if (!isMoving && moveList.Count > 0)
         {
-            if (!isMoving && moveList.Count > 0)
+            switch (moveList[0].ToString())
             {
-                switch (moveList[0].ToString())
-                {
-                    case "Right":
-                        newPos = MoveRight(newPos);
-                        break;
-                    case "Left":
-                        newPos = MoveLeft(newPos);
-                        break;
-                    case "DashRight":
-                        newPos = DashRight(newPos);
-                        break;
-                    case "DashLeft":
-                        newPos = DashLeft(newPos);
-                        break;
-                    case "Jump":
-                        newPos = Jump(newPos);
-                        break;
-                    default:
-                        Debug.Log("Move " + moveList[0].ToString() + " Not implamented yet!");
-                        break;
-                }
-
-                Debug.Log("Processing Move : " + moveList[0]);
-                moveList.RemoveAt(0);
+                case "Right":
+                    newPos = MoveRight(newPos);
+                    break;
+                case "Left":
+                    newPos = MoveLeft(newPos);
+                    break;
+                case "DashRight":
+                    newPos = DashRight(newPos);
+                    break;
+                case "DashLeft":
+                    newPos = DashLeft(newPos);
+                    break;
+                case "Jump":
+                    jumpedThisTurn = true;
+                    newPos = Jump(newPos);
+                    break;
+                case "Fall":
+                    newPos = MoveDown(newPos);
+                    break;
+                default:
+                    Debug.Log("Move " + moveList[0].ToString() + " Not implemented yet!");
+                    break;
             }
+            Debug.Log("Processing Move : " + moveList[0]);
+            moveList.RemoveAt(0);
         }
-
         return newPos;
     }
 
     private Vector3Int ProcessGravity(Vector3Int newPos, bool isAirborne)
     {
-        if (isAirborne)
+        //Add a fall move once per turn if we aren't grounded and we haven't jumped
+        if (!gravityApplied && isAirborne && !jumpedThisTurn)
         {
-            newPos = new Vector3Int((int)newPos.x, (int)newPos.y - 1, 0);
+            newPos = MoveDown(newPos);
+            gravityApplied = true;
         }
         return newPos;
     }
@@ -121,8 +127,17 @@ public class PlayerController : MonoBehaviour {
             if (moveList.Count == 0)
             {
                 //ToDo : maybe add an update to the postion so that we are exactly where we wanted to be.
-                isProccessingMoves = false;
-                
+                if (isProccessingMoves)
+                {
+                    isProccessingMoves = false;
+                    isTurnEnding = true;
+                }
+                else if (isTurnEnding) 
+                {
+                    isTurnEnding = false;
+                    jumpedThisTurn = false;
+                    gravityApplied = false;
+                }
             }
         }
     }
@@ -133,7 +148,7 @@ public class PlayerController : MonoBehaviour {
         Vector3Int checkPos = new Vector3Int((int)playerTileLoc.x, (int)playerTileLoc.y - 1, 0);
         TileBase tb = groundTilemap.GetTile(checkPos);
         //TODO: This will need to be updated if/when we change the tiles
-        if (tb != null && (tb.name == "Green" || tb.name == "Gray"))
+        if (tb != null && tb.name.ToUpper().Contains("_SOLID"))
         {
             return true;
         }
@@ -182,6 +197,13 @@ public class PlayerController : MonoBehaviour {
     {
         isMoving = true;
         newPos = new Vector3Int((int)newPos.x, (int)newPos.y + 1, 0);
+        return newPos;
+    }
+
+    public Vector3Int MoveDown(Vector3Int newPos)
+    {
+        isMoving = true;
+        newPos = new Vector3Int((int)newPos.x, (int)newPos.y - 1, 0);
         return newPos;
     }
 

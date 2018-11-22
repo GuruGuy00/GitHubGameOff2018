@@ -111,16 +111,6 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
         Destroy(placeHolder);
 
-        if (gameObject.transform.parent.name == "Played")
-        {
-            deck.GetComponent<Deck>().HandToPlay(gameObject);
-        }
-        if (gameObject.transform.parent.name == "Hand")
-        {
-            deck.GetComponent<Deck>().PlayToHand(gameObject);
-        }
-
-
         ToggleDropzonePulse(false);
     }
 

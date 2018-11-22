@@ -8,24 +8,19 @@ public class Deck : MonoBehaviour {
     public GameObject handPanel;
     public GameObject discardPanel;
 
+    public Transform playCardsParent;
+    public Transform handParent;
+
     public List<GameObject> cards;
     public List<GameObject> sourceDeck;
     public List<GameObject> playDeck;
-    public List<GameObject> hand;
-    public List<GameObject> toPlay;
     public List<GameObject> discard;
 
 	// Use this for initialization
-	void Start () {
-        
+	void Start () {    
         playDeck = ShuffleDeck2();
         Deal();    
     }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
     private List<GameObject> ShuffleDeck2()
     {
@@ -60,39 +55,36 @@ public class Deck : MonoBehaviour {
 
     public void Deal()
     {
-        while (hand.Count < 4 && playDeck.Count > 0)
+        CardDisplay[] hand = GetHand();
+        int numCardsToAdd = 4 - hand.Length;
+        while (numCardsToAdd > 0 && playDeck.Count > 0)
         {
             GameObject newGO = Instantiate(playDeck[0], handPanel.transform);
             newGO.transform.SetParent(handPanel.transform);
-            hand.Add(newGO);
             playDeck.RemoveAt(0);
+            numCardsToAdd--;
         }
-    }
-
-    public void HandToPlay(GameObject card)
-    {
-        int index = hand.FindIndex(x => x.name.Equals(card.name));
-        toPlay.Add(hand[index]);
-        hand.RemoveAt(index);
-    }
-
-    public void PlayToHand(GameObject card)
-    {
-        int index = toPlay.FindIndex(x => x.name.Equals(card.name));
-        hand.Add(hand[index]);
-        toPlay.RemoveAt(index);
     }
 
     public void DiscardCards()
     {
+        CardDisplay[] cardsToPlay = GetPlayCards();
         //Add some fancy stuff to viusaly move the cards to discard pile
-        while (toPlay.Count > 0)
+        for (int i = 0; i < cardsToPlay.Length; i++)
         {
-            toPlay[0].transform.SetParent(discardPanel.transform);
-            discard.Add(toPlay[0]);
-            toPlay.RemoveAt(0);
+            cardsToPlay[i].transform.SetParent(discardPanel.transform);
+            discard.Add(cardsToPlay[i].gameObject);
             //Move to visual discard pile
-
         }
+    }
+
+    private CardDisplay[] GetHand()
+    {
+        return handParent.GetComponentsInChildren<CardDisplay>();
+    }
+
+    private CardDisplay[] GetPlayCards()
+    {
+        return playCardsParent.GetComponentsInChildren<CardDisplay>();
     }
 }

@@ -514,7 +514,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1958013719}
-  playCardsParents: {fileID: 1414861364}
+  playCardsParent: {fileID: 1414861364}
 --- !u!4 &249737376
 Transform:
   m_ObjectHideFlags: 0
@@ -1894,6 +1894,8 @@ MonoBehaviour:
   cardsInHand: 4
   handPanel: {fileID: 1214075721}
   discardPanel: {fileID: 1909270607}
+  playCardsParent: {fileID: 1414861364}
+  handParent: {fileID: 1214075722}
   cards:
   - {fileID: 1333142676195570, guid: 3e8ff2dadc6363a41a727101c1b3111c, type: 2}
   - {fileID: 1020723935083792, guid: 735c0fbc0b758c64bb1e892316867db5, type: 2}
@@ -1910,8 +1912,6 @@ MonoBehaviour:
   - {fileID: 1333142676195570, guid: 3e8ff2dadc6363a41a727101c1b3111c, type: 2}
   sourceDeck: []
   playDeck: []
-  hand: []
-  toPlay: []
   discard: []
 --- !u!4 &1130859046
 Transform:
@@ -5546,6 +5546,7 @@ MonoBehaviour:
   playerTileLoc: {x: 0, y: 0, z: 0}
   LocTest: {x: 0, y: 0, z: 0}
   smoothTime: 0.1
+  grounded: 0
 --- !u!4 &1958013721
 Transform:
   m_ObjectHideFlags: 0
