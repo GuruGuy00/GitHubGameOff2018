@@ -44,8 +44,8 @@ public class MovePreview : MonoBehaviour {
         
 
         CardDisplay[] cardsToPlay = playCardsParents.GetComponentsInChildren<CardDisplay>();
-        moveCords.Clear();
-
+        ClearTiles();
+        
         foreach (CardDisplay cardInfo in cardsToPlay)
         {
             if (moveCords.Count == 0)
@@ -75,6 +75,15 @@ public class MovePreview : MonoBehaviour {
 
         Debug.Log("Move Cord Count " + moveCords.Count);
 
+    }
+
+    private void ClearTiles()
+    {
+        foreach (MoveCords moveCord in moveCords)
+        {
+            groundTilemap.SetTile(moveCord.endPos, null);
+        }
+        moveCords.Clear();
     }
 }
 
