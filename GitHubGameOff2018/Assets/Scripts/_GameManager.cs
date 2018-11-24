@@ -6,7 +6,7 @@ public class _GameManager : MonoBehaviour {
 
     //Game Start
     //  Deal Cards
-    
+
     //Game Loop
     //  Place Cards to move
     //  Show Preview of moves
@@ -18,6 +18,12 @@ public class _GameManager : MonoBehaviour {
     //  Check for win/lose conditions
     //  Deal cards 
 
+    public GameState gameState;
+    public enum GameState
+    {
+        PlayerTurn,
+        EnemyTurn
+    }
 
     // Use this for initialization
     void Start () {

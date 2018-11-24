@@ -6,10 +6,12 @@ using UnityEngine.Tilemaps;
 public class MovePreview : MonoBehaviour
 {
     public GameObject player;
+
     //Tile Base - GoTile
     public TileBase goTileBase;
+    public TileBase stopTileBase;
 
-    private List<Vector3Int> forcePreviewPoints;
+    private List<MoveInfo> forcePreviewPoints;
     private TileUtils tileUtils;
     private MoveProcessor moveProcessor;
     private PlayerController playerController;
@@ -28,7 +30,7 @@ public class MovePreview : MonoBehaviour
     void Update () {
         ClearTiles();
 
-        List<Vector3Int> points;
+        List<MoveInfo> points;
         if (playerController.IsProcessingMoves())
         {
             points = forcePreviewPoints;
@@ -38,10 +40,15 @@ public class MovePreview : MonoBehaviour
             points = moveProcessor.processedMoves;
         }
 
-        foreach (Vector3Int movePoint in points)
+        foreach (MoveInfo move in points)
         {
-            Vector3Int tilePos = tileUtils.GetCellPos(tileUtils.previewTilemap, movePoint);
-            tileUtils.SetTile(tileUtils.previewTilemap, tilePos, goTileBase);
+            Vector3Int tilePos = tileUtils.GetCellPos(tileUtils.previewTilemap, move.movePos);
+            TileBase previewTile = goTileBase;
+            if (move.isCollision)
+            {
+                previewTile = stopTileBase;
+            }
+            tileUtils.SetTile(tileUtils.previewTilemap, tilePos, previewTile);
         }
 
         //Debug.Log("Move Cord Count " + points.Count);
@@ -52,7 +59,7 @@ public class MovePreview : MonoBehaviour
         tileUtils.previewTilemap.ClearAllTiles();
     }
 
-    public void setPreviewPoints(List<Vector3Int> points)
+    public void setPreviewPoints(List<MoveInfo> points)
     {
         forcePreviewPoints = points;
     }

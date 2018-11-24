@@ -8,16 +8,16 @@ public class MoveProcessor : MonoBehaviour
     public GameObject player;
     public Transform playCardsParent;
 
-    [HideInInspector] public List<Vector3Int> processedMoves;
-    [HideInInspector] public List<Vector3Int> previewMoves;
+    [HideInInspector] public List<MoveInfo> processedMoves;
+    [HideInInspector] public List<MoveInfo> previewMoves;
 
     private TileUtils tileUtils;
     private PlayerController playerController;
 
     void Start ()
     {
-        processedMoves = new List<Vector3Int>();
-        previewMoves = new List<Vector3Int>();
+        processedMoves = new List<MoveInfo>();
+        previewMoves = new List<MoveInfo>();
         tileUtils = TileUtils.Instance;
         playerController = player.GetComponent<PlayerController>();
     }
@@ -40,37 +40,38 @@ public class MoveProcessor : MonoBehaviour
                 isJumping = true;
             }
             referencePos = move.movePos;
-            processedMoves.Add(move.movePos);
+            processedMoves.Add(move);
         }
 
         //Add a fall move if we're airborne and didn't jump
         bool isGrounded = IsPlayerGrounded(referencePos);
         if (!isGrounded && !isJumping)
         {
-            MoveInfo fallMove = ProcessGravity(referencePos);
-            processedMoves.Add(fallMove.movePos);
+            MoveInfo gravity = ProcessGravity(referencePos);
+            processedMoves.Add(gravity);
         }
     }
 
     private MoveInfo ProcessMove(Vector3Int currPos, Card card)
     {
         MoveInfo moveToReturn = new MoveInfo();
+        moveToReturn.movePos = currPos;
         switch (card.moveName)
         {
             case "Right":
-                moveToReturn.movePos = ProcessMoveRight(currPos);
+                moveToReturn = ProcessMoveRight(moveToReturn);
                 break;
             case "Left":
-                moveToReturn.movePos = ProcessMoveLeft(currPos);
+                moveToReturn = ProcessMoveLeft(moveToReturn);
                 break;
             case "DashRight":
-                moveToReturn.movePos = ProcessDashRight(currPos);
+                moveToReturn = ProcessDashRight(moveToReturn);
                 break;
             case "DashLeft":
-                moveToReturn.movePos = ProcessDashLeft(currPos);
+                moveToReturn = ProcessDashLeft(moveToReturn);
                 break;
             case "Jump":
-                moveToReturn.movePos = ProcessJump(currPos);
+                moveToReturn = ProcessJump(moveToReturn);
                 moveToReturn.isJump = true;
                 break;
             default:
@@ -82,66 +83,67 @@ public class MoveProcessor : MonoBehaviour
     private MoveInfo ProcessGravity(Vector3Int currPos)
     {
         MoveInfo fallMove = new MoveInfo();
-        fallMove.movePos = ProcessMoveDown(currPos);
+        fallMove.movePos = currPos;
+        fallMove = ProcessMoveDown(fallMove);
         return fallMove;
     }
 
-    private Vector3Int ProcessMoveRight(Vector3Int pos)
+    private MoveInfo ProcessMoveRight(MoveInfo move)
     {
-        Vector3Int checkPos = new Vector3Int((int)pos.x + 1, (int)pos.y, 0);
-        pos = CheckMoveValid(pos, checkPos, true, false);
-        return pos;
+        Vector3Int checkPos = new Vector3Int((int)move.movePos.x + 1, (int)move.movePos.y, 0);
+        move = CheckMoveValid(move, checkPos, true, false);
+        return move;
     }
 
-    private Vector3Int ProcessMoveLeft(Vector3Int pos)
+    private MoveInfo ProcessMoveLeft(MoveInfo move)
     {
-        Vector3Int checkPos = new Vector3Int((int)pos.x - 1, (int)pos.y, 0);
-        pos = CheckMoveValid(pos, checkPos, true, false);
-        return pos;
+        Vector3Int checkPos = new Vector3Int((int)move.movePos.x - 1, (int)move.movePos.y, 0);
+        move = CheckMoveValid(move, checkPos, true, false);
+        return move;
     }
 
-    private Vector3Int ProcessDashRight(Vector3Int pos)
+    private MoveInfo ProcessDashRight(MoveInfo move)
     {
-        Vector3Int checkPos = new Vector3Int((int)pos.x + 2, (int)pos.y, 0);
-        pos = CheckMoveValid(pos, checkPos, true, false);
-        return pos;
+        Vector3Int checkPos = new Vector3Int((int)move.movePos.x + 2, (int)move.movePos.y, 0);
+        move = CheckMoveValid(move, checkPos, true, false);
+        return move;
     }
 
-    private Vector3Int ProcessDashLeft(Vector3Int pos)
+    private MoveInfo ProcessDashLeft(MoveInfo move)
     {
-        Vector3Int checkPos = new Vector3Int((int)pos.x - 2, (int)pos.y, 0);
-        pos = CheckMoveValid(pos, checkPos, true, false);
-        return pos;
+        Vector3Int checkPos = new Vector3Int((int)move.movePos.x - 2, (int)move.movePos.y, 0);
+        move = CheckMoveValid(move, checkPos, true, false);
+        return move;
     }
 
-    private Vector3Int ProcessJump(Vector3Int pos)
+    private MoveInfo ProcessJump(MoveInfo move)
     {
-        Vector3Int checkPos = new Vector3Int((int)pos.x, (int)pos.y + 3, 0);
-        pos = CheckMoveValid(pos, checkPos, false, true);
-        return pos;
+        Vector3Int checkPos = new Vector3Int((int)move.movePos.x, (int)move.movePos.y + 3, 0);
+        move = CheckMoveValid(move, checkPos, false, true);
+        return move;
     }
 
-    private Vector3Int ProcessMoveUp(Vector3Int pos)
+    private MoveInfo ProcessMoveUp(MoveInfo move)
     {
-        Vector3Int checkPos = new Vector3Int((int)pos.x, (int)pos.y + 1, 0);
-        pos = CheckMoveValid(pos, checkPos, false, true);
-        return pos;
+        Vector3Int checkPos = new Vector3Int((int)move.movePos.x, (int)move.movePos.y + 1, 0);
+        move = CheckMoveValid(move, checkPos, false, true);
+        return move;
     }
 
-    private Vector3Int ProcessMoveDown(Vector3Int pos)
+    private MoveInfo ProcessMoveDown(MoveInfo move)
     {
-        Vector3Int checkPos = new Vector3Int((int)pos.x, (int)pos.y - 1, 0);
-        pos = CheckMoveValid(pos, checkPos, false, true);
-        return pos;
+        Vector3Int checkPos = new Vector3Int((int)move.movePos.x, (int)move.movePos.y - 1, 0);
+        move = CheckMoveValid(move, checkPos, false, true);
+        return move;
     }
 
-    private Vector3Int CheckMoveValid(Vector3Int startPos, Vector3Int endPos, bool xAxis, bool yAxis)
+    private MoveInfo CheckMoveValid(MoveInfo move, Vector3Int endPos, bool xAxis, bool yAxis)
     {
         int loopSafety = 100;
-        Vector3Int moveChecker = startPos;
+        Vector3Int moveChecker = move.movePos;
         if (xAxis)
         {
-            int x = startPos.x;
+            int x = move.movePos.x;
             while (loopSafety > 0)
             {
                 if (moveChecker.x < endPos.x)
@@ -150,6 +152,7 @@ public class MoveProcessor : MonoBehaviour
                     if (tileUtils.IsTileSolid(tileUtils.groundTilemap, moveChecker))
                     {
                         moveChecker.x--;
+                        move.isCollision = true;
                         break;
                     }
                     loopSafety--;
@@ -160,6 +163,7 @@ public class MoveProcessor : MonoBehaviour
                     if (tileUtils.IsTileSolid(tileUtils.groundTilemap, moveChecker))
                     {
                         moveChecker.x++;
+                        move.isCollision = true;
                         break;
                     }
                     loopSafety--;
@@ -172,7 +176,7 @@ public class MoveProcessor : MonoBehaviour
         }
         else if (yAxis)
         {
-            int y = startPos.y;
+            int y = move.movePos.y;
             while (loopSafety > 0)
             {
                 if (moveChecker.y < endPos.y)
@@ -181,6 +185,7 @@ public class MoveProcessor : MonoBehaviour
                     if (tileUtils.IsTileSolid(tileUtils.groundTilemap, moveChecker))
                     {
                         moveChecker.y--;
+                        move.isCollision = true;
                         break;
                     }
                     loopSafety--;
@@ -191,6 +196,7 @@ public class MoveProcessor : MonoBehaviour
                     if (tileUtils.IsTileSolid(tileUtils.groundTilemap, moveChecker))
                     {
                         moveChecker.y++;
+                        move.isCollision = true;
                         break;
                     }
                     loopSafety--;
@@ -201,7 +207,8 @@ public class MoveProcessor : MonoBehaviour
                 }
             }
         }
-        return moveChecker;
+        move.movePos = moveChecker;
+        return move;
     }
 
     private bool IsPlayerGrounded(Vector3Int playerPos)

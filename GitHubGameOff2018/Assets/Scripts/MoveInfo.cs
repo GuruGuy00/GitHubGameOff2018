@@ -6,4 +6,5 @@ public class MoveInfo
 {
     public Vector3Int movePos;
     public bool isJump = false;
+    public bool isCollision = false;
 }

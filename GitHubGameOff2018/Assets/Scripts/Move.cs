@@ -51,9 +51,9 @@ public class Move : MonoBehaviour {
 
     public void SubmitMoves()
     {
-        List<Vector3Int> points = new List<Vector3Int>(moveProcessor.processedMoves);
-        playerController.setMoveList(points);
-        movePreviewer.setPreviewPoints(points);
+        List<MoveInfo> moves = new List<MoveInfo>(moveProcessor.processedMoves);
+        playerController.setMoveList(moves);
+        movePreviewer.setPreviewPoints(moves);
         deckScript.DiscardCards();
         deckScript.Deal(); //ToDo : maybe move else where for when the moves are compleated
     }

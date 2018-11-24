@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
     public float smoothTime = 0.25f;
 
     //ToDo: Get better movements tile by tile
-    private List<Vector3Int> moveList = new List<Vector3Int>();
+    private List<MoveInfo> moveList = new List<MoveInfo>();
     private bool isMoving = false;
     private bool isProccessingMoves = false;
 
@@ -51,7 +51,7 @@ public class PlayerController : MonoBehaviour
         if (!isMoving && moveList.Count > 0)
         {
             isMoving = true;
-            newPos = moveList[0];
+            newPos = moveList[0].movePos;
             moveList.RemoveAt(0);
         }
         return newPos;
@@ -77,7 +77,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void setMoveList(List<Vector3Int> moves)
+    public void setMoveList(List<MoveInfo> moves)
     {
         moveList = moves;
         isProccessingMoves = true;
