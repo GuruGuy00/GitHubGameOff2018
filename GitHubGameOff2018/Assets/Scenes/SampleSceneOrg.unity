@@ -493,6 +493,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 249737376}
+  - component: {fileID: 249737378}
   - component: {fileID: 249737375}
   - component: {fileID: 249737377}
   m_Layer: 0
@@ -540,12 +541,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1958013719}
-  groundTilemap: {fileID: 1081865654}
-  previewTilemap: {fileID: 905690677}
   goTileBase: {fileID: 11400000, guid: 6e91ee334aff297498eafad056137146, type: 2}
-  blockedTileBase: {fileID: 0}
-  playCardsParents: {fileID: 1414861364}
-  lastPos: {x: 0, y: 0, z: 0}
+--- !u!114 &249737378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 249737374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72510b86c4fe09542a740118a1093398, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 1958013719}
+  playCardsParent: {fileID: 1414861364}
+  processedMoves: []
+  previewMoves: []
 --- !u!1 &271802413
 GameObject:
   m_ObjectHideFlags: 0
@@ -5540,13 +5551,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e140e1eac9ed5d49aacd3583f1d775d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groundTilemap: {fileID: 1081865654}
-  tileBase: {fileID: 11400000, guid: 8b4a78e590e79d64b968b447a8de841d, type: 2}
   playerWorldLoc: {x: 0, y: 0, z: 0}
   playerTileLoc: {x: 0, y: 0, z: 0}
   LocTest: {x: 0, y: 0, z: 0}
   smoothTime: 0.1
-  grounded: 0
 --- !u!4 &1958013721
 Transform:
   m_ObjectHideFlags: 0
@@ -5647,6 +5655,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2071106939}
   - component: {fileID: 2071106940}
+  - component: {fileID: 2071106941}
   m_Layer: 0
   m_Name: _GameManager
   m_TagString: Untagged
@@ -5678,3 +5687,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 663cf2b21dbc199428bbbd0156c4514d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2071106941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2071106938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0f810412a5136a49a19718927c66f78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundTilemap: {fileID: 1081865654}
+  previewTilemap: {fileID: 905690677}
