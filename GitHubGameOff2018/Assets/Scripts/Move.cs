@@ -13,11 +13,16 @@ public class Move : MonoBehaviour {
     GameObject deck;
     Deck deckScript;
 
+    private MoveProcessor moveProcessor;
+    private MovePreview movePreviewer;
+
 	// Use this for initialization
 	void Start () {
         playerController = player.GetComponent<PlayerController>();
         deck = GameObject.FindGameObjectWithTag("Deck");
         deckScript = deck.GetComponent<Deck>();
+        moveProcessor = GetComponent<MoveProcessor>();
+        movePreviewer = GetComponent<MovePreview>();
     }
 
     public void AddLeftMove()
@@ -46,15 +51,10 @@ public class Move : MonoBehaviour {
 
     public void SubmitMoves()
     {
-        CardDisplay[] cardsToPlay = playCardsParent.GetComponentsInChildren<CardDisplay>();
-        foreach (CardDisplay cardInfo in cardsToPlay)
-        {
-            //ToDo : larp this or something to make it look nice
-            moveList.Add(cardInfo.card.moveName);
-
-        }
+        List<Vector3Int> points = new List<Vector3Int>(moveProcessor.processedMoves);
+        playerController.setMoveList(points);
+        movePreviewer.setPreviewPoints(points);
         deckScript.DiscardCards();
-        playerController.setMoveList(moveList);
         deckScript.Deal(); //ToDo : maybe move else where for when the moves are compleated
     }
 

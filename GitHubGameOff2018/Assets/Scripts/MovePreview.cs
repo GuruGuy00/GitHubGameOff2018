@@ -3,95 +3,57 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class MovePreview : MonoBehaviour {
-
-    //PlayerController
+public class MovePreview : MonoBehaviour
+{
     public GameObject player;
-    PlayerController playerController;
-
-    //Level/Ground TileMap
-    public Tilemap groundTilemap;
-    //Preview tilemap
-    public Tilemap previewTilemap;
-
     //Tile Base - GoTile
     public TileBase goTileBase;
 
-    //Tile Base - Block Tile
-    public TileBase blockedTileBase;
+    private List<Vector3Int> forcePreviewPoints;
+    private TileUtils tileUtils;
+    private MoveProcessor moveProcessor;
+    private PlayerController playerController;
 
-    public Transform playCardsParents;
-
-    private Vector3Int playerCurentTile;
-    public Vector3Int lastPos;
-
-    public List<MoveCords> moveCords = new List<MoveCords>();
-
-    // Use this for initialization
-    void Start () {
-        
-    }
     private void Awake()
     {
+        moveProcessor = GetComponent<MoveProcessor>();
         playerController = player.GetComponent<PlayerController>();
-        lastPos = playerController.playerTileLoc;
     }
-    // Update is called once per frame
+
+    void Start()
+    {
+        tileUtils = TileUtils.Instance;
+    }
+
     void Update () {
-
-
-        //groundTilemap.SetTile(new Vector3Int(playerCurentTile.x + 1, playerCurentTile.y, playerCurentTile.z), goTileBase);
-        
-
-        CardDisplay[] cardsToPlay = playCardsParents.GetComponentsInChildren<CardDisplay>();
         ClearTiles();
-        
-        foreach (CardDisplay cardInfo in cardsToPlay)
-        {
-            if (moveCords.Count == 0)
-            {
-                MoveCords mc = new MoveCords();
-                mc.startPos = playerController.playerTileLoc;
-                mc.endPos = cardInfo.card.moveTo + playerController.playerTileLoc;
-                moveCords.Add(mc);
-            }
-            else
-            {
-                MoveCords mc = new MoveCords();
-                mc.startPos = moveCords[moveCords.Count-1].endPos;
-                mc.endPos = cardInfo.card.moveTo + moveCords[moveCords.Count - 1].endPos;
-                moveCords.Add(mc);
-            }
 
-            //Vector3Int tilePos = cardInfo.card.moveTo + lastPos;
-            //groundTilemap.SetTile(tilePos, goTileBase);
-            //lastPos = tilePos;
+        List<Vector3Int> points;
+        if (playerController.IsProcessingMoves())
+        {
+            points = forcePreviewPoints;
+        }
+        else
+        {
+            points = moveProcessor.processedMoves;
         }
 
-        foreach (MoveCords moveCord in moveCords)
+        foreach (Vector3Int movePoint in points)
         {
-            groundTilemap.SetTile(moveCord.endPos, goTileBase);
+            Vector3Int tilePos = tileUtils.GetCellPos(tileUtils.previewTilemap, movePoint);
+            tileUtils.SetTile(tileUtils.previewTilemap, tilePos, goTileBase);
         }
 
-        Debug.Log("Move Cord Count " + moveCords.Count);
-
+        //Debug.Log("Move Cord Count " + points.Count);
     }
 
     private void ClearTiles()
     {
-        foreach (MoveCords moveCord in moveCords)
-        {
-            groundTilemap.SetTile(moveCord.endPos, null);
-        }
-        moveCords.Clear();
+        tileUtils.previewTilemap.ClearAllTiles();
+    }
+
+    public void setPreviewPoints(List<Vector3Int> points)
+    {
+        forcePreviewPoints = points;
     }
 }
-
-public class MoveCords
-{
-    public Vector3Int startPos;
-    public  Vector3Int endPos;
-
-    public MoveCords() { }
-}
-
