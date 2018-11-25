@@ -23,9 +23,11 @@ public class PlayerController : MonoBehaviour
     private bool isProccessingMoves = false;
 
     private TileUtils tileUtils;
+    private _GameManager gm;
 
     void Start ()
     {
+        gm = FindObjectOfType<_GameManager>();
         tileUtils = TileUtils.Instance;
         //ToDo : fix this up, need to read start pos from var
         startPos = transform.position;
@@ -37,7 +39,7 @@ public class PlayerController : MonoBehaviour
     void Update ()
     {
         Vector3Int newPos = playerWorldLoc;
-        if (isProccessingMoves)
+        if (gm.currentGameState == _GameManager.GameState.PlayerAction)
         {
             newPos = ProcessMoves(newPos);
             ApplyMoves(newPos);
@@ -73,6 +75,7 @@ public class PlayerController : MonoBehaviour
             {
                 //ToDo : maybe add an update to the postion so that we are exactly where we wanted to be.
                 isProccessingMoves = false;
+                gm.PlayerMovesComplete();
             }
         }
     }

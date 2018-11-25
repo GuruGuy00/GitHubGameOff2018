@@ -15,9 +15,11 @@ public class MovePreview : MonoBehaviour
     private TileUtils tileUtils;
     private MoveProcessor moveProcessor;
     private PlayerController playerController;
+    private _GameManager gm;
 
     private void Awake()
     {
+        gm = FindObjectOfType<_GameManager>();
         moveProcessor = GetComponent<MoveProcessor>();
         playerController = player.GetComponent<PlayerController>();
     }
@@ -30,28 +32,30 @@ public class MovePreview : MonoBehaviour
     void Update () {
         ClearTiles();
 
-        List<MoveInfo> points;
-        if (playerController.IsProcessingMoves())
+        if (gm.currentGameState == _GameManager.GameState.PlayerTurn
+            || gm.currentGameState == _GameManager.GameState.PlayerAction)
         {
-            points = forcePreviewPoints;
-        }
-        else
-        {
-            points = moveProcessor.processedMoves;
-        }
-
-        foreach (MoveInfo move in points)
-        {
-            Vector3Int tilePos = tileUtils.GetCellPos(tileUtils.previewTilemap, move.movePos);
-            TileBase previewTile = goTileBase;
-            if (move.isCollision)
+            List<MoveInfo> points;
+            if (playerController.IsProcessingMoves())
             {
-                previewTile = stopTileBase;
+                points = forcePreviewPoints;
             }
-            tileUtils.SetTile(tileUtils.previewTilemap, tilePos, previewTile);
-        }
+            else
+            {
+                points = moveProcessor.processedMoves;
+            }
 
-        //Debug.Log("Move Cord Count " + points.Count);
+            foreach (MoveInfo move in points)
+            {
+                Vector3Int tilePos = tileUtils.GetCellPos(tileUtils.previewTilemap, move.movePos);
+                TileBase previewTile = goTileBase;
+                if (move.isCollision)
+                {
+                    previewTile = stopTileBase;
+                }
+                tileUtils.SetTile(tileUtils.previewTilemap, tilePos, previewTile);
+            }
+        }
     }
 
     private void ClearTiles()

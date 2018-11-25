@@ -49,13 +49,4 @@ public class Move : MonoBehaviour {
         Debug.Log("Submitted : " + move);
     }
 
-    public void SubmitMoves()
-    {
-        List<MoveInfo> moves = new List<MoveInfo>(moveProcessor.processedMoves);
-        playerController.setMoveList(moves);
-        movePreviewer.setPreviewPoints(moves);
-        deckScript.DiscardCards();
-        deckScript.Deal(); //ToDo : maybe move else where for when the moves are compleated
-    }
-
 }

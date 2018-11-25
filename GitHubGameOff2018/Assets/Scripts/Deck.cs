@@ -19,7 +19,6 @@ public class Deck : MonoBehaviour {
 	// Use this for initialization
 	void Start () {    
         playDeck = ShuffleDeck2();
-        Deal();    
     }
 
     private List<GameObject> ShuffleDeck2()
