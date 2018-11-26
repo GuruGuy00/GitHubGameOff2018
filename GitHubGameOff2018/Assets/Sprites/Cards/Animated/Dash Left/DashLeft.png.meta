@@ -1,9 +1,11 @@
 fileFormatVersion: 2
-guid: e06aa0eb2536ff74593dfef08b989fd6
+guid: 168eec22c48090544be76a0c2fbe26a2
 TextureImporter:
   fileIDToRecycleName:
-    21300000: Platforms_0
-    21300002: Platforms_1
+    21300000: WalkingLeft_0
+    21300002: WalkingLeft_1
+    21300004: WalkingLeft_2
+    21300006: WalkingLeft_3
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -43,7 +45,7 @@ TextureImporter:
   lightmap: 0
   compressionQuality: 50
   spriteMode: 2
-  spriteExtrude: 0
+  spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
@@ -62,10 +64,10 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 2
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 256
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 2
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -73,10 +75,10 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   - serializedVersion: 2
     buildTarget: Standalone
-    maxTextureSize: 256
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 2
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -84,10 +86,10 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   - serializedVersion: 2
     buildTarget: WebGL
-    maxTextureSize: 256
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 2
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -97,7 +99,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Platforms_0
+      name: WalkingLeft_0
       rect:
         serializedVersion: 2
         x: 0
@@ -111,13 +113,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 87046d5b4ceb9774d8a2929be3c84b00
+      spriteID: 74e27aad25a8bd74c9423b8f6bf1078c
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Platforms_1
+      name: WalkingLeft_1
       rect:
         serializedVersion: 2
         x: 32
@@ -131,7 +133,47 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3fe07817dfd35bb43be63209089c2de9
+      spriteID: 0377460cfa0c7ba48b7fcd02e38c69a2
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WalkingLeft_2
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 18cd493d0ef1d7c4aba66faef08c6a51
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WalkingLeft_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f91486d12c45bc2439733e4966304e9a
       vertices: []
       indices: 
       edges: []
@@ -139,7 +181,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: a01567879aa3efe488f5f24ddc23d755
+    spriteID: f6f674034d63da04588d1fb9ee400fc9
     vertices: []
     indices: 
     edges: []

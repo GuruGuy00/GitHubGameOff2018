@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 8f49c38d90eb2a5409a3ec2f79970978
+guid: 761700dc1354eea43acb2e08da4cc459
 TextureImporter:
   fileIDToRecycleName:
     21300000: Walking_0
@@ -113,7 +113,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dbf9fe303e8a2944ba9838e715af83b5
+      spriteID: 06c83a65d38c4d745913271002c85e07
       vertices: []
       indices: 
       edges: []
@@ -133,7 +133,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 017bfdb5700b04e45ac6d8ab7e4ac592
+      spriteID: 0d89841c6a959534abb8ba037ec62339
       vertices: []
       indices: 
       edges: []
@@ -153,7 +153,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7727845a17bc96d4081fd022b7769a1f
+      spriteID: 2ed559cf61c06284895ff3ce5df79089
       vertices: []
       indices: 
       edges: []
@@ -173,7 +173,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a5b46148a79ba5d43b0f2d6ea33978f1
+      spriteID: d8ebffbf9ac5f054682cd71d50f60218
       vertices: []
       indices: 
       edges: []
@@ -181,7 +181,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 2e8d611033b862b4a99450aa10c14c05
+    spriteID: 274a71c15ea250048882f7fd083c568e
     vertices: []
     indices: 
     edges: []
