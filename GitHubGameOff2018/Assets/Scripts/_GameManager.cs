@@ -17,7 +17,7 @@ public class _GameManager : MonoBehaviour {
     //  Pricess enemy moves
     //  Check for win/lose conditions
     //  Deal cards 
-
+    
     public GameState currentGameState;
     public enum GameState
     {
@@ -106,6 +106,7 @@ public class _GameManager : MonoBehaviour {
         debugMessage = true;
         //Deal cards to our player
         deck.Deal();
+        playerController.ActionPointRoll();
         //The player will get the first turn
         currentGameState = GameState.PlayerTurn;
     }
@@ -113,6 +114,7 @@ public class _GameManager : MonoBehaviour {
     public void SetupPlayerTurn()
     {
         deck.Deal();
+        playerController.ActionPointRoll();
     }
 
     public void PlayerSubmitMoves()

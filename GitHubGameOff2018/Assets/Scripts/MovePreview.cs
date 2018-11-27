@@ -30,6 +30,7 @@ public class MovePreview : MonoBehaviour
     }
 
     void Update () {
+
         ClearTiles();
 
         if (gm.currentGameState == _GameManager.GameState.PlayerTurn

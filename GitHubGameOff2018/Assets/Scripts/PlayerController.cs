@@ -8,6 +8,9 @@ public class PlayerController : MonoBehaviour
     //Used the below refrence to get things going
     //https://github.com/Cawotte/SmallWorld_WeeklyJam40
 
+    public int ActionPoints;
+    public int Health;
+
     public Vector3Int playerWorldLoc;
     public Vector3Int playerTileLoc;
     private Vector3 startPos;
@@ -96,4 +99,10 @@ public class PlayerController : MonoBehaviour
         return isProccessingMoves;
     }
 
+    public void ActionPointRoll()
+    {
+        int roll = Random.Range(1, 7);
+        ActionPoints += roll;
+
+    }
 }

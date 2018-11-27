@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.UI;
 
 public class MoveProcessor : MonoBehaviour
 {
     public GameObject player;
     public Transform playCardsParent;
+    public Button submitButton;
 
     [HideInInspector] public List<MoveInfo> processedMoves;
     [HideInInspector] public List<MoveInfo> previewMoves;
@@ -25,6 +27,7 @@ public class MoveProcessor : MonoBehaviour
     void Update()
     {
         bool isJumping = false;
+        int usableAcionPoints = playerController.ActionPoints;
         processedMoves.Clear();
 
         //Get the player's current position
@@ -34,6 +37,21 @@ public class MoveProcessor : MonoBehaviour
         CardDisplay[] cardsToPlay = playCardsParent.GetComponentsInChildren<CardDisplay>();
         foreach (CardDisplay cardInfo in cardsToPlay)
         {
+
+            if (usableAcionPoints >= cardInfo.card.actionCost)
+            {
+                Debug.Log("We Have Actions points to use");
+                submitButton.interactable = true;
+                usableAcionPoints -= cardInfo.card.actionCost;
+            }
+            else
+            {
+                //ToDo : Move last card back to the hand/alrt player that they are out of action point
+                //Maybe disable the submit moves buttons/ tint card a color
+                submitButton.interactable = false;
+                Debug.Log("We are out of action points");
+            }
+
             MoveInfo move = ProcessMove(referencePos, cardInfo.card);
             if (move.isJump)
             {
@@ -56,6 +74,7 @@ public class MoveProcessor : MonoBehaviour
     {
         MoveInfo moveToReturn = new MoveInfo();
         moveToReturn.movePos = currPos;
+        moveToReturn.ActionPointCost = card.actionCost;
         switch (card.moveName)
         {
             case "Right":
