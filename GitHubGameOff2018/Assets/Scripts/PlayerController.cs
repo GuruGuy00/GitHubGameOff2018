@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
     //https://github.com/Cawotte/SmallWorld_WeeklyJam40
 
     public int ActionPoints;
-    public int Health;
+    public int UsedActionPoints;
 
     public Vector3Int playerWorldLoc;
     public Vector3Int playerTileLoc;
@@ -27,10 +27,12 @@ public class PlayerController : MonoBehaviour
 
     private TileUtils tileUtils;
     private _GameManager gm;
+    private PlayerController playerController;
 
     void Start ()
     {
         gm = FindObjectOfType<_GameManager>();
+        playerController = FindObjectOfType<PlayerController>();
         tileUtils = TileUtils.Instance;
         //ToDo : fix this up, need to read start pos from var
         startPos = transform.position;
@@ -44,8 +46,10 @@ public class PlayerController : MonoBehaviour
         Vector3Int newPos = playerWorldLoc;
         if (gm.currentGameState == _GameManager.GameState.PlayerAction)
         {
+            //Spend Action
             newPos = ProcessMoves(newPos);
             ApplyMoves(newPos);
+            
         }
         playerWorldLoc = newPos;
         playerTileLoc = tileUtils.GetCellPos(tileUtils.groundTilemap, transform.position);
@@ -103,6 +107,12 @@ public class PlayerController : MonoBehaviour
     {
         int roll = Random.Range(1, 7);
         ActionPoints += roll;
+        Debug.Log("Rolled a " + roll);
 
+    }
+
+    public void ConsumeAP()
+    {
+        ActionPoints -= UsedActionPoints;
     }
 }

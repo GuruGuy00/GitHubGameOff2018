@@ -122,6 +122,7 @@ public class _GameManager : MonoBehaviour {
         Debug.Log("Player submitted moves!");
         debugMessage = true;
         //Set the move list for Previewer and PlayeController
+        playerController.ConsumeAP();
         List<MoveInfo> moves = new List<MoveInfo>(moveProcessor.processedMoves);
         playerController.setMoveList(moves);
         movePreviewer.setPreviewPoints(moves);
@@ -135,6 +136,8 @@ public class _GameManager : MonoBehaviour {
     {
         Debug.Log("Player moves completed!");
         debugMessage = true;
+        //Consume Action Points
+        
         currentGameState = GameState.EnemyTurn;
     }
 

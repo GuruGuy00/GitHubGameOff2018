@@ -15,6 +15,7 @@ public class MoveProcessor : MonoBehaviour
 
     private TileUtils tileUtils;
     private PlayerController playerController;
+    public int usedActionPoints = 0;
 
     void Start ()
     {
@@ -28,6 +29,7 @@ public class MoveProcessor : MonoBehaviour
     {
         bool isJumping = false;
         int usableAcionPoints = playerController.ActionPoints;
+        playerController.UsedActionPoints = 0;
         processedMoves.Clear();
 
         //Get the player's current position
@@ -43,6 +45,7 @@ public class MoveProcessor : MonoBehaviour
                 Debug.Log("We Have Actions points to use");
                 submitButton.interactable = true;
                 usableAcionPoints -= cardInfo.card.actionCost;
+                playerController.UsedActionPoints += cardInfo.card.actionCost;
             }
             else
             {
