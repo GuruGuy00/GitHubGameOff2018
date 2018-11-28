@@ -107,7 +107,7 @@ public class PlayerController : MonoBehaviour
     {
         int roll = Random.Range(1, 7);
         ActionPoints += roll;
-        Debug.Log("Rolled a " + roll);
+        //Debug.Log("Rolled a " + roll);
 
     }
 

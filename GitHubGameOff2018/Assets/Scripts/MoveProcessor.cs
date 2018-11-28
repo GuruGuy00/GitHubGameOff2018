@@ -42,7 +42,7 @@ public class MoveProcessor : MonoBehaviour
 
             if (usableAcionPoints >= cardInfo.card.actionCost)
             {
-                Debug.Log("We Have Actions points to use");
+                //Debug.Log("We Have Actions points to use");
                 submitButton.interactable = true;
                 usableAcionPoints -= cardInfo.card.actionCost;
                 playerController.UsedActionPoints += cardInfo.card.actionCost;
@@ -52,7 +52,7 @@ public class MoveProcessor : MonoBehaviour
                 //ToDo : Move last card back to the hand/alrt player that they are out of action point
                 //Maybe disable the submit moves buttons/ tint card a color
                 submitButton.interactable = false;
-                Debug.Log("We are out of action points");
+                //Debug.Log("We are out of action points");
             }
 
             MoveInfo move = ProcessMove(referencePos, cardInfo.card);
