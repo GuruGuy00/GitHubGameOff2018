@@ -14,11 +14,11 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
     private DropzonePulse[] dropzones;
 
-    GameObject deck;
+    //GameObject deck;    //ToDo: NOT USED REMOVE
 
     void Start()
     {
-        deck = GameObject.FindGameObjectWithTag("Deck");
+        //deck = GameObject.FindGameObjectWithTag("Deck"); //ToDo: NOT USED REMOVE
 
         //Cache dropzones for future use
         dropzones = Transform.FindObjectsOfType<DropzonePulse>();
@@ -39,7 +39,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
         placeHolder = new GameObject();
         placeHolder.transform.SetParent(this.transform.parent);
-        LayoutElement le = placeHolder.AddComponent<LayoutElement>();
+        //LayoutElement le = placeHolder.AddComponent<LayoutElement>();
         //le.preferredWidth = this.GetComponent<LayoutElement>().preferredWidth;
         //le.preferredHeight = this.GetComponent<LayoutElement>().preferredHeight;
         //le.flexibleHeight = 0;

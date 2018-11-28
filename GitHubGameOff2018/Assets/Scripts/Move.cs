@@ -5,7 +5,7 @@ using UnityEngine;
 public class Move : MonoBehaviour {
 
     public GameObject player; 
-    PlayerController playerController;
+    //PlayerController playerController;  //ToDo: NOT USED REMOVE
     List<string> moveList = new List<string>();
     
     public Transform playCardsParent;
@@ -18,7 +18,7 @@ public class Move : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        playerController = player.GetComponent<PlayerController>();
+        //playerController = player.GetComponent<PlayerController>();   //ToDo: NOT USED REMOVE
         deck = GameObject.FindGameObjectWithTag("Deck");
         deckScript = deck.GetComponent<Deck>();
         moveProcessor = GetComponent<MoveProcessor>();
