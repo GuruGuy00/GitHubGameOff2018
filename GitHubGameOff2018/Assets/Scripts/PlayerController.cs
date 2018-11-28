@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+
 
 public class PlayerController : MonoBehaviour
 {
@@ -10,6 +12,8 @@ public class PlayerController : MonoBehaviour
 
     public int ActionPoints;
     public int UsedActionPoints;
+
+    public TextMeshProUGUI ActionPointText;
 
     public Vector3Int playerWorldLoc;
     public Vector3Int playerTileLoc;
@@ -43,6 +47,7 @@ public class PlayerController : MonoBehaviour
 
     void Update ()
     {
+        CurrentActionPoints();
         Vector3Int newPos = playerWorldLoc;
         if (gm.currentGameState == _GameManager.GameState.PlayerAction)
         {
@@ -114,5 +119,10 @@ public class PlayerController : MonoBehaviour
     public void ConsumeAP()
     {
         ActionPoints -= UsedActionPoints;
+    }
+
+    public void CurrentActionPoints()
+    {
+        ActionPointText.text = (ActionPoints - UsedActionPoints).ToString();
     }
 }
