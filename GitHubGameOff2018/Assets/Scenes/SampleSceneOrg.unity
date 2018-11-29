@@ -180,7 +180,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &192853526
 GameObject:
@@ -407,7 +407,7 @@ RectTransform:
   - {fileID: 901517687}
   - {fileID: 1109937473}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -456,7 +456,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &249737377
 MonoBehaviour:
@@ -782,7 +782,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &556853619
 GameObject:
@@ -1112,7 +1112,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &665118873
 GameObject:
@@ -2658,13 +2658,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardsInHand: 4
+  shuffle: 0
   handPanel: {fileID: 1214075721}
   discardPanel: {fileID: 1909270607}
   playCardsParent: {fileID: 1414861364}
   handParent: {fileID: 1214075722}
   cards:
   - {fileID: 1084512024414112, guid: 1ec0311085cbc8a478cef55a15306a7b, type: 2}
-  - {fileID: 1084512024414112, guid: 1ec0311085cbc8a478cef55a15306a7b, type: 2}
+  - {fileID: 1137672651014654, guid: 9b4b0e90943a3d24190f3918f01d9f7f, type: 2}
   - {fileID: 1084512024414112, guid: 1ec0311085cbc8a478cef55a15306a7b, type: 2}
   - {fileID: 1865850782162932, guid: 994774a0b4c4a6349ab2ce0a607a6a40, type: 2}
   - {fileID: 1865850782162932, guid: 994774a0b4c4a6349ab2ce0a607a6a40, type: 2}
@@ -2692,7 +2693,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1180961486
 GameObject:
@@ -4557,7 +4558,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 2.1999512, y: -432.44}
+  m_AnchoredPosition: {x: 2.1992188, y: -432.44}
   m_SizeDelta: {x: -423.66, y: -881.56}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1214075723
@@ -6928,7 +6929,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1547077836
 GameObject:
@@ -7066,7 +7067,7 @@ Transform:
   - {fileID: 905690675}
   - {fileID: 1180961487}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1709461405
 GameObject:
@@ -7219,7 +7220,7 @@ Transform:
   m_Children:
   - {fileID: 665118874}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1760170569
 MonoBehaviour:
@@ -7662,6 +7663,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ActionPoints: 0
   UsedActionPoints: 0
+  randomRoll: 0
   ActionPointText: {fileID: 1109937474}
   playerWorldLoc: {x: 0, y: 0, z: 0}
   playerTileLoc: {x: 0, y: 0, z: 0}
@@ -7678,8 +7680,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1431071085}
-  m_Father: {fileID: 2071106939}
-  m_RootOrder: 0
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2021864989
 GameObject:
@@ -7742,10 +7744,9 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 1958013721}
+  m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2071106940
 MonoBehaviour:

@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 114163655518472662}
   - component: {fileID: 114063321746772956}
   m_Layer: 5
-  m_Name: Card_MoveLeft
+  m_Name: Card_MoveRight_DEP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -684,7 +684,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d455d0f3c0a5094b80276ca179ea6e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  card: {fileID: 11400000, guid: 6828db522fc62a848b5f383fd780bc19, type: 2}
+  card: {fileID: 11400000, guid: 4df2087951ad3e449861d6ef6c54442d, type: 2}
   actionText: {fileID: 114037407201244172}
   nameText: {fileID: 114252351422387900}
   descriptionText: {fileID: 114725712985701902}

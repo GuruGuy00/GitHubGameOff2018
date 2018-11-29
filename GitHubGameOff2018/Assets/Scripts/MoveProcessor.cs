@@ -75,9 +75,14 @@ public class MoveProcessor : MonoBehaviour
 
     private MoveInfo ProcessMove(Vector3Int currPos, Card card)
     {
+        //ToDo : CardData has Vector3Int of the relative move postion
+        // Use that data to set the new postion.
+
         MoveInfo moveToReturn = new MoveInfo();
         moveToReturn.movePos = currPos;
+        
         moveToReturn.ActionPointCost = card.actionCost;
+
         switch (card.moveName)
         {
             case "Right":
@@ -97,6 +102,7 @@ public class MoveProcessor : MonoBehaviour
                 moveToReturn.isJump = true;
                 break;
             default:
+                moveToReturn = ProccessMove(moveToReturn, card);
                 break;
         }
         return moveToReturn;
@@ -110,8 +116,30 @@ public class MoveProcessor : MonoBehaviour
         return fallMove;
     }
 
+    private MoveInfo ProccessMove(MoveInfo move, Card card)
+    {
+        bool xAxisChange = false;
+        bool yAxisChange = false;
+        Vector3Int checkPos = move.movePos + card.moveTo;
+
+        //Check to see if its an xAxis or yAxis move
+        if (move.movePos.x != checkPos.x)
+        {
+            xAxisChange = true;
+        }
+
+        if (move.movePos.y != checkPos.y)
+        {
+            yAxisChange = true;
+        }
+
+        move = CheckMoveValid(move, checkPos, xAxisChange, yAxisChange);
+        return move;
+    }
+
     private MoveInfo ProcessMoveRight(MoveInfo move)
     {
+
         Vector3Int checkPos = new Vector3Int((int)move.movePos.x + 1, (int)move.movePos.y, 0);
         move = CheckMoveValid(move, checkPos, true, false);
         return move;

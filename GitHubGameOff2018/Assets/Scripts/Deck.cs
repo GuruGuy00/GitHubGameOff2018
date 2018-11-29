@@ -5,6 +5,7 @@ using UnityEngine;
 public class Deck : MonoBehaviour {
 
     public int cardsInHand = 4;
+    public bool shuffle = true;
     public GameObject handPanel;
     public GameObject discardPanel;
 
@@ -17,8 +18,16 @@ public class Deck : MonoBehaviour {
     public List<GameObject> discard;
 
 	// Use this for initialization
-	void Start () {    
-        playDeck = ShuffleDeck2();
+	void Start () {
+
+        if (shuffle)
+        {
+            playDeck = ShuffleDeck2();
+        }
+        else
+        {
+            playDeck = UnshuffledDeck();
+        }
     }
 
     private List<GameObject> ShuffleDeck2()
@@ -26,12 +35,27 @@ public class Deck : MonoBehaviour {
         List<GameObject> randomList = new List<GameObject>();
         System.Random r = new System.Random();
         int randomIndex = 0;
+
         while (cards.Count > 0)
         {
             randomIndex = r.Next(0, cards.Count);
             GameObject newGO = Instantiate(cards[randomIndex],this.transform);
             randomList.Add(newGO);
             cards.RemoveAt(randomIndex);
+        }
+        return randomList;
+    }
+
+    private List<GameObject> UnshuffledDeck()
+    {
+        
+        List<GameObject> randomList = new List<GameObject>();
+
+        while (cards.Count > 0)
+        {
+            GameObject newGO = Instantiate(cards[0], this.transform);
+            randomList.Add(newGO);
+            cards.RemoveAt(0);
         }
         return randomList;
     }

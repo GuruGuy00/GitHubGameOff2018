@@ -16,4 +16,4 @@ MonoBehaviour:
   artwork: {fileID: 21300000, guid: d0907eb4eab442d41a468a94e69e15ec, type: 3}
   actionCost: 1
   moveName: STOMP
-  moveTo: {x: 0, y: -5, z: 0}
+  moveTo: {x: 0, y: -2, z: 0}

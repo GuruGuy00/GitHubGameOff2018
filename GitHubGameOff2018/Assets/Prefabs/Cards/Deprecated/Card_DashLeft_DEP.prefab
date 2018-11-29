@@ -144,7 +144,7 @@ GameObject:
   - component: {fileID: 114776223858769258}
   - component: {fileID: 114668608550710720}
   m_Layer: 5
-  m_Name: Card_DashLeft
+  m_Name: Card_DashLeft_DEP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

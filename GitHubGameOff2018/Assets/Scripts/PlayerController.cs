@@ -13,6 +13,9 @@ public class PlayerController : MonoBehaviour
     public int ActionPoints;
     public int UsedActionPoints;
 
+    [Tooltip("Random roll(1-6) when check, else roll 6 all the time")]
+    public bool randomRoll = true;
+
     public TextMeshProUGUI ActionPointText;
 
     public Vector3Int playerWorldLoc;
@@ -110,9 +113,15 @@ public class PlayerController : MonoBehaviour
 
     public void ActionPointRoll()
     {
-        int roll = Random.Range(1, 7);
-        ActionPoints += roll;
-        //Debug.Log("Rolled a " + roll);
+        if (randomRoll)
+        {
+            int roll = Random.Range(1, 7);
+            ActionPoints += roll;
+        }
+        else
+        {
+            ActionPoints += 6;
+        }
 
     }
 

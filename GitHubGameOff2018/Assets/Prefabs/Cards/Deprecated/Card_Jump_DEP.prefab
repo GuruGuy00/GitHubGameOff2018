@@ -60,7 +60,7 @@ GameObject:
   - component: {fileID: 114755403327366984}
   - component: {fileID: 114973860234504882}
   m_Layer: 5
-  m_Name: Card_Jump
+  m_Name: Card_Jump_DEP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
