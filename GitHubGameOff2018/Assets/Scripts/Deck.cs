@@ -8,6 +8,7 @@ public class Deck : MonoBehaviour {
     public bool shuffle = true;
     public GameObject handPanel;
     public GameObject discardPanel;
+    public GameObject discardPanel2;
 
     public Transform playCardsParent;
     public Transform handParent;
@@ -16,9 +17,10 @@ public class Deck : MonoBehaviour {
     public List<GameObject> sourceDeck;
     public List<GameObject> playDeck;
     public List<GameObject> discard;
+    public List<GameObject> discard2;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
 
         if (shuffle)
         {
@@ -80,12 +82,26 @@ public class Deck : MonoBehaviour {
     {
         CardDisplay[] hand = GetHand();
         int numCardsToAdd = 4 - hand.Length;
+        bool needReshuffle = false;
+
+        if (numCardsToAdd > playDeck.Count)
+        {
+            needReshuffle = true;
+        }
+
         while (numCardsToAdd > 0 && playDeck.Count > 0)
         {
             GameObject newGO = Instantiate(playDeck[0], handPanel.transform);
             newGO.transform.SetParent(handPanel.transform);
             playDeck.RemoveAt(0);
             numCardsToAdd--;
+        }
+
+        if (needReshuffle)
+        {
+            Debug.Log("RESHUFFLE");
+            Reshuffle();
+            //Deal differance need
         }
     }
 
@@ -99,6 +115,15 @@ public class Deck : MonoBehaviour {
             discard.Add(cardsToPlay[i].gameObject);
             //Move to visual discard pile
         }
+
+        //Added this so the cards stack off screen, to fix the over stack in the discards pile
+        while (discard.Count > 3)
+        {
+            discard[0].transform.SetParent(discardPanel2.transform);
+            discard2.Add(discard[0]);
+            discard.RemoveAt(0);
+        }
+
     }
 
     private CardDisplay[] GetHand()
@@ -109,5 +134,23 @@ public class Deck : MonoBehaviour {
     private CardDisplay[] GetPlayCards()
     {
         return playCardsParent.GetComponentsInChildren<CardDisplay>();
+    }
+
+    private void Reshuffle()
+    {
+        playDeck.AddRange(discard);
+        playDeck.AddRange(discard2);
+
+        discard.Clear();
+        discard2.Clear();
+
+        //if (shuffle)
+        //{
+        //    playDeck = ShuffleDeck2();
+        //}
+        //else
+        //{
+        //    playDeck = UnshuffledDeck();
+        //}
     }
 }
