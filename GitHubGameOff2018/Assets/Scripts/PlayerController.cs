@@ -34,12 +34,12 @@ public class PlayerController : MonoBehaviour
 
     private TileUtils tileUtils;
     private _GameManager gm;
-    private PlayerController playerController;
+    //private PlayerController playerController;      //KD Comment out to clear warning
 
     void Start ()
     {
         gm = FindObjectOfType<_GameManager>();
-        playerController = FindObjectOfType<PlayerController>();
+        //playerController = FindObjectOfType<PlayerController>();        //KD Comment out to clear warning
         tileUtils = TileUtils.Instance;
         //ToDo : fix this up, need to read start pos from var
         startPos = transform.position;

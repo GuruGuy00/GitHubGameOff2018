@@ -4,25 +4,25 @@ using UnityEngine;
 
 public class Move : MonoBehaviour {
 
-    public GameObject player; 
-    //PlayerController playerController;  //ToDo: NOT USED REMOVE
+    public GameObject player;
+    //PlayerController playerController;        //KD Comment out to clear warning
     List<string> moveList = new List<string>();
     
     public Transform playCardsParent;
 
-    GameObject deck;
-    Deck deckScript;
+    //GameObject deck;                          //KD Comment out to clear warning
+    //Deck deckScript;                          //KD Comment out to clear warning
 
-    private MoveProcessor moveProcessor;
-    private MovePreview movePreviewer;
+    //private MoveProcessor moveProcessor;      //KD Comment out to clear warning
+    //private MovePreview movePreviewer;        //KD Comment out to clear warning
 
-	// Use this for initialization
-	void Start () {
-        //playerController = player.GetComponent<PlayerController>();   //ToDo: NOT USED REMOVE
-        deck = GameObject.FindGameObjectWithTag("Deck");
-        deckScript = deck.GetComponent<Deck>();
-        moveProcessor = GetComponent<MoveProcessor>();
-        movePreviewer = GetComponent<MovePreview>();
+    // Use this for initialization
+    void Start () {
+        //playerController = player.GetComponent<PlayerController>();   //KD Comment out to clear warning
+        //deck = GameObject.FindGameObjectWithTag("Deck");              //KD Comment out to clear warning
+        //deckScript = deck.GetComponent<Deck>();                       //KD Comment out to clear warning
+        //moveProcessor = GetComponent<MoveProcessor>();                //KD Comment out to clear warning
+        //movePreviewer = GetComponent<MovePreview>();                  //KD Comment out to clear warning
     }
 
     public void AddLeftMove()

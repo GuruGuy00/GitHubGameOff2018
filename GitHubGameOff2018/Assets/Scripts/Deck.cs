@@ -42,6 +42,7 @@ public class Deck : MonoBehaviour {
         {
             randomIndex = r.Next(0, cards.Count);
             GameObject newGO = Instantiate(cards[randomIndex],this.transform);
+            newGO.name = cards[randomIndex].name;
             randomList.Add(newGO);
             cards.RemoveAt(randomIndex);
         }
@@ -56,6 +57,7 @@ public class Deck : MonoBehaviour {
         while (cards.Count > 0)
         {
             GameObject newGO = Instantiate(cards[0], this.transform);
+            newGO.name = cards[0].name;
             randomList.Add(newGO);
             cards.RemoveAt(0);
         }
@@ -87,11 +89,13 @@ public class Deck : MonoBehaviour {
         if (numCardsToAdd > playDeck.Count)
         {
             needReshuffle = true;
+            Reshuffle();
         }
 
         while (numCardsToAdd > 0 && playDeck.Count > 0)
         {
             GameObject newGO = Instantiate(playDeck[0], handPanel.transform);
+            newGO.name = playDeck[0].name;
             newGO.transform.SetParent(handPanel.transform);
             playDeck.RemoveAt(0);
             numCardsToAdd--;
@@ -100,7 +104,7 @@ public class Deck : MonoBehaviour {
         if (needReshuffle)
         {
             Debug.Log("RESHUFFLE");
-            Reshuffle();
+            //Reshuffle();
             //Deal differance need
         }
     }
@@ -138,19 +142,35 @@ public class Deck : MonoBehaviour {
 
     private void Reshuffle()
     {
-        playDeck.AddRange(discard);
-        playDeck.AddRange(discard2);
+        //ToDo : find a way to clean up the discard pile 2
+        //Why does destroying a game object affect all other of the same type?
+
+        while (discard.Count > 0)
+        {
+            discard[0].transform.SetParent(discardPanel2.transform);
+            discard2.Add(discard[0]);
+            discard.RemoveAt(0);
+        }
+
+        List<GameObject> reshuffle = new List<GameObject>();
+        reshuffle.AddRange(discard);
+        reshuffle.AddRange(discard2);
+
+        //playDeck.AddRange(discard);
+        //playDeck.AddRange(discard2);
 
         discard.Clear();
         discard2.Clear();
 
-        //if (shuffle)
-        //{
-        //    playDeck = ShuffleDeck2();
-        //}
-        //else
-        //{
-        //    playDeck = UnshuffledDeck();
-        //}
+
+        if (shuffle)
+        {
+            playDeck = ShuffleDeck(reshuffle);
+        }
+        else
+        {
+            playDeck.AddRange(reshuffle);
+            //playDeck = UnshuffledDeck();
+        }
     }
 }

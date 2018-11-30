@@ -35,7 +35,7 @@ public class _GameManager : MonoBehaviour {
     private MoveProcessor moveProcessor;
     private MovePreview movePreviewer;
 
-    private bool playerTurnSetup = false;
+    //private bool playerTurnSetup = false; //commented out to clear Warning
     private bool debugMessage = false;
 
     private void Awake()
