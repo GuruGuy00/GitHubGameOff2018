@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class _GameManager : MonoBehaviour {
 
@@ -29,6 +30,8 @@ public class _GameManager : MonoBehaviour {
         EndGame
     }
 
+    public GameObject menuPanel; 
+
     private Deck deck;
     private PlayerController playerController;
     private EnemyController enemyController;
@@ -52,11 +55,17 @@ public class _GameManager : MonoBehaviour {
 
     void Start()
     {
-
+        
     }
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            menuPanel.SetActive(!menuPanel.activeInHierarchy);
+        }
+
+
         switch (currentGameState)
         {
             case GameState.StartGame:
