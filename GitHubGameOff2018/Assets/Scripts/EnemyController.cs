@@ -5,39 +5,34 @@ using UnityEngine.Tilemaps;
 
 public class EnemyController : MonoBehaviour
 {
-    private _GameManager gm;
-
     //TODO: Remove this.  This is just to test turn changing basics
     [HideInInspector] public float timerMax = 4f;
     [HideInInspector] public float turnChangeTimer = 0f;
 
     void Start()
     {
-        gm = FindObjectOfType<_GameManager>();
         turnChangeTimer = timerMax;
     }
 
-    private void Update()
+    public bool EnemyTurn()
     {
-        //TODO: Remove this.  This is just to test turn changing basics
-        if (gm.currentGameState == _GameManager.GameState.EnemyTurn)
+        turnChangeTimer -= Time.deltaTime;
+        if (turnChangeTimer < 0)
         {
-            turnChangeTimer -= Time.deltaTime;
-            if (turnChangeTimer < 0)
-            {
-                turnChangeTimer = timerMax;
-                gm.EnemySubmitMoves();
-            }
+            turnChangeTimer = timerMax;
+            return true;
         }
-        if (gm.currentGameState == _GameManager.GameState.EnemyAction)
-        {
-            turnChangeTimer -= Time.deltaTime;
-            if (turnChangeTimer < 0)
-            {
-                turnChangeTimer = timerMax;
-                gm.EnemyMovesComplete();
-            }
-        }
+        return false;
     }
 
+    public bool EnemyAction()
+    {
+        turnChangeTimer -= Time.deltaTime;
+        if (turnChangeTimer < 0)
+        {
+            turnChangeTimer = timerMax;
+            return true;
+        }
+        return false;
+    }
 }

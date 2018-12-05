@@ -37,9 +37,7 @@ public class _GameManager : MonoBehaviour {
     private EnemyController enemyController;
     private MoveProcessor moveProcessor;
     private MovePreview movePreviewer;
-
-    //private bool playerTurnSetup = false; //commented out to clear Warning
-    private bool debugMessage = false;
+    private TurnIndicatorController turnIndicatorScript;
 
     private void Awake()
     {
@@ -49,6 +47,7 @@ public class _GameManager : MonoBehaviour {
         enemyController = FindObjectOfType<EnemyController>();
         moveProcessor = FindObjectOfType<MoveProcessor>();
         movePreviewer = FindObjectOfType<MovePreview>();
+        turnIndicatorScript = FindObjectOfType<TurnIndicatorController>();
         //Flag that we need to start the game up
         currentGameState = GameState.StartGame;
     }
@@ -65,54 +64,51 @@ public class _GameManager : MonoBehaviour {
             menuPanel.SetActive(!menuPanel.activeInHierarchy);
         }
 
-
         switch (currentGameState)
         {
             case GameState.StartGame:
                 StartGame();
                 break;
             case GameState.PlayerTurn:
-                if (debugMessage)
-                {
-                    debugMessage = false;
-                    Debug.Log("Waiting for Player moves...");
-                }
                 //Allow the player to play and rearrange cards
+                movePreviewer.DoPreview();
                 break;
             case GameState.PlayerAction:
-                if (debugMessage)
-                {
-                    debugMessage = false;
-                    Debug.Log("Processing Player moves...");
-                }
                 //Stay in this state while the player's moves are processing
+                if (playerController.PlayerUpdate())
+                {
+                    PlayerMovesComplete();
+                }
+                else
+                {
+                    movePreviewer.DoPreview();
+                }
                 break;
             case GameState.EnemyTurn:
-                if (debugMessage)
-                {
-                    debugMessage = false;
-                    Debug.Log("Waiting for Enemy moves...");
-                }
                 //Run enemy pathfinding, decision-making, command processing, etc.
+                if (enemyController.EnemyTurn())
+                {
+                    EnemySubmitMoves();
+                }
                 break;
             case GameState.EnemyAction:
-                if (debugMessage)
-                {
-                    debugMessage = false;
-                    Debug.Log("Processing Enemy moves...");
-                }
                 //Stay in this state while the enemy's moves are processing
+                if (enemyController.EnemyAction())
+                {
+                    EnemyMovesComplete();
+                }
                 break;
             case GameState.EndGame:
                 //Stay in this state while the enemy's moves are processing
                 break;
         }
+
+        //Keep our turn indicator updating every frame
+        turnIndicatorScript.UpdateTurnIndicator(currentGameState);
     }
 
     private void StartGame()
     {
-        Debug.Log("Starting the game...");
-        debugMessage = true;
         //Deal cards to our player
         deck.Deal();
         playerController.ActionPointRoll();
@@ -128,8 +124,6 @@ public class _GameManager : MonoBehaviour {
 
     public void PlayerSubmitMoves()
     {
-        Debug.Log("Player submitted moves!");
-        debugMessage = true;
         //Set the move list for Previewer and PlayeController
         playerController.ConsumeAP();
         List<MoveInfo> moves = new List<MoveInfo>(moveProcessor.processedMoves);
@@ -143,17 +137,12 @@ public class _GameManager : MonoBehaviour {
 
     public void PlayerMovesComplete()
     {
-        Debug.Log("Player moves completed!");
-        debugMessage = true;
         //Consume Action Points
-        
         currentGameState = GameState.EnemyTurn;
     }
 
     public void EnemySubmitMoves()
     {
-        Debug.Log("Enemy submitted moves!");
-        debugMessage = true;
         //TODO: Remove this.  This is just to test turn changing basics
         enemyController.turnChangeTimer = enemyController.timerMax;
         currentGameState = GameState.EnemyAction;
@@ -161,8 +150,6 @@ public class _GameManager : MonoBehaviour {
 
     public void EnemyMovesComplete()
     {
-        Debug.Log("Enemy moves completed!");
-        debugMessage = true;
         //TODO: Remove this.  This is just to test turn changing basics
         enemyController.turnChangeTimer = enemyController.timerMax;
         currentGameState = GameState.PlayerTurn;

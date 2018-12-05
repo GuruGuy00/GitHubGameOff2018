@@ -6,17 +6,15 @@ using TMPro;
 public class TurnIndicatorController : MonoBehaviour
 {
     private TextMeshProUGUI tmp;
-    private _GameManager gm;    
 
-	void Start ()
+	void Start()
     {
         tmp = GetComponent<TextMeshProUGUI>();
-        gm = FindObjectOfType<_GameManager>();
     }
 	
-	void Update ()
+	public void UpdateTurnIndicator(_GameManager.GameState currentState)
     {
-        switch (gm.currentGameState)
+        switch (currentState)
         {
             case _GameManager.GameState.PlayerTurn:
                 tmp.text = "Player's Turn";

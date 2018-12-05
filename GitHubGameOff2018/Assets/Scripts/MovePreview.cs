@@ -15,11 +15,9 @@ public class MovePreview : MonoBehaviour
     private TileUtils tileUtils;
     private MoveProcessor moveProcessor;
     private PlayerController playerController;
-    private _GameManager gm;
 
     private void Awake()
     {
-        gm = FindObjectOfType<_GameManager>();
         moveProcessor = GetComponent<MoveProcessor>();
         playerController = player.GetComponent<PlayerController>();
     }
@@ -29,33 +27,29 @@ public class MovePreview : MonoBehaviour
         tileUtils = TileUtils.Instance;
     }
 
-    void Update () {
-
+    public void DoPreview()
+    {
         ClearTiles();
 
-        if (gm.currentGameState == _GameManager.GameState.PlayerTurn
-            || gm.currentGameState == _GameManager.GameState.PlayerAction)
+        List<MoveInfo> points;
+        if (playerController.IsProcessingMoves())
         {
-            List<MoveInfo> points;
-            if (playerController.IsProcessingMoves())
-            {
-                points = forcePreviewPoints;
-            }
-            else
-            {
-                points = moveProcessor.processedMoves;
-            }
+            points = forcePreviewPoints;
+        }
+        else
+        {
+            points = moveProcessor.processedMoves;
+        }
 
-            foreach (MoveInfo move in points)
+        foreach (MoveInfo move in points)
+        {
+            Vector3Int tilePos = tileUtils.GetCellPos(tileUtils.previewTilemap, move.movePos);
+            TileBase previewTile = goTileBase;
+            if (move.isCollision)
             {
-                Vector3Int tilePos = tileUtils.GetCellPos(tileUtils.previewTilemap, move.movePos);
-                TileBase previewTile = goTileBase;
-                if (move.isCollision)
-                {
-                    previewTile = stopTileBase;
-                }
-                tileUtils.SetTile(tileUtils.previewTilemap, tilePos, previewTile);
+                previewTile = stopTileBase;
             }
+            tileUtils.SetTile(tileUtils.previewTilemap, tilePos, previewTile);
         }
     }
 

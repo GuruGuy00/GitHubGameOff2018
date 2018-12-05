@@ -33,13 +33,9 @@ public class PlayerController : MonoBehaviour
     private bool isProccessingMoves = false;
 
     private TileUtils tileUtils;
-    private _GameManager gm;
-    //private PlayerController playerController;      //KD Comment out to clear warning
 
     void Start ()
     {
-        gm = FindObjectOfType<_GameManager>();
-        //playerController = FindObjectOfType<PlayerController>();        //KD Comment out to clear warning
         tileUtils = TileUtils.Instance;
         //ToDo : fix this up, need to read start pos from var
         startPos = transform.position;
@@ -48,19 +44,21 @@ public class PlayerController : MonoBehaviour
         LocTest = startPos;
     }
 
-    void Update ()
+    public bool PlayerUpdate()
     {
-        CurrentActionPoints();
+        bool movesComplete = false;
         Vector3Int newPos = playerWorldLoc;
-        if (gm.currentGameState == _GameManager.GameState.PlayerAction)
-        {
-            //Spend Action
-            newPos = ProcessMoves(newPos);
-            ApplyMoves(newPos);
-            
-        }
+
+        CurrentActionPoints();
+        
+        //Spend Action
+        newPos = ProcessMoves(newPos);
+        movesComplete = ApplyMoves(newPos);
+
         playerWorldLoc = newPos;
         playerTileLoc = tileUtils.GetCellPos(tileUtils.groundTilemap, transform.position);
+
+        return movesComplete;
     }
 
     private Vector3Int ProcessMoves(Vector3Int newPos)
@@ -74,7 +72,7 @@ public class PlayerController : MonoBehaviour
         return newPos;
     }
 
-    private void ApplyMoves(Vector3Int newPos)
+    private bool ApplyMoves(Vector3Int newPos)
     {
         //ToDo : Play around to see which works the best?
         transform.position = Vector3.SmoothDamp(transform.position, newPos, ref currentVelocity, smoothTime);
@@ -90,9 +88,10 @@ public class PlayerController : MonoBehaviour
             {
                 //ToDo : maybe add an update to the postion so that we are exactly where we wanted to be.
                 isProccessingMoves = false;
-                gm.PlayerMovesComplete();
+                return true;
             }
         }
+        return false;
     }
 
     public void setMoveList(List<MoveInfo> moves)
