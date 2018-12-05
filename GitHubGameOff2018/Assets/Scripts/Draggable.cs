@@ -39,7 +39,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
         placeHolder = new GameObject();
         placeHolder.transform.SetParent(this.transform.parent);
-        //LayoutElement le = placeHolder.AddComponent<LayoutElement>();
+        placeHolder.AddComponent<LayoutElement>();
         //le.preferredWidth = this.GetComponent<LayoutElement>().preferredWidth;
         //le.preferredHeight = this.GetComponent<LayoutElement>().preferredHeight;
         //le.flexibleHeight = 0;
