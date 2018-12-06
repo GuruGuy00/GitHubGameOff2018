@@ -3,18 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class EnemyController : MonoBehaviour
+public class EnemyController : IEnemyController
 {
-    //TODO: Remove this.  This is just to test turn changing basics
-    [HideInInspector] public float timerMax = 4f;
-    [HideInInspector] public float turnChangeTimer = 0f;
-
-    void Start()
-    {
-        turnChangeTimer = timerMax;
-    }
-
-    public bool EnemyTurn()
+    public override bool DoEnemyTurn()
     {
         turnChangeTimer -= Time.deltaTime;
         if (turnChangeTimer < 0)
@@ -25,7 +16,7 @@ public class EnemyController : MonoBehaviour
         return false;
     }
 
-    public bool EnemyAction()
+    public override bool DoEnemyAction()
     {
         turnChangeTimer -= Time.deltaTime;
         if (turnChangeTimer < 0)

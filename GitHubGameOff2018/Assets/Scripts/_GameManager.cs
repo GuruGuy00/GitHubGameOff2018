@@ -34,27 +34,23 @@ public class _GameManager : MonoBehaviour {
 
     private Deck deck;
     private PlayerController playerController;
-    private EnemyController enemyController;
     private MoveProcessor moveProcessor;
     private MovePreview movePreviewer;
     private TurnIndicatorController turnIndicatorScript;
+
+    private EnemyManager enemyManager;
 
     private void Awake()
     {
         //Get all scripts we need to talk to
         deck = FindObjectOfType<Deck>();
         playerController = FindObjectOfType<PlayerController>();
-        enemyController = FindObjectOfType<EnemyController>();
         moveProcessor = FindObjectOfType<MoveProcessor>();
         movePreviewer = FindObjectOfType<MovePreview>();
         turnIndicatorScript = FindObjectOfType<TurnIndicatorController>();
+        enemyManager = FindObjectOfType<EnemyManager>();
         //Flag that we need to start the game up
         currentGameState = GameState.StartGame;
-    }
-
-    void Start()
-    {
-        
     }
 
     void Update()
@@ -85,18 +81,9 @@ public class _GameManager : MonoBehaviour {
                 }
                 break;
             case GameState.EnemyTurn:
-                //Run enemy pathfinding, decision-making, command processing, etc.
-                if (enemyController.EnemyTurn())
-                {
-                    EnemySubmitMoves();
-                }
-                break;
             case GameState.EnemyAction:
                 //Stay in this state while the enemy's moves are processing
-                if (enemyController.EnemyAction())
-                {
-                    EnemyMovesComplete();
-                }
+                ProcessEnemies();
                 break;
             case GameState.EndGame:
                 //Stay in this state while the enemy's moves are processing
@@ -116,7 +103,7 @@ public class _GameManager : MonoBehaviour {
         currentGameState = GameState.PlayerTurn;
     }
 
-    public void SetupPlayerTurn()
+    private void SetupPlayerTurn()
     {
         deck.Deal();
         playerController.ActionPointRoll();
@@ -135,23 +122,34 @@ public class _GameManager : MonoBehaviour {
         currentGameState = GameState.PlayerAction;
     }
 
-    public void PlayerMovesComplete()
+    private void PlayerMovesComplete()
     {
         //Consume Action Points
         currentGameState = GameState.EnemyTurn;
     }
 
-    public void EnemySubmitMoves()
+    private void ProcessEnemies()
     {
-        //TODO: Remove this.  This is just to test turn changing basics
-        enemyController.turnChangeTimer = enemyController.timerMax;
+        if (enemyManager.HandleEnemies(currentGameState))
+        {
+            if (currentGameState == GameState.EnemyTurn)
+            {
+                EnemySubmitMoves();
+            }
+            else if (currentGameState == GameState.EnemyAction)
+            {
+                EnemyMovesComplete();
+            }
+        }
+    }
+
+    private void EnemySubmitMoves()
+    {
         currentGameState = GameState.EnemyAction;
     }
 
-    public void EnemyMovesComplete()
+    private void EnemyMovesComplete()
     {
-        //TODO: Remove this.  This is just to test turn changing basics
-        enemyController.turnChangeTimer = enemyController.timerMax;
         currentGameState = GameState.PlayerTurn;
         SetupPlayerTurn();
     }
