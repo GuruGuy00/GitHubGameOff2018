@@ -16,14 +16,12 @@ public class PatrolEnemyController : IEnemyController
 
     public override bool DoEnemyTurn()
     {
+        //Find the location we want to move to
         int xVal = worldLoc.x + (moveDir * moveSpeed);
         moveLoc = new Vector3Int(xVal, worldLoc.y, worldLoc.z);
-
-        MoveInfo move = new MoveInfo();
-        move.movePos = worldLoc;
-        move = CheckMoveValid(move, moveLoc, true);
-        moveList.Add(move);
-
+        //Simulate moving to this location, stopping if we hit a wall OR will walk off a platform.
+        List<MoveInfo> validMoves = CheckMoveValid(worldLoc, moveLoc, true);
+        moveList.AddRange(validMoves);
         return true;
     }
 
@@ -52,41 +50,58 @@ public class PatrolEnemyController : IEnemyController
         return newPos;
     }
 
-    private MoveInfo CheckMoveValid(MoveInfo move, Vector3Int endPos, bool xAxis)
+    private List<MoveInfo> CheckMoveValid(Vector3Int startPos, Vector3Int endPos, bool xAxis)
     {
-        int loopSafety = 100;
-        Vector3Int moveChecker = move.movePos;
-        int x = move.movePos.x;
-        while (loopSafety > 0)
+        List<MoveInfo> movePoints = new List<MoveInfo>();
+        int moveCounter = 0;
+
+        //Check both the location we move AND the ground underneath it
+        Vector3Int moveChecker = startPos;
+        Vector3Int groundChecker = new Vector3Int(moveChecker.x, moveChecker.y - 1, moveChecker.z);
+        
+        //Handle iteration when moveCheck.x < endPos.x and vice versa w/o repeating code
+        int iterateDirection = 1;
+        if (moveChecker.x > endPos.x)
         {
-            if (moveChecker.x < endPos.x)
-            {
-                moveChecker.x++;
-                if (tileUtils.IsTileSolid(tileUtils.groundTilemap, moveChecker))
-                {
-                    moveChecker.x--;
-                    move.isCollision = true;
-                    break;
-                }
-                loopSafety--;
-            }
-            else if (moveChecker.x > endPos.x)
-            {
-                moveChecker.x--;
-                if (tileUtils.IsTileSolid(tileUtils.groundTilemap, moveChecker))
-                {
-                    moveChecker.x++;
-                    move.isCollision = true;
-                    break;
-                }
-                loopSafety--;
-            }
-            else
-            {
-                break;
-            }
+            iterateDirection = -1;
         }
-        move.movePos = moveChecker;
-        return move;
+
+        //Keep track of a current move which will be our final move point.
+        //This will change as we hit collisions.
+        MoveInfo finalMovePoint = CreateMovePoint(endPos, false);
+
+        //Iterate until we've moved our entire move speed
+        int loopSafety = 100;
+        while (loopSafety > 0 && (moveCounter < moveSpeed || moveChecker.x != endPos.x))
+        {
+            moveChecker.x += iterateDirection;
+            groundChecker.x = moveChecker.x;
+            //Check if we hit a wall or are going to fall
+            if (tileUtils.IsTileSolid(tileUtils.groundTilemap, moveChecker)
+                || !tileUtils.IsTileSolid(tileUtils.groundTilemap, groundChecker))
+            {
+                //Reverse our direction of movement and iteration
+                iterateDirection = -iterateDirection;
+                moveDir = -moveDir;
+                //Move back to our last position and create a collision point
+                moveChecker.x += iterateDirection;
+                movePoints.Add(CreateMovePoint(moveChecker, true));
+                //Move back another space and create another point
+                endPos.x = moveChecker.x + (iterateDirection * (moveSpeed - moveCounter));
+                finalMovePoint.movePos = new Vector3Int(endPos.x, moveChecker.y, moveChecker.z);
+            }
+            moveCounter++;
+            loopSafety--; 
+        }
+        movePoints.Add(finalMovePoint);
+        return movePoints;
+    }
+
+    private MoveInfo CreateMovePoint(Vector3Int movePos, bool isCollision)
+    {
+        MoveInfo mi = new MoveInfo();
+        mi.isCollision = isCollision;
+        mi.movePos = movePos;
+        return mi;
     }
 }
