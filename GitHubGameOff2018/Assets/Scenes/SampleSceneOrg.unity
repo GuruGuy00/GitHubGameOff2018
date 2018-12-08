@@ -7765,7 +7765,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 2.2000122, y: 47.400024}
+  m_AnchoredPosition: {x: 2.1999512, y: 47.400024}
   m_SizeDelta: {x: -1641, y: -657.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1399163569
@@ -8516,11 +8516,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1760170567}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38d8816ac40109d40bd0d4d19ff16b0a, type: 3}
+  m_Script: {fileID: 11500000, guid: 61b607d1b09d04a438b5b0dd6e0c945e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   timerMax: 4
   turnChangeTimer: 0
+  position: {x: 0, y: 0}
+  startPosition: {x: 0, y: 0}
+  moveSpeed: 0
+  jumpSpeed: 0
 --- !u!224 &1782125344 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 224453072523929694, guid: 59a23627d804de049becf27e12085441,
@@ -8954,7 +8958,6 @@ MonoBehaviour:
   playerWorldLoc: {x: 0, y: 0, z: 0}
   playerTileLoc: {x: 0, y: 0, z: 0}
   LocTest: {x: 0, y: 0, z: 0}
-  smoothTime: 0.1
 --- !u!4 &1958013721
 Transform:
   m_ObjectHideFlags: 0

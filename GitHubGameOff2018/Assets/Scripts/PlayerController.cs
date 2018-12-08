@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : ICharacterController
 {
     //Used the below refrence to get things going
     //https://github.com/Cawotte/SmallWorld_WeeklyJam40
@@ -23,14 +23,6 @@ public class PlayerController : MonoBehaviour
     private Vector3 startPos;
 
     public Vector3 LocTest;
-
-    Vector3 currentVelocity;
-    public float smoothTime = 0.25f;
-
-    //ToDo: Get better movements tile by tile
-    private List<MoveInfo> moveList = new List<MoveInfo>();
-    private bool isMoving = false;
-    private bool isProccessingMoves = false;
 
     private TileUtils tileUtils;
 
@@ -70,28 +62,6 @@ public class PlayerController : MonoBehaviour
             moveList.RemoveAt(0);
         }
         return newPos;
-    }
-
-    private bool ApplyMoves(Vector3Int newPos)
-    {
-        //ToDo : Play around to see which works the best?
-        transform.position = Vector3.SmoothDamp(transform.position, newPos, ref currentVelocity, smoothTime);
-        //transform.position = Vector3.Lerp(transform.position, playerWorldLoc, smoothTime);
-        //transform.position = Vector3.MoveTowards(transform.position, playerWorldLoc, 0.0f);
-
-        if (Mathf.Approximately(transform.position.x, (float)newPos.x)
-            && Mathf.Approximately(transform.position.y, (float)newPos.y))
-        {
-            transform.position = newPos;
-            isMoving = false;
-            if (moveList.Count == 0)
-            {
-                //ToDo : maybe add an update to the postion so that we are exactly where we wanted to be.
-                isProccessingMoves = false;
-                return true;
-            }
-        }
-        return false;
     }
 
     public void setMoveList(List<MoveInfo> moves)
