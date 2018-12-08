@@ -33,7 +33,7 @@ public class MoveProcessor : MonoBehaviour
         processedMoves.Clear();
 
         //Get the player's current position
-        Vector3Int referencePos = playerController.playerWorldLoc;
+        Vector3Int referencePos = playerController.worldLoc;
 
         //Process all cards that are currently in the Play section
         CardDisplay[] cardsToPlay = playCardsParent.GetComponentsInChildren<CardDisplay>();

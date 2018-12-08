@@ -7765,7 +7765,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 2.1999512, y: 47.400024}
+  m_AnchoredPosition: {x: 2.1992188, y: 47.400024}
   m_SizeDelta: {x: -1641, y: -657.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1399163569
@@ -8519,11 +8519,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61b607d1b09d04a438b5b0dd6e0c945e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timerMax: 4
-  turnChangeTimer: 0
-  position: {x: 0, y: 0}
-  startPosition: {x: 0, y: 0}
-  moveSpeed: 0
+  worldLoc: {x: 0, y: 0, z: 0}
+  tileLoc: {x: 0, y: 0, z: 0}
+  moveSpeed: 3
   jumpSpeed: 0
 --- !u!224 &1782125344 stripped
 RectTransform:
@@ -8951,13 +8949,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e140e1eac9ed5d49aacd3583f1d775d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  worldLoc: {x: 0, y: 0, z: 0}
+  tileLoc: {x: 0, y: 0, z: 0}
   ActionPoints: 0
   UsedActionPoints: 0
   randomRoll: 0
   ActionPointText: {fileID: 1109937474}
-  playerWorldLoc: {x: 0, y: 0, z: 0}
-  playerTileLoc: {x: 0, y: 0, z: 0}
-  LocTest: {x: 0, y: 0, z: 0}
 --- !u!4 &1958013721
 Transform:
   m_ObjectHideFlags: 0

@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class IEnemyController : MonoBehaviour
+public abstract class IEnemyController : ICharacterController
 {
     //TODO: Remove these once we have actual enemy turns
-    [HideInInspector] public float timerMax = 4f;
-    [HideInInspector] public float turnChangeTimer = 0f;
-
-    [HideInInspector] public Vector2Int position;
-    [HideInInspector] public Vector2Int startPosition;
+    protected float timerMax = 4f;
+    protected float turnChangeTimer = 0f;
+    
+    protected Vector3Int startPosition;
 
     public int moveSpeed;
     public int jumpSpeed;
@@ -17,8 +16,7 @@ public abstract class IEnemyController : MonoBehaviour
     void Start()
     {
         turnChangeTimer = timerMax;
-        position = Vector2Int.CeilToInt(transform.position);
-        startPosition = position;
+        startPosition = worldLoc;
     }
 
     public abstract bool DoEnemyTurn();

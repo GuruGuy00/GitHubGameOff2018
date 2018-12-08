@@ -9,7 +9,19 @@ public abstract class ICharacterController : MonoBehaviour
     protected bool isProccessingMoves = false;
 
     protected Vector3 currentVelocity;
-    protected float smoothTime = 0.25f;
+    protected float smoothTime = 0.1f;
+
+    public Vector3Int worldLoc;
+    public Vector3Int tileLoc;
+
+    protected TileUtils tileUtils;
+
+    void Start()
+    {
+        tileUtils = TileUtils.Instance;
+        worldLoc = Vector3Int.CeilToInt(transform.position);
+        tileLoc = tileUtils.GetCellPos(tileUtils.groundTilemap, transform.position);
+    }
 
     public virtual bool ApplyMoves(Vector3Int newPos)
     {
@@ -30,5 +42,15 @@ public abstract class ICharacterController : MonoBehaviour
             }
         }
         return false;
+    }
+
+    public bool IsMoving()
+    {
+        return isMoving;
+    }
+
+    public bool IsProcessingMoves()
+    {
+        return isProccessingMoves;
     }
 }
