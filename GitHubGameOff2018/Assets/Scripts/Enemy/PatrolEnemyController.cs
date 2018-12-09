@@ -93,6 +93,7 @@ public class PatrolEnemyController : IEnemyController
             moveCounter++;
             loopSafety--; 
         }
+        //Add our final movement point to the move list
         movePoints.Add(finalMovePoint);
         return movePoints;
     }
