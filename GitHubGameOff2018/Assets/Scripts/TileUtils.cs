@@ -29,6 +29,20 @@ public class TileUtils : MonoBehaviour
         }
     }
 
+    public bool IsTileExit(Tilemap tilemap, Vector3Int worldPos)
+    {
+        Vector2 tileLoc = new Vector2(worldPos.x, worldPos.y);
+        TileBase tb = tilemap.GetTile(GetCellPos(tilemap, tileLoc));
+        if (tb != null && tb.name.ToUpper().Contains("_EXIT"))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     public void SetTile(Tilemap tilemap, Vector3Int tileLoc, TileBase tb)
     {
         tilemap.SetTile(tileLoc, tb);

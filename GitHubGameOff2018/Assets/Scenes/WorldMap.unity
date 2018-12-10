@@ -1012,7 +1012,7 @@ MonoBehaviour:
   - {fileID: 21300026, guid: 528c9378597c81f4c95d7b2427aadedc, type: 3}
   - {fileID: 21300024, guid: 528c9378597c81f4c95d7b2427aadedc, type: 3}
   - {fileID: 21300022, guid: 528c9378597c81f4c95d7b2427aadedc, type: 3}
-  LevelToLoad: 
+  LevelToLoad: 0-0
 --- !u!50 &1657282583
 Rigidbody2D:
   serializedVersion: 4

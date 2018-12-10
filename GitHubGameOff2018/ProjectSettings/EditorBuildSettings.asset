@@ -9,9 +9,15 @@ EditorBuildSettings:
     path: Assets/Scenes/StartScreen.unity
     guid: 060754a644ea65a47942167d60079eff
   - enabled: 1
+    path: Assets/Scenes/WorldMap.unity
+    guid: 1115c035185a3f4468aeb174d1d2b624
+  - enabled: 1
+    path: Assets/Scenes/Levels/0-0.unity
+    guid: af64f1a5f88421f4dac3cca4536b4d73
+  - enabled: 1
     path: Assets/Scenes/SampleSceneOrg.unity
     guid: 1a101007cda246a47921ceba829fc4da
   - enabled: 0
-    path: Assets/Scenes/SampleScene.unity
+    path: Assets/Scenes/Remove/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   m_configObjects: {}

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelMarker : MonoBehaviour {
 
@@ -40,9 +41,11 @@ public class LevelMarker : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+
         //Load The level
-        Debug.Log("OnTriggerEnter2D - Triggered" + levelName);
-        SaveLevel();
+        SceneManager.LoadScene(LevelToLoad);
+        //Debug.Log("OnTriggerEnter2D - Triggered" + levelName);
+        //SaveLevel();
     }
 
     public void SaveLevel()
