@@ -25,6 +25,7 @@ public class LevelMarker : MonoBehaviour {
     private void Awake()
     {
         //Load for save data?
+        LoadLevel();
     }
 
     void Start () {
@@ -41,6 +42,20 @@ public class LevelMarker : MonoBehaviour {
     {
         //Load The level
         Debug.Log("OnTriggerEnter2D - Triggered" + levelName);
+        SaveLevel();
+    }
+
+    public void SaveLevel()
+    {
+        LevelData ld = new LevelData(levelName, totalObjectives, compleatedObjectives);
+        SaveSystem.SaveLevel(ld);
+    }
+
+    public void LoadLevel()
+    {
+        LevelData ld = SaveSystem.LoadData(levelName);
+        totalObjectives = ld.TotalObjective;
+        compleatedObjectives = ld.CompleatedObjectives; 
     }
 
 }
