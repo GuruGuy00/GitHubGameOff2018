@@ -7,8 +7,9 @@ public class LevelMarker : MonoBehaviour {
 
     public string levelName;
 
-    public int totalObjectives;
-    public int compleatedObjectives;
+    public bool ReachedExit;
+    public bool ClearedAllEnemies;
+    public bool ClearedAllPickUps;
 
     public Sprite[] levelIndicator = new Sprite[3];
 
@@ -50,15 +51,17 @@ public class LevelMarker : MonoBehaviour {
 
     public void SaveLevel()
     {
-        LevelData ld = new LevelData(levelName, totalObjectives, compleatedObjectives);
+        LevelData ld = new LevelData(levelName, false,false,false);
         SaveSystem.SaveLevel(ld);
     }
 
     public void LoadLevel()
     {
         LevelData ld = SaveSystem.LoadData(levelName);
-        totalObjectives = ld.TotalObjective;
-        compleatedObjectives = ld.CompleatedObjectives; 
+        ReachedExit = ld.ReachedExit;
+        ClearedAllEnemies = ld.ClearedAllEnemies;
+        ClearedAllPickUps = ld.ClearedAllPickUps;
+
     }
 
 }

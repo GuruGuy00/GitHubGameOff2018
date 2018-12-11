@@ -8,7 +8,7 @@ public class Objectives : MonoBehaviour {
 
     //Check to enable the objectives?
     //Each level should have 3 objectives? or does more or variable per level make more sense 
-    public bool reachExit = false;
+    public bool reachExit = false; //End Level condition
     public bool findHiddenExit = false;
     public bool clearAllEnemies = false;
     public bool clearInXMoves = false;

@@ -6,14 +6,19 @@ using UnityEngine;
 public class LevelData {
 
     public string LevelName;
-    public int TotalObjective;
-    public int CompleatedObjectives;
+    //
+    public bool ReachedExit;
+    public bool ClearedAllEnemies;
+    public bool ClearedAllPickUps;
 
-    public LevelData(string levelName, int totalObjective, int compleatedObjectives)
+
+    public LevelData(string levelName, bool reachedExit, bool clearedAllEnemies, bool clearedAllPickUps)
     {
         this.LevelName = levelName;
-        this.TotalObjective = totalObjective;
-        this.CompleatedObjectives = compleatedObjectives;
+        
+        this.ReachedExit = reachedExit;
+        this.ClearedAllEnemies = clearedAllEnemies;
+        this.ClearedAllPickUps = clearedAllPickUps;
     }
 
 }
