@@ -175,7 +175,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 120472894}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -1, y: -6, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -994,7 +994,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 519420028}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -21.62, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -3364,7 +3364,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardsInHand: 4
-  shuffle: 1
+  shuffle: 0
   handPanel: {fileID: 1214075721}
   discardPanel: {fileID: 1909270607}
   discardPanel2: {fileID: 307730570}
@@ -3372,13 +3372,20 @@ MonoBehaviour:
   handParent: {fileID: 1214075722}
   cards:
   - {fileID: 1084512024414112, guid: 1ec0311085cbc8a478cef55a15306a7b, type: 2}
-  - {fileID: 1137672651014654, guid: 9b4b0e90943a3d24190f3918f01d9f7f, type: 2}
   - {fileID: 1938912137400936, guid: 9ba4c5f83265e5740a72dbc610ba4be4, type: 2}
-  - {fileID: 1137672651014654, guid: 9b4b0e90943a3d24190f3918f01d9f7f, type: 2}
   - {fileID: 1938912137400936, guid: 9ba4c5f83265e5740a72dbc610ba4be4, type: 2}
-  - {fileID: 1137672651014654, guid: 9b4b0e90943a3d24190f3918f01d9f7f, type: 2}
+  - {fileID: 1938912137400936, guid: 9ba4c5f83265e5740a72dbc610ba4be4, type: 2}
+  - {fileID: 1084512024414112, guid: 1ec0311085cbc8a478cef55a15306a7b, type: 2}
+  - {fileID: 1938912137400936, guid: 9ba4c5f83265e5740a72dbc610ba4be4, type: 2}
+  - {fileID: 1938912137400936, guid: 9ba4c5f83265e5740a72dbc610ba4be4, type: 2}
+  - {fileID: 1938912137400936, guid: 9ba4c5f83265e5740a72dbc610ba4be4, type: 2}
   - {fileID: 1084512024414112, guid: 1ec0311085cbc8a478cef55a15306a7b, type: 2}
   - {fileID: 1137672651014654, guid: 9b4b0e90943a3d24190f3918f01d9f7f, type: 2}
+  - {fileID: 1137672651014654, guid: 9b4b0e90943a3d24190f3918f01d9f7f, type: 2}
+  - {fileID: 1137672651014654, guid: 9b4b0e90943a3d24190f3918f01d9f7f, type: 2}
+  - {fileID: 1938912137400936, guid: 9ba4c5f83265e5740a72dbc610ba4be4, type: 2}
+  - {fileID: 1938912137400936, guid: 9ba4c5f83265e5740a72dbc610ba4be4, type: 2}
+  - {fileID: 1938912137400936, guid: 9ba4c5f83265e5740a72dbc610ba4be4, type: 2}
   sourceDeck: []
   playDeck: []
   discard: []
@@ -7693,7 +7700,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 2.1992188, y: 47.400024}
+  m_AnchoredPosition: {x: 2.1992188, y: 47.400146}
   m_SizeDelta: {x: -1641, y: -657.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1399163569
@@ -8021,7 +8028,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_Sprite: {fileID: 21300002, guid: cd5bf1e64fcdfbc49aa7fba52f19bd64, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -8185,10 +8192,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f3701e109015f0439558ddfd706e3c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  reachExit: 1
-  findHiddenExit: 0
-  clearAllEnemies: 0
-  clearInXMoves: 0
   levelTilemap: {fileID: 1081865654}
   player: {fileID: 1958013719}
 --- !u!1 &1547077836

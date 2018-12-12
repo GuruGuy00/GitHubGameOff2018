@@ -19,6 +19,7 @@ public static class SaveSystem {
     public static LevelData LoadData(string levelName)
     {
         string path = Application.persistentDataPath + "/" + levelName + ".level";
+        Debug.Log(path);
         if (File.Exists(path))
         {
             BinaryFormatter formatter = new BinaryFormatter();
@@ -30,8 +31,9 @@ public static class SaveSystem {
         }
         else
         {
-            Debug.LogError("Save File not found" + path);
-            return null;
+            //Debug.LogError("Save File not found" + path);
+            LevelData ld = new LevelData(levelName, false, false, false);
+            return ld;
         }
     }
 }

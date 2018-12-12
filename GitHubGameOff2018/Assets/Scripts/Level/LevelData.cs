@@ -21,4 +21,6 @@ public class LevelData {
         this.ClearedAllPickUps = clearedAllPickUps;
     }
 
+    
+
 }

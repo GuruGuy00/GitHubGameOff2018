@@ -45,7 +45,7 @@ public class LevelMarker : MonoBehaviour {
 
         //Load The level
         SceneManager.LoadScene(LevelToLoad);
-        //Debug.Log("OnTriggerEnter2D - Triggered" + levelName);
+        Debug.Log("OnTriggerEnter2D - Triggered" + levelName);
         //SaveLevel();
     }
 
