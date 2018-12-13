@@ -8,6 +8,7 @@ TagManager:
   - Hand
   - DropzonePulse
   - Deck
+  - LevelCamera
   layers:
   - Default
   - TransparentFX

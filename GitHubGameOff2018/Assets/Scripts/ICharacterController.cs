@@ -29,9 +29,10 @@ public abstract class ICharacterController : MonoBehaviour
         transform.position = Vector3.SmoothDamp(transform.position, newPos, ref currentVelocity, smoothTime);
         //transform.position = Vector3.Lerp(transform.position, playerWorldLoc, smoothTime);
         //transform.position = Vector3.MoveTowards(transform.position, playerWorldLoc, 0.0f);
+        //transform.position = Vector3.Slerp(transform.position, newPos, smoothTime);
 
-        if (Mathf.Approximately(transform.position.x, (float)newPos.x)
-            && Mathf.Approximately(transform.position.y, (float)newPos.y))
+        if (Mathf.Abs(transform.position.x - (float)newPos.x) < 0.1
+            && Mathf.Abs(transform.position.y - (float)newPos.y) < 0.1)
         {
             transform.position = newPos;
             isMoving = false;

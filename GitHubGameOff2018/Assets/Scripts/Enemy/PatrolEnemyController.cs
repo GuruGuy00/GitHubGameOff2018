@@ -7,8 +7,13 @@ public class PatrolEnemyController : IEnemyController
     private Vector3Int moveLoc;
     private int moveDir = -1;
 
+    private Camera cam;
+    private Plane[] planes;
+    private BoxCollider2D objCollider;
+
     void Start()
     {
+        cam = GameObject.FindGameObjectWithTag("LevelCamera").GetComponent<Camera>();
         tileUtils = TileUtils.Instance;
         worldLoc = Vector3Int.CeilToInt(transform.position);
         tileLoc = tileUtils.GetCellPos(tileUtils.groundTilemap, transform.position);
@@ -76,9 +81,11 @@ public class PatrolEnemyController : IEnemyController
         {
             moveChecker.x += iterateDirection;
             groundChecker.x = moveChecker.x;
-            //Check if we hit a wall or are going to fall
-            if (tileUtils.IsTileSolid(tileUtils.groundTilemap, moveChecker)
-                || !tileUtils.IsTileSolid(tileUtils.groundTilemap, groundChecker))
+            bool hitWall = tileUtils.IsTileSolid(tileUtils.groundTilemap, moveChecker);
+            bool willFall = !tileUtils.IsTileSolid(tileUtils.groundTilemap, groundChecker);
+            bool inCameraView = IsInCameraView(moveChecker);
+            //Check if we are going outside of camera range, hit a wall, or are going to fall
+            if (hitWall || willFall || !inCameraView)
             {
                 //Reverse our direction of movement and iteration
                 iterateDirection = -iterateDirection;
@@ -96,6 +103,17 @@ public class PatrolEnemyController : IEnemyController
         //Add our final movement point to the move list
         movePoints.Add(finalMovePoint);
         return movePoints;
+    }
+
+    private bool IsInCameraView(Vector3Int testLoc)
+    {
+        //Get a list of planes from the camera's frustum
+        planes = GeometryUtility.CalculateFrustumPlanes(cam);
+        //Get our child sprite's box collider
+        Vector3 checkLoc = new Vector3(testLoc.x + 0.5f, testLoc.y + 0.5f, testLoc.z);
+        Bounds b = new Bounds(checkLoc, new Vector3Int(1, 1, 1));
+        //Check if the bounds of the collider are within the camera's frustrum
+        return GeometryUtility.TestPlanesAABB(planes, b);
     }
 
     private MoveInfo CreateMovePoint(Vector3Int movePos, bool isCollision)
