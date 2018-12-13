@@ -2,21 +2,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyManager : MonoBehaviour {
+public class EnemyManager : MonoBehaviour
+{
+    List<IEnemyController> enemyCache = null;
 
     public bool HandleEnemies(_GameManager.GameState gameState)
     {
         bool allEnemiesFinished = false;
 
-        List<IEnemyController> enemiesToProcess = LoadNearbyEnemies();
+        if (enemyCache == null)
+        {
+            enemyCache = LoadNearbyEnemies();
+        }
         
         if (gameState == _GameManager.GameState.EnemyTurn)
         {
-            allEnemiesFinished = DoAllEnemyTurns(enemiesToProcess);
+            allEnemiesFinished = DoAllEnemyTurns();
         }
         else if (gameState == _GameManager.GameState.EnemyAction)
         {
-            allEnemiesFinished = DoAllEnemyActions(enemiesToProcess);
+            allEnemiesFinished = DoAllEnemyActions();
+        }
+
+        if (allEnemiesFinished)
+        {
+            enemyCache = null;
         }
 
         return allEnemiesFinished;
@@ -30,34 +40,34 @@ public class EnemyManager : MonoBehaviour {
         return nearbyEnemies;
     }
 
-    private bool DoAllEnemyTurns(List<IEnemyController> enemies)
+    private bool DoAllEnemyTurns()
     {
-        bool allTurnsFinished = true;
-        for (int i = 0; i < enemies.Count; i++)
+        List<IEnemyController> enemiesToRemove = new List<IEnemyController>();
+        foreach (IEnemyController enemy in enemyCache)
         {
-            IEnemyController iEnemy = enemies[i];
-            bool result = iEnemy.DoEnemyTurn();
-            if (!result)
+            bool result = enemy.DoEnemyTurn();
+            if (result)
             {
-                allTurnsFinished = false;
+                enemiesToRemove.Add(enemy);
             }
         }
-        return allTurnsFinished;
+        enemyCache.RemoveAll(x => enemiesToRemove.Contains(x));
+        return enemyCache.Count == 0;
     }
 
-    private bool DoAllEnemyActions(List<IEnemyController> enemies)
+    private bool DoAllEnemyActions()
     {
-        bool allActionsFinished = true;
-        for (int i = 0; i < enemies.Count; i++)
+        List<IEnemyController> enemiesToRemove = new List<IEnemyController>();
+        foreach (IEnemyController enemy in enemyCache)
         {
-            IEnemyController iEnemy = enemies[i];
-            bool result = iEnemy.DoEnemyAction();
-            if (!result)
+            bool result = enemy.DoEnemyAction();
+            if (result)
             {
-                allActionsFinished = false;
+                enemiesToRemove.Add(enemy);
             }
         }
-        return allActionsFinished;
+        enemyCache.RemoveAll(x => enemiesToRemove.Contains(x));
+        return enemyCache.Count == 0;
     }
 
 }

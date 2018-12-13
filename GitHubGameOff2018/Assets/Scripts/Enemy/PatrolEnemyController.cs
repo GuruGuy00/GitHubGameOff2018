@@ -84,10 +84,6 @@ public class PatrolEnemyController : IEnemyController
             bool hitWall = tileUtils.IsTileSolid(tileUtils.groundTilemap, moveChecker);
             bool willFall = !tileUtils.IsTileSolid(tileUtils.groundTilemap, groundChecker);
             bool inCameraView = IsInCameraView(moveChecker);
-            if (!inCameraView)
-            {
-                Debug.Log("");
-            }
             //Check if we are going outside of camera range, hit a wall, or are going to fall
             if (hitWall || willFall || !inCameraView)
             {
