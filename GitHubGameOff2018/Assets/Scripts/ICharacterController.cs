@@ -31,8 +31,8 @@ public abstract class ICharacterController : MonoBehaviour
         //transform.position = Vector3.MoveTowards(transform.position, playerWorldLoc, 0.0f);
         //transform.position = Vector3.Slerp(transform.position, newPos, smoothTime);
 
-        if (Mathf.Abs(transform.position.x - (float)newPos.x) < 0.1
-            && Mathf.Abs(transform.position.y - (float)newPos.y) < 0.1)
+        if (Mathf.Abs(transform.position.x - (float)newPos.x) < 0.001
+            && Mathf.Abs(transform.position.y - (float)newPos.y) < 0.001)
         {
             transform.position = newPos;
             isMoving = false;
