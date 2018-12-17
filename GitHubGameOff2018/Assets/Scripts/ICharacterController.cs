@@ -11,8 +11,8 @@ public abstract class ICharacterController : MonoBehaviour
     protected Vector3 currentVelocity;
     protected float smoothTime = 0.1f;
 
-    public Vector3Int worldLoc;
-    public Vector3Int tileLoc;
+    [HideInInspector] public Vector3Int worldLoc;
+    [HideInInspector] public Vector3Int tileLoc;
 
     protected TileUtils tileUtils;
 
