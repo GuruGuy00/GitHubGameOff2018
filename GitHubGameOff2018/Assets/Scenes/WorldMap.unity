@@ -1006,13 +1006,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelName: 0-0
-  totalObjectives: 3
-  compleatedObjectives: 0
+  ReachedExit: 0
+  ClearedAllEnemies: 0
+  ClearedAllPickUps: 0
   levelIndicator:
   - {fileID: 21300026, guid: 528c9378597c81f4c95d7b2427aadedc, type: 3}
   - {fileID: 21300024, guid: 528c9378597c81f4c95d7b2427aadedc, type: 3}
   - {fileID: 21300022, guid: 528c9378597c81f4c95d7b2427aadedc, type: 3}
   LevelToLoad: 0-0
+  player: {fileID: 347694984}
 --- !u!50 &1657282583
 Rigidbody2D:
   serializedVersion: 4

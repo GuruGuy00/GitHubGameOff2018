@@ -36,4 +36,37 @@ public static class SaveSystem {
             return ld;
         }
     }
+
+    public static void SavePlayerData(PlayerData playerData, string saveSlot)
+    {
+        BinaryFormatter formatter = new BinaryFormatter();
+        string path = Application.persistentDataPath + "/" + "Player" + saveSlot + ".Data";
+        Debug.Log(path);
+
+        FileStream stream = new FileStream(path, FileMode.Create);
+
+        formatter.Serialize(stream, playerData);
+        stream.Close();
+    }
+
+    public static PlayerData LoadPlayerData(string saveSlot)
+    {
+        string path = Application.persistentDataPath + "/" + "Player" + saveSlot + ".Data";
+        
+        Debug.Log(path);
+        if (File.Exists(path))
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            FileStream stream = new FileStream(path, FileMode.Open);
+
+            PlayerData playerData = formatter.Deserialize(stream) as PlayerData;
+            stream.Close();
+            return playerData;
+        }
+        else
+        {
+            Debug.LogError("Player File Not Found @ " + path);
+            return null;
+        }
+    }
 }

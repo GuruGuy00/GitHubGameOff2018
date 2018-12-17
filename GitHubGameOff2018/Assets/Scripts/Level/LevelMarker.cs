@@ -15,6 +15,10 @@ public class LevelMarker : MonoBehaviour {
 
     public string LevelToLoad;
 
+    public GameObject player;
+
+    private bool isOnLevel = false;
+
     //OnLoad - 
     // If compleated Objectives = 0 Use levelIndicator 0
     // IF compleated Objectives = total objectives Use levelIndicator 2
@@ -27,6 +31,7 @@ public class LevelMarker : MonoBehaviour {
     private void Awake()
     {
         //Load for save data?
+        LoadPlayerData();
         LoadLevel();
     }
 
@@ -36,17 +41,35 @@ public class LevelMarker : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
-	}
+
+        if (Input.GetKeyDown(KeyCode.Space) && isOnLevel)
+        {
+            PlayerData playerData = new PlayerData(player.transform.position.x, player.transform.position.y, player.transform.position.z);
+            SaveSystem.SavePlayerData(playerData, "01");
+
+            SceneManager.LoadScene(LevelToLoad);
+            //SaveLevel();
+
+        }
+    }
 
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
 
-        //Load The level
-        SceneManager.LoadScene(LevelToLoad);
-        Debug.Log("OnTriggerEnter2D - Triggered" + levelName);
-        //SaveLevel();
+        //Debug.Log("OnTriggerEnter2D - Triggered " + levelName);
+        isOnLevel = true;
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        isOnLevel = false;
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        Debug.Log("OnTriggerStay2D - Triggered " + levelName);
+        
     }
 
     public void SaveLevel()
@@ -62,6 +85,13 @@ public class LevelMarker : MonoBehaviour {
         ClearedAllEnemies = ld.ClearedAllEnemies;
         ClearedAllPickUps = ld.ClearedAllPickUps;
 
+    }
+
+    public void LoadPlayerData()
+    {
+        PlayerData playerData = SaveSystem.LoadPlayerData("01");
+
+        player.transform.position = new Vector3(playerData.WorldMapPosX, playerData.WorldMapPosY, playerData.WorldMapPosZ);
     }
 
 }
