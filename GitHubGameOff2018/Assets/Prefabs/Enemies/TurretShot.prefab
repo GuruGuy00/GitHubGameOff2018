@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4070467834110692}
   - component: {fileID: 114678945974127238}
   m_Layer: 0
-  m_Name: TurretShot 1
+  m_Name: TurretShot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -100,7 +100,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   worldLoc: {x: 0, y: 0, z: 0}
   tileLoc: {x: 0, y: 0, z: 0}
-  moveSpeed: 0
+  moveSpeed: 3
   jumpSpeed: 0
   moveDirection: {x: 0, y: 0, z: 0}
 --- !u!212 &212185577096661214
