@@ -110,7 +110,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   worldLoc: {x: 0, y: 0, z: 0}
   tileLoc: {x: 0, y: 0, z: 0}
-  moveSpeed: 3
+  moveSpeed: 2
   jumpSpeed: 0
 --- !u!212 &212919208021419812
 SpriteRenderer:
