@@ -5,7 +5,6 @@ using UnityEngine;
 [System.Serializable]
 public class PlayerData {
 
-    [SerializeField]
     public float WorldMapPosX;
     public float WorldMapPosY;
     public float WorldMapPosZ;
