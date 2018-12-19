@@ -28,21 +28,29 @@ public class TurretEnemyController : IEnemyController
         fireCounter++;
         if (fireCounter >= fireRate)
         {
-            shootThisTurn = true;
+            fireCounter = 0;
+            SpawnProjectile();
         }
         return true;
     }
 
     public override bool DoEnemyAction()
     {
-        //Actually perform the shoot move
         if (shootThisTurn)
         {
-            Vector3 position = new Vector3(transform.position.x - 1, transform.position.y, 0f);
-            GameObject newProjectile = GameObject.Instantiate(projectile, position, Quaternion.identity);
-            ProjectileEnemyController pScript = newProjectile.GetComponent<ProjectileEnemyController>();
-            pScript.moveDirection = aimDirection;
+            SpawnProjectile();
         }
         return true;
+    }
+
+    private void SpawnProjectile()
+    {
+        //Create and shoot a new projectile
+        GameObject newProjectile = GameObject.Instantiate(projectile, transform.position, Quaternion.identity);
+        ProjectileEnemyController pScript = newProjectile.GetComponent<ProjectileEnemyController>();
+        //Set some variables - set it to hidden until the Action phase
+        pScript.Init(aimDirection);
+        //Tell the EnemyManager we spawned a new enemy
+        enemyManager.HandleEnemySpawn(pScript);
     }
 }

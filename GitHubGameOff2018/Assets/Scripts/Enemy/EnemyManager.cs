@@ -6,6 +6,7 @@ public class EnemyManager : MonoBehaviour
 {
     private Camera cam;
     private List<IEnemyController> enemyCache = null;
+    private List<IEnemyController> spawnedEnemies = null;
 
     void Start()
     {
@@ -67,11 +68,22 @@ public class EnemyManager : MonoBehaviour
         List<IEnemyController> enemiesToRemove = new List<IEnemyController>();
         foreach (IEnemyController enemy in enemyCache)
         {
-            bool result = enemy.DoEnemyTurn();
-            if (result)
+            if (enemy.DoEnemyTurn())
             {
                 enemiesToRemove.Add(enemy);
             }
+        }
+        if (spawnedEnemies != null && spawnedEnemies.Count > 0)
+        {
+            enemyCache.AddRange(spawnedEnemies);
+            foreach (IEnemyController enemy in spawnedEnemies)
+            {
+                if (enemy.DoEnemyTurn())
+                {
+                    enemiesToRemove.Add(enemy);
+                }
+            }
+            spawnedEnemies = null;
         }
         enemyCache.RemoveAll(x => enemiesToRemove.Contains(x));
         return enemyCache.Count == 0;
@@ -92,6 +104,16 @@ public class EnemyManager : MonoBehaviour
         }
         enemyCache.RemoveAll(x => enemiesToRemove.Contains(x));
         return enemyCache.Count == 0;
+    }
+
+    //Used to handle when an enemy spawns another enemy
+    public void HandleEnemySpawn(IEnemyController spawnedEnemy)
+    {
+        if (spawnedEnemies == null)
+        {
+            spawnedEnemies = new List<IEnemyController>();
+        }
+        spawnedEnemies.Add(spawnedEnemy);
     }
 
     //Check if a given location is within view of the camera
