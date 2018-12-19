@@ -4,8 +4,15 @@ using UnityEngine;
 
 public class ProjectileEnemyController : IEnemyController
 {
-
     [HideInInspector] public Vector3Int moveDirection;
+
+    public void Init(Vector3Int aimDirection)
+    {
+        tileUtils = TileUtils.Instance;
+        worldLoc = Vector3Int.CeilToInt(transform.position);
+        tileLoc = tileUtils.GetCellPos(tileUtils.groundTilemap, transform.position);
+        moveDirection = aimDirection;
+    }
 
     public override bool DoEnemyTurn()
     {
@@ -14,15 +21,37 @@ public class ProjectileEnemyController : IEnemyController
         int xVal = Mathf.CeilToInt(intPos.x) + (moveDirection.x * moveSpeed);
         Vector3Int moveLoc = new Vector3Int(xVal, intPos.y, 0);
         //Simulate moving to this location, stopping if we hit a wall OR will walk off a platform.
-        List<MoveInfo> validMoves = new List<MoveInfo>(); // moves CheckMoveValid(worldLoc, moveLoc, true);
+        List<MoveInfo> validMoves = CheckMoveValid(worldLoc, moveLoc, true);
         moveList.AddRange(validMoves);
         return true;
     }
 
     public override bool DoEnemyAction()
     {
-        //Simply move in the direction specified
-        return true;
+        bool movesComplete = false;
+        Vector3Int newPos = worldLoc;
+
+        //We might not be active if we were just spawned
+        gameObject.SetActive(true);
+
+        newPos = ProcessMoves(newPos);
+        movesComplete = ApplyMoves(newPos);
+
+        worldLoc = newPos;
+        tileLoc = tileUtils.GetCellPos(tileUtils.groundTilemap, transform.position);
+
+        return movesComplete;
+    }
+
+    private Vector3Int ProcessMoves(Vector3Int newPos)
+    {
+        if (!isMoving && moveList.Count > 0)
+        {
+            isMoving = true;
+            newPos = moveList[0].movePos;
+            moveList.RemoveAt(0);
+        }
+        return newPos;
     }
 
     private List<MoveInfo> CheckMoveValid(Vector3Int startPos, Vector3Int endPos, bool xAxis)
