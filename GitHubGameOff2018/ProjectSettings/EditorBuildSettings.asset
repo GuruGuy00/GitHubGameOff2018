@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Remove/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/SlotSelection.unity
+    guid: dc57a4aee8f1e624aac4eacf846e6126
   m_configObjects: {}

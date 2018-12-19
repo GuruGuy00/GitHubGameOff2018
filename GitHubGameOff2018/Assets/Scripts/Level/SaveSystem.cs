@@ -4,6 +4,38 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 public static class SaveSystem {
 
+    public static void SaveGaeData(GameData gameData)
+    {
+        BinaryFormatter formatter = new BinaryFormatter();
+        string path = Application.persistentDataPath + "/game.game";
+
+        FileStream stream = new FileStream(path, FileMode.Create);
+
+        formatter.Serialize(stream, gameData);
+        stream.Close();
+    }
+
+    public static GameData LoadGameData()
+    {
+        string path = Application.persistentDataPath + "/game.game";
+        Debug.Log(path);
+        if (File.Exists(path))
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            FileStream stream = new FileStream(path, FileMode.Open);
+
+            GameData gameData = formatter.Deserialize(stream) as GameData;
+            stream.Close();
+            return gameData;
+        }
+        else
+        {
+            //Debug.LogError("Save File not found" + path);
+            GameData gameData = new GameData("00");
+            return gameData;
+        }
+    }
+
     public static void SaveLevel(LevelData levelData)
     {
         BinaryFormatter formatter = new BinaryFormatter();

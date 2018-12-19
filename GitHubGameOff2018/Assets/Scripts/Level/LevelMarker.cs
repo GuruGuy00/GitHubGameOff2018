@@ -44,9 +44,10 @@ public class LevelMarker : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.Space) && isOnLevel)
         {
+            Debug.Log("GameSlot being used is " + GameData.SaveSlot.ToString());
             PlayerData playerData = new PlayerData(player.transform.position.x, player.transform.position.y, player.transform.position.z);
             SaveSystem.SavePlayerData(playerData, "01");
-
+            
             SceneManager.LoadScene(LevelToLoad);
             //SaveLevel();
 

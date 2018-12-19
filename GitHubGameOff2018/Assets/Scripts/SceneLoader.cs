@@ -36,13 +36,21 @@ public class SceneLoader : MonoBehaviour {
         SceneManager.LoadScene("GameOver");
     }
 
+    public void LoadSaveSlotScene()
+    {
+        SceneManager.LoadScene("SlotSelection");
+    }
+
     public void LoadWorlMap(string saveSlot)
     {
+        GameData.SaveSlot = saveSlot;
+        Debug.Log("SaveSlot Set as : " + saveSlot);
         SceneManager.LoadScene("WorldMap");
     }
 
     public void ResetSlotData(string saveSlot)
     {
+
         //ToDo : writ esome code to delete all the files in this save slots folder
     }
 }
