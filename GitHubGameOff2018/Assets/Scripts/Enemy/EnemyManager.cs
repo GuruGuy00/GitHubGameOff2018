@@ -13,7 +13,7 @@ public class EnemyManager : MonoBehaviour
         cam = GameObject.FindGameObjectWithTag("LevelCamera").GetComponent<Camera>();
     }
 
-    public bool HandleEnemies(_GameManager.GameState gameState)
+    public bool HandleEnemies(_GameManager.GameState gameState, GameObject player)
     {
         bool allEnemiesFinished = false;
 
@@ -24,11 +24,11 @@ public class EnemyManager : MonoBehaviour
         
         if (gameState == _GameManager.GameState.EnemyTurn)
         {
-            allEnemiesFinished = DoAllEnemyTurns();
+            allEnemiesFinished = DoAllEnemyTurns(player);
         }
         else if (gameState == _GameManager.GameState.EnemyAction)
         {
-            allEnemiesFinished = DoAllEnemyActions();
+            allEnemiesFinished = DoAllEnemyActions(player);
         }
 
         if (allEnemiesFinished)
@@ -63,12 +63,12 @@ public class EnemyManager : MonoBehaviour
 
     //Process all enemy turns in the enemy cache.
     //Remove enemies from the cache that finished.
-    private bool DoAllEnemyTurns()
+    private bool DoAllEnemyTurns(GameObject player)
     {
         List<IEnemyController> enemiesToRemove = new List<IEnemyController>();
         foreach (IEnemyController enemy in enemyCache)
         {
-            if (enemy.DoEnemyTurn())
+            if (enemy.DoEnemyTurn(player))
             {
                 enemiesToRemove.Add(enemy);
             }
@@ -78,7 +78,7 @@ public class EnemyManager : MonoBehaviour
             enemyCache.AddRange(spawnedEnemies);
             foreach (IEnemyController enemy in spawnedEnemies)
             {
-                if (enemy.DoEnemyTurn())
+                if (enemy.DoEnemyTurn(player))
                 {
                     enemiesToRemove.Add(enemy);
                 }
@@ -91,12 +91,12 @@ public class EnemyManager : MonoBehaviour
 
     //Process all enemy actions in the enemy cache.
     //Remove enemies from the cache that finished.
-    private bool DoAllEnemyActions()
+    private bool DoAllEnemyActions(GameObject player)
     {
         List<IEnemyController> enemiesToRemove = new List<IEnemyController>();
         foreach (IEnemyController enemy in enemyCache)
         {
-            bool result = enemy.DoEnemyAction();
+            bool result = enemy.DoEnemyAction(player);
             if (result)
             {
                 enemiesToRemove.Add(enemy);

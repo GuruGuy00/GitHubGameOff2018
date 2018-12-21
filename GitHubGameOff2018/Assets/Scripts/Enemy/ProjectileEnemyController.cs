@@ -14,19 +14,19 @@ public class ProjectileEnemyController : IEnemyController
         moveDirection = aimDirection;
     }
 
-    public override bool DoEnemyTurn()
+    public override bool DoEnemyTurn(GameObject player)
     {
         Vector3Int intPos = Vector3Int.CeilToInt(transform.position);
         //Find the location we want to move towards
         int xVal = Mathf.CeilToInt(intPos.x) + (moveDirection.x * moveSpeed);
         Vector3Int moveLoc = new Vector3Int(xVal, intPos.y, 0);
         //Simulate moving to this location, stopping if we hit a wall OR will walk off a platform.
-        List<MoveInfo> validMoves = CheckMoveValid(worldLoc, moveLoc, true);
+        List<MoveInfo> validMoves = CheckMoveValid(worldLoc, moveLoc, player, true);
         moveList.AddRange(validMoves);
         return true;
     }
 
-    public override bool DoEnemyAction()
+    public override bool DoEnemyAction(GameObject player)
     {
         bool movesComplete = false;
         Vector3Int newPos = worldLoc;
@@ -34,8 +34,13 @@ public class ProjectileEnemyController : IEnemyController
         //We might not be active if we were just spawned
         gameObject.SetActive(true);
 
-        newPos = ProcessMoves(newPos);
-        movesComplete = ApplyMoves(newPos);
+        MoveInfo currMove = ProcessMoves();
+        movesComplete = ApplyMoves(currMove.movePos);
+
+        if (currMove.isCollision || currMove.hitPlayer)
+        {
+            Destroy(gameObject);
+        }
 
         worldLoc = newPos;
         tileLoc = tileUtils.GetCellPos(tileUtils.groundTilemap, transform.position);
@@ -43,18 +48,19 @@ public class ProjectileEnemyController : IEnemyController
         return movesComplete;
     }
 
-    private Vector3Int ProcessMoves(Vector3Int newPos)
+    private MoveInfo ProcessMoves()
     {
+        MoveInfo m = new MoveInfo();
         if (!isMoving && moveList.Count > 0)
         {
             isMoving = true;
-            newPos = moveList[0].movePos;
+            m = moveList[0];
             moveList.RemoveAt(0);
         }
-        return newPos;
+        return m;
     }
 
-    private List<MoveInfo> CheckMoveValid(Vector3Int startPos, Vector3Int endPos, bool xAxis)
+    private List<MoveInfo> CheckMoveValid(Vector3Int startPos, Vector3Int endPos, GameObject player, bool xAxis)
     {
         List<MoveInfo> moves = new List<MoveInfo>();
         int moveCounter = 0;
@@ -69,12 +75,14 @@ public class ProjectileEnemyController : IEnemyController
         {
             moveChecker += moveDirection;
             bool hitWall = tileUtils.IsTileSolid(tileUtils.groundTilemap, moveChecker);
-            bool hitPlayer = false; // enemyManager.IsLocInCameraView(moveChecker);
+            bool hitPlayer = Vector3Int.CeilToInt(player.transform.position) == moveChecker;
             //Check if we are going outside of camera range, hit a wall, or are going to fall
             if (hitWall || hitPlayer)
             {
                 finalMovePoint.movePos = moveChecker;
                 finalMovePoint.isCollision = true;
+                finalMovePoint.hitPlayer = hitPlayer;
+                break;
             }
             moveCounter++;
         }

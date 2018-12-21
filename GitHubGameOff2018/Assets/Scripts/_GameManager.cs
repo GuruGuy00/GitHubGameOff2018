@@ -33,12 +33,16 @@ public class _GameManager : MonoBehaviour {
     public GameObject menuPanel; 
 
     private Deck deck;
-    private PlayerController playerController;
     private MoveProcessor moveProcessor;
     private MovePreview movePreviewer;
     private TurnIndicatorController turnIndicatorScript;
-
     private EnemyManager enemyManager;
+
+    private PlayerController playerController;
+    public PlayerController Player
+    {
+        get { return playerController; }
+    }
 
     private void Awake()
     {
@@ -86,7 +90,7 @@ public class _GameManager : MonoBehaviour {
                 ProcessEnemies();
                 break;
             case GameState.EndGame:
-                //Stay in this state while the enemy's moves are processing
+                //Player died, display this somehow
                 break;
         }
 
@@ -130,7 +134,7 @@ public class _GameManager : MonoBehaviour {
 
     private void ProcessEnemies()
     {
-        if (enemyManager.HandleEnemies(currentGameState))
+        if (enemyManager.HandleEnemies(currentGameState, playerController.gameObject))
         {
             if (currentGameState == GameState.EnemyTurn)
             {

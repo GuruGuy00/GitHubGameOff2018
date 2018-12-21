@@ -19,6 +19,6 @@ public abstract class IEnemyController : ICharacterController
         startPosition = worldLoc;
     }
 
-    public abstract bool DoEnemyTurn();
-    public abstract bool DoEnemyAction();
+    public abstract bool DoEnemyTurn(GameObject player);
+    public abstract bool DoEnemyAction(GameObject player);
 }

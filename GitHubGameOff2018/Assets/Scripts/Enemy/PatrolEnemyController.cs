@@ -17,7 +17,7 @@ public class PatrolEnemyController : IEnemyController
         tileLoc = tileUtils.GetCellPos(tileUtils.groundTilemap, transform.position);
     }
 
-    public override bool DoEnemyTurn()
+    public override bool DoEnemyTurn(GameObject player)
     {
         //Find the location we want to move to
         int xVal = worldLoc.x + (moveDir * moveSpeed);
@@ -28,7 +28,7 @@ public class PatrolEnemyController : IEnemyController
         return true;
     }
 
-    public override bool DoEnemyAction()
+    public override bool DoEnemyAction(GameObject player)
     {
         bool movesComplete = false;
         Vector3Int newPos = worldLoc;

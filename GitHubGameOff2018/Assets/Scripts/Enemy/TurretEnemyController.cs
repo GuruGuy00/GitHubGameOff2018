@@ -22,7 +22,7 @@ public class TurretEnemyController : IEnemyController
         tileLoc = tileUtils.GetCellPos(tileUtils.groundTilemap, transform.position);
     }
 
-    public override bool DoEnemyTurn()
+    public override bool DoEnemyTurn(GameObject player)
     {
         //Figure out if we want to shoot this round
         fireCounter++;
@@ -34,7 +34,7 @@ public class TurretEnemyController : IEnemyController
         return true;
     }
 
-    public override bool DoEnemyAction()
+    public override bool DoEnemyAction(GameObject player)
     {
         if (shootThisTurn)
         {
