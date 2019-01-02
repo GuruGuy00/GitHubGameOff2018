@@ -39,10 +39,11 @@ public class _GameManager : MonoBehaviour {
     private EnemyManager enemyManager;
 
     private PlayerController playerController;
-    public PlayerController Player
-    {
-        get { return playerController; }
-    }
+
+    //public PlayerController Player
+    //{
+    //    get { return playerController; }
+    //}
 
     private void Awake()
     {
