@@ -6,6 +6,8 @@ public class ProjectileEnemyController : IEnemyController
 {
     [HideInInspector] public Vector3Int moveDirection;
 
+    private MoveInfo lastMove;
+
     public void Init(Vector3Int aimDirection)
     {
         tileUtils = TileUtils.Instance;
@@ -18,7 +20,7 @@ public class ProjectileEnemyController : IEnemyController
     {
         Vector3Int intPos = Vector3Int.CeilToInt(transform.position);
         //Find the location we want to move towards
-        int xVal = Mathf.CeilToInt(intPos.x) + (moveDirection.x * moveSpeed);
+        int xVal = intPos.x + (moveDirection.x * moveDistance);
         Vector3Int moveLoc = new Vector3Int(xVal, intPos.y, 0);
         //Simulate moving to this location, stopping if we hit a wall OR will walk off a platform.
         List<MoveInfo> validMoves = CheckMoveValid(worldLoc, moveLoc, player, true);
@@ -31,24 +33,25 @@ public class ProjectileEnemyController : IEnemyController
         bool movesComplete = false;
         Vector3Int newPos = worldLoc;
 
-        //We might not be active if we were just spawned
-        gameObject.SetActive(true);
-
-        MoveInfo currMove = ProcessMoves();
+        MoveInfo currMove = ProcessMoves(newPos);
         movesComplete = ApplyMoves(currMove.movePos);
 
-        if (currMove.isCollision || currMove.hitPlayer)
+        if (movesComplete)
         {
-            Destroy(gameObject);
+            lastMove = null;
+            if (currMove.isCollision || currMove.hitPlayer)
+            {
+                Destroy(gameObject);
+            }
         }
 
-        worldLoc = newPos;
+        worldLoc = currMove.movePos;
         tileLoc = tileUtils.GetCellPos(tileUtils.groundTilemap, transform.position);
 
         return movesComplete;
     }
 
-    private MoveInfo ProcessMoves()
+    private MoveInfo ProcessMoves(Vector3Int newPos)
     {
         MoveInfo m = new MoveInfo();
         if (!isMoving && moveList.Count > 0)
@@ -56,6 +59,15 @@ public class ProjectileEnemyController : IEnemyController
             isMoving = true;
             m = moveList[0];
             moveList.RemoveAt(0);
+            lastMove = m;
+        }
+        else
+        {
+            if (lastMove == null)
+            {
+                Debug.LogError("Last Move Is Null!");
+            }
+            m = lastMove;
         }
         return m;
     }
@@ -71,7 +83,7 @@ public class ProjectileEnemyController : IEnemyController
         MoveInfo finalMovePoint = CreateMovePoint(endPos, false);
 
         //Iterate until we've moved our entire move speed
-        while (moveCounter < moveSpeed)
+        while (moveCounter < moveDistance)
         {
             moveChecker += moveDirection;
             bool hitWall = tileUtils.IsTileSolid(tileUtils.groundTilemap, moveChecker);

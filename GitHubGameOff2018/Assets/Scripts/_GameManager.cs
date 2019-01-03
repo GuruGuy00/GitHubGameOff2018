@@ -37,6 +37,7 @@ public class _GameManager : MonoBehaviour {
     private MovePreview movePreviewer;
     private TurnIndicatorController turnIndicatorScript;
     private EnemyManager enemyManager;
+    private SubmitButtonController submitBtn;
 
     private PlayerController playerController;
     public PlayerController Player
@@ -53,6 +54,7 @@ public class _GameManager : MonoBehaviour {
         movePreviewer = FindObjectOfType<MovePreview>();
         turnIndicatorScript = FindObjectOfType<TurnIndicatorController>();
         enemyManager = FindObjectOfType<EnemyManager>();
+        submitBtn = FindObjectOfType<SubmitButtonController>();
         //Flag that we need to start the game up
         currentGameState = GameState.StartGame;
     }
@@ -63,37 +65,25 @@ public class _GameManager : MonoBehaviour {
         {
             menuPanel.SetActive(!menuPanel.activeInHierarchy);
         }
-
         switch (currentGameState)
         {
             case GameState.StartGame:
                 StartGame();
                 break;
             case GameState.PlayerTurn:
-                //Allow the player to play and rearrange cards
-                movePreviewer.DoPreview();
+                ProcessPlayerTurns();
                 break;
             case GameState.PlayerAction:
-                //Stay in this state while the player's moves are processing
-                if (playerController.PlayerUpdate())
-                {
-                    PlayerMovesComplete();
-                }
-                else
-                {
-                    movePreviewer.DoPreview();
-                }
+                ProcessPlayerActions();
                 break;
             case GameState.EnemyTurn:
             case GameState.EnemyAction:
-                //Stay in this state while the enemy's moves are processing
                 ProcessEnemies();
                 break;
             case GameState.EndGame:
                 //Player died, display this somehow
                 break;
         }
-
         //Keep our turn indicator updating every frame
         turnIndicatorScript.UpdateTurnIndicator(currentGameState);
     }
@@ -113,17 +103,26 @@ public class _GameManager : MonoBehaviour {
         playerController.ActionPointRoll();
     }
 
-    public void PlayerSubmitMoves()
+    private void ProcessPlayerTurns()
     {
-        //Set the move list for Previewer and PlayeController
-        playerController.ConsumeAP();
-        List<MoveInfo> moves = new List<MoveInfo>(moveProcessor.processedMoves);
-        playerController.setMoveList(moves);
-        movePreviewer.setPreviewPoints(moves);
-        //Discard all played cards
-        deck.DiscardCards();
-        //Flip ourselves to PlayerAction so the player can process moves
-        currentGameState = GameState.PlayerAction;
+        //Allow the player to play and rearrange cards
+        movePreviewer.DoPreview();
+        //Make sure our Submit button is active
+        submitBtn.EnableSubmitBtn();
+    }
+
+    private void ProcessPlayerActions()
+    {
+        submitBtn.EnableSubmitBtn();
+        //Stay in this state while the player's moves are processing
+        if (playerController.PlayerUpdate())
+        {
+            PlayerMovesComplete();
+        }
+        else
+        {
+            movePreviewer.DoPreview();
+        }
     }
 
     private void PlayerMovesComplete()
@@ -134,6 +133,8 @@ public class _GameManager : MonoBehaviour {
 
     private void ProcessEnemies()
     {
+        submitBtn.DisableSubmitBtn();
+        //Stay in this state while the enemy's moves are processing
         if (enemyManager.HandleEnemies(currentGameState, playerController.gameObject))
         {
             if (currentGameState == GameState.EnemyTurn)
@@ -158,4 +159,16 @@ public class _GameManager : MonoBehaviour {
         SetupPlayerTurn();
     }
 
+    public void PlayerSubmitMoves()
+    {
+        //Set the move list for Previewer and PlayeController
+        playerController.ConsumeAP();
+        List<MoveInfo> moves = new List<MoveInfo>(moveProcessor.processedMoves);
+        playerController.setMoveList(moves);
+        movePreviewer.setPreviewPoints(moves);
+        //Discard all played cards
+        deck.DiscardCards();
+        //Flip ourselves to PlayerAction so the player can process moves
+        currentGameState = GameState.PlayerAction;
+    }
 }

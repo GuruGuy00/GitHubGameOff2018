@@ -20,7 +20,7 @@ public class PatrolEnemyController : IEnemyController
     public override bool DoEnemyTurn(GameObject player)
     {
         //Find the location we want to move to
-        int xVal = worldLoc.x + (moveDir * moveSpeed);
+        int xVal = worldLoc.x + (moveDir * moveDistance);
         moveLoc = new Vector3Int(xVal, worldLoc.y, worldLoc.z);
         //Simulate moving to this location, stopping if we hit a wall OR will walk off a platform.
         List<MoveInfo> validMoves = CheckMoveValid(worldLoc, moveLoc, true);
@@ -75,7 +75,7 @@ public class PatrolEnemyController : IEnemyController
 
         //Iterate until we've moved our entire move speed
         int loopSafety = 100;
-        while (loopSafety > 0 && (moveCounter < moveSpeed || moveChecker.x != endPos.x))
+        while (loopSafety > 0 && (moveCounter < moveDistance || moveChecker.x != endPos.x))
         {
             moveChecker.x += iterateDirection;
             groundChecker.x = moveChecker.x;
@@ -92,7 +92,7 @@ public class PatrolEnemyController : IEnemyController
                 moveChecker.x += iterateDirection;
                 movePoints.Add(CreateMovePoint(moveChecker, true));
                 //Move back another space and create another point
-                endPos.x = moveChecker.x + (iterateDirection * (moveSpeed - moveCounter));
+                endPos.x = moveChecker.x + (iterateDirection * (moveDistance - moveCounter));
                 finalMovePoint.movePos = new Vector3Int(endPos.x, moveChecker.y, moveChecker.z);
             }
             moveCounter++;
