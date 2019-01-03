@@ -100,7 +100,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   worldLoc: {x: 0, y: 0, z: 0}
   tileLoc: {x: 0, y: 0, z: 0}
-  moveSpeed: 3
+  moveType: 1
+  moveDistance: 3
+  moveSpeed: 0.175
+  moveTime: 0.1
   jumpSpeed: 0
   moveDirection: {x: 0, y: 0, z: 0}
 --- !u!212 &212185577096661214
