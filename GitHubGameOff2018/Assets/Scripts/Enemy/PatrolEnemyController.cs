@@ -6,16 +6,7 @@ public class PatrolEnemyController : IEnemyController
 {
     private Vector3Int moveLoc;
     private int moveDir = -1;
-
-    private EnemyManager enemyManager;
-
-    void Start()
-    {
-        enemyManager = GameObject.FindObjectOfType<EnemyManager>();
-        tileUtils = TileUtils.Instance;
-        worldLoc = Vector3Int.CeilToInt(transform.position);
-        tileLoc = tileUtils.GetCellPos(tileUtils.groundTilemap, transform.position);
-    }
+    private MoveInfo lastMove;
 
     public override bool DoEnemyTurn(GameObject player)
     {
@@ -23,7 +14,7 @@ public class PatrolEnemyController : IEnemyController
         int xVal = worldLoc.x + (moveDir * moveDistance);
         moveLoc = new Vector3Int(xVal, worldLoc.y, worldLoc.z);
         //Simulate moving to this location, stopping if we hit a wall OR will walk off a platform.
-        List<MoveInfo> validMoves = CheckMoveValid(worldLoc, moveLoc, true);
+        List<MoveInfo> validMoves = CheckMoveValid(worldLoc, moveLoc, player);
         moveList.AddRange(validMoves);
         return true;
     }
@@ -33,27 +24,47 @@ public class PatrolEnemyController : IEnemyController
         bool movesComplete = false;
         Vector3Int newPos = worldLoc;
 
-        newPos = ProcessMoves(newPos);
-        movesComplete = ApplyMoves(newPos);
+        MoveInfo currMove = null;
+        currMove = ProcessMoves(newPos, currMove);
+        movesComplete = ApplyMoves(currMove.movePos);
 
-        worldLoc = newPos;
+        if (movesComplete)
+        {
+            lastMove = null;
+            //Tell the Event Manager to notify all subscribers of the PlayerHit event.
+            if (currMove.hitPlayer)
+            {
+                eventManager.HitPlayer();
+            }
+        }
+
+        worldLoc = currMove.movePos;
         tileLoc = tileUtils.GetCellPos(tileUtils.groundTilemap, transform.position);
 
         return movesComplete;
     }
 
-    private Vector3Int ProcessMoves(Vector3Int newPos)
+    private MoveInfo ProcessMoves(Vector3Int newPos, MoveInfo currMove)
     {
         if (!isMoving && moveList.Count > 0)
         {
             isMoving = true;
-            newPos = moveList[0].movePos;
+            currMove = moveList[0];
+            lastMove = currMove;
             moveList.RemoveAt(0);
         }
-        return newPos;
+        else
+        {
+            if (lastMove == null)
+            {
+                Debug.LogError("Last Move Is Null!");
+            }
+            currMove = lastMove;
+        }
+        return currMove;
     }
 
-    private List<MoveInfo> CheckMoveValid(Vector3Int startPos, Vector3Int endPos, bool xAxis)
+    private List<MoveInfo> CheckMoveValid(Vector3Int startPos, Vector3Int endPos, GameObject player)
     {
         List<MoveInfo> movePoints = new List<MoveInfo>();
         int moveCounter = 0;
@@ -82,8 +93,17 @@ public class PatrolEnemyController : IEnemyController
             bool hitWall = tileUtils.IsTileSolid(tileUtils.groundTilemap, moveChecker);
             bool willFall = !tileUtils.IsTileSolid(tileUtils.groundTilemap, groundChecker);
             bool inCameraView = enemyManager.IsLocInCameraView(moveChecker);
+            bool hitPlayer = Vector3Int.CeilToInt(player.transform.position) == moveChecker;
+            //Check if we hit the player
+            if (hitPlayer)
+            {
+                finalMovePoint.movePos = moveChecker;
+                finalMovePoint.isCollision = true;
+                finalMovePoint.hitPlayer = hitPlayer;
+                break;
+            }
             //Check if we are going outside of camera range, hit a wall, or are going to fall
-            if (hitWall || willFall || !inCameraView)
+            else if (hitWall || willFall || !inCameraView)
             {
                 //Reverse our direction of movement and iteration
                 iterateDirection = -iterateDirection;

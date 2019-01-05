@@ -33,18 +33,14 @@ public class _GameManager : MonoBehaviour {
     public GameObject menuPanel; 
 
     private Deck deck;
+
     private MoveProcessor moveProcessor;
     private MovePreview movePreviewer;
+
     private TurnIndicatorController turnIndicatorScript;
     private EnemyManager enemyManager;
     private SubmitButtonController submitBtn;
-
     private PlayerController playerController;
-
-    //public PlayerController Player
-    //{
-    //    get { return playerController; }
-    //}
 
     private void Awake()
     {
@@ -66,6 +62,16 @@ public class _GameManager : MonoBehaviour {
         {
             menuPanel.SetActive(!menuPanel.activeInHierarchy);
         }
+
+        //Wait until enemy turns are done before ending game
+        if (playerController.IsPlayerDead()
+            && currentGameState != GameState.EnemyAction
+            && currentGameState != GameState.EnemyTurn)
+        {
+            //Move us to End Game state if the player died
+            currentGameState = GameState.EndGame;
+        }
+
         switch (currentGameState)
         {
             case GameState.StartGame:

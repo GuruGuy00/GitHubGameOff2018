@@ -12,16 +12,6 @@ public class TurretEnemyController : IEnemyController
     private int fireCounter = 0;
     private bool shootThisTurn = false;
 
-    private EnemyManager enemyManager;
-
-    void Start()
-    {
-        enemyManager = GameObject.FindObjectOfType<EnemyManager>();
-        tileUtils = TileUtils.Instance;
-        worldLoc = Vector3Int.CeilToInt(transform.position);
-        tileLoc = tileUtils.GetCellPos(tileUtils.groundTilemap, transform.position);
-    }
-
     public override bool DoEnemyTurn(GameObject player)
     {
         //Figure out if we want to shoot this round

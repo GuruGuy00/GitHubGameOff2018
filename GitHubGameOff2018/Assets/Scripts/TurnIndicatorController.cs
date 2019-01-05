@@ -32,6 +32,10 @@ public class TurnIndicatorController : MonoBehaviour
                 tmp.text = "Enemy Moving...";
                 tmp.color = new Color32(255, 0, 0, 255);
                 break;
+            case _GameManager.GameState.EndGame:
+                tmp.text = "GAME OVER";
+                tmp.color = new Color32(255, 0, 0, 255);
+                break;
         }
     }
 

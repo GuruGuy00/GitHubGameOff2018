@@ -10,13 +10,24 @@ public class PlayerController : ICharacterController
     //Used the below refrence to get things going
     //https://github.com/Cawotte/SmallWorld_WeeklyJam40
 
+    public TextMeshProUGUI ActionPointText;
+
     public int ActionPoints;
     public int UsedActionPoints;
 
     [Tooltip("Random roll(1-6) when check, else roll 6 all the time")]
-    public bool randomRoll = true;
+    private bool randomRoll = true;
+    private int HP = 100; //TODO: Figure out if we want HP or one-hit death
 
-    public TextMeshProUGUI ActionPointText;
+    void OnEnable()
+    {
+        EventManager.OnPlayerHit += TakeDamage;
+    }
+
+    void OnDisable()
+    {
+        EventManager.OnPlayerHit -= TakeDamage;
+    }
 
     public bool PlayerUpdate()
     {
@@ -46,12 +57,6 @@ public class PlayerController : ICharacterController
         return newPos;
     }
 
-    public void setMoveList(List<MoveInfo> moves)
-    {
-        moveList = moves;
-        isProccessingMoves = true;
-    }
-
     public void ActionPointRoll()
     {
         if (randomRoll)
@@ -63,7 +68,6 @@ public class PlayerController : ICharacterController
         {
             ActionPoints += 6;
         }
-
     }
 
     public void ConsumeAP()
@@ -74,5 +78,26 @@ public class PlayerController : ICharacterController
     public void CurrentActionPoints()
     {
         ActionPointText.text = (ActionPoints - UsedActionPoints).ToString();
+    }
+
+    private void TakeDamage()
+    {
+        HP = 0; //TODO: Receive damage number and lower HP accordingly
+        if (IsPlayerDead())
+        {
+            //TODO: Notify the EventManager that we died?
+            //TODO: Play death animation
+        }
+    }
+
+    public bool IsPlayerDead()
+    {
+        return HP <= 0;
+    }
+
+    public void setMoveList(List<MoveInfo> moves)
+    {
+        moveList = moves;
+        isProccessingMoves = true;
     }
 }

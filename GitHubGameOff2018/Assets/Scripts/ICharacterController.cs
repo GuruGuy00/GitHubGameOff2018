@@ -15,9 +15,11 @@ public abstract class ICharacterController : MonoBehaviour
     [HideInInspector] public Vector3Int tileLoc;
 
     protected TileUtils tileUtils;
+    protected EventManager eventManager;
 
-    void Start()
+    protected virtual void Start()
     {
+        eventManager = FindObjectOfType<EventManager>();
         tileUtils = TileUtils.Instance;
         worldLoc = Vector3Int.CeilToInt(transform.position);
         tileLoc = tileUtils.GetCellPos(tileUtils.groundTilemap, transform.position);

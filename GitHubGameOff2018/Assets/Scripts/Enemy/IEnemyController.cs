@@ -4,8 +4,6 @@ using UnityEngine;
 
 public abstract class IEnemyController : ICharacterController
 {
-    protected Vector3Int startPosition;
-
     [SerializeField] protected MoveType moveType = MoveType.Smooth;
     public enum MoveType
     {
@@ -18,12 +16,18 @@ public abstract class IEnemyController : ICharacterController
     public float moveTime = 0.1f;
     public int jumpSpeed;
 
+    protected Vector3Int startPosition;
+    protected EnemyManager enemyManager;
+
+
     //Abstract methods to be defined by concrete enemy classes
     public abstract bool DoEnemyTurn(GameObject player);
     public abstract bool DoEnemyAction(GameObject player);
 
-    void Start()
+    protected override void Start()
     {
+        base.Start();
+        enemyManager = FindObjectOfType<EnemyManager>();
         startPosition = worldLoc;
     }
 

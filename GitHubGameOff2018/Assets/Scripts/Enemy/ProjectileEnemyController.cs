@@ -33,12 +33,19 @@ public class ProjectileEnemyController : IEnemyController
         bool movesComplete = false;
         Vector3Int newPos = worldLoc;
 
-        MoveInfo currMove = ProcessMoves(newPos);
+        MoveInfo currMove = null;
+        currMove = ProcessMoves(newPos, currMove);
         movesComplete = ApplyMoves(currMove.movePos);
 
         if (movesComplete)
         {
             lastMove = null;
+            //Tell the Event Manager to notify all subscribers of the PlayerHit event.
+            if (currMove.hitPlayer)
+            {
+                eventManager.HitPlayer();
+            }
+            //Destroy us if we hit anything
             if (currMove.isCollision || currMove.hitPlayer)
             {
                 Destroy(gameObject);
@@ -51,15 +58,14 @@ public class ProjectileEnemyController : IEnemyController
         return movesComplete;
     }
 
-    private MoveInfo ProcessMoves(Vector3Int newPos)
+    private MoveInfo ProcessMoves(Vector3Int newPos, MoveInfo currMove)
     {
-        MoveInfo m = new MoveInfo();
         if (!isMoving && moveList.Count > 0)
         {
             isMoving = true;
-            m = moveList[0];
+            currMove = moveList[0];
+            lastMove = currMove;
             moveList.RemoveAt(0);
-            lastMove = m;
         }
         else
         {
@@ -67,9 +73,9 @@ public class ProjectileEnemyController : IEnemyController
             {
                 Debug.LogError("Last Move Is Null!");
             }
-            m = lastMove;
+            currMove = lastMove;
         }
-        return m;
+        return currMove;
     }
 
     private List<MoveInfo> CheckMoveValid(Vector3Int startPos, Vector3Int endPos, GameObject player, bool xAxis)
