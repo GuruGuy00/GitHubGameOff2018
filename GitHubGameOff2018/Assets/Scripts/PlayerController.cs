@@ -87,6 +87,7 @@ public class PlayerController : ICharacterController
         {
             //TODO: Notify the EventManager that we died?
             //TODO: Play death animation
+            
         }
     }
 
