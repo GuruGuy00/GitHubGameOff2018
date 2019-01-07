@@ -112,10 +112,14 @@ public class _GameManager : MonoBehaviour {
 
     private void ProcessPlayerTurns()
     {
-        //Allow the player to play and rearrange cards
-        movePreviewer.DoPreview();
         //Make sure our Submit button is active
         submitBtn.EnableSubmitBtn();
+        //Process all cards in the Play area
+        List<MoveInfo> processedMoves = moveProcessor.ProcessPlayedCards();
+        //Allow the player to play and rearrange cards
+        movePreviewer.DoPreview(processedMoves);
+        //Update the AP text
+        playerController.CurrentActionPoints();
     }
 
     private void ProcessPlayerActions()
@@ -128,7 +132,7 @@ public class _GameManager : MonoBehaviour {
         }
         else
         {
-            movePreviewer.DoPreview();
+            movePreviewer.DoPreview(null);
         }
     }
 
@@ -172,7 +176,7 @@ public class _GameManager : MonoBehaviour {
         playerController.ConsumeAP();
         List<MoveInfo> moves = new List<MoveInfo>(moveProcessor.processedMoves);
         playerController.setMoveList(moves);
-        movePreviewer.setPreviewPoints(moves);
+        movePreviewer.SetPreviewPoints(moves);
         //Discard all played cards
         deck.DiscardCards();
         //Flip ourselves to PlayerAction so the player can process moves

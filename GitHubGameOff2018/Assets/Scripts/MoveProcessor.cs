@@ -11,7 +11,6 @@ public class MoveProcessor : MonoBehaviour
     public Button submitButton;
 
     [HideInInspector] public List<MoveInfo> processedMoves;
-    [HideInInspector] public List<MoveInfo> previewMoves;
 
     private TileUtils tileUtils;
     private PlayerController playerController;
@@ -20,15 +19,19 @@ public class MoveProcessor : MonoBehaviour
     void Start ()
     {
         processedMoves = new List<MoveInfo>();
-        previewMoves = new List<MoveInfo>();
         tileUtils = TileUtils.Instance;
         playerController = player.GetComponent<PlayerController>();
     }
 
     void Update()
     {
+
+    }
+
+    public List<MoveInfo> ProcessPlayedCards()
+    {
         bool isJumping = false;
-        int usableAcionPoints = playerController.ActionPoints;
+        int usableActionPoints = playerController.ActionPoints;
         playerController.UsedActionPoints = 0;
         processedMoves.Clear();
 
@@ -39,12 +42,11 @@ public class MoveProcessor : MonoBehaviour
         CardDisplay[] cardsToPlay = playCardsParent.GetComponentsInChildren<CardDisplay>();
         foreach (CardDisplay cardInfo in cardsToPlay)
         {
-
-            if (usableAcionPoints >= cardInfo.card.actionCost)
+            if (usableActionPoints >= cardInfo.card.actionCost)
             {
                 //Debug.Log("We Have Actions points to use");
                 submitButton.interactable = true;
-                usableAcionPoints -= cardInfo.card.actionCost;
+                usableActionPoints -= cardInfo.card.actionCost;
                 playerController.UsedActionPoints += cardInfo.card.actionCost;
             }
             else
@@ -71,6 +73,8 @@ public class MoveProcessor : MonoBehaviour
             MoveInfo gravity = ProcessGravity(referencePos);
             processedMoves.Add(gravity);
         }
+
+        return processedMoves;
     }
 
     private MoveInfo ProcessMove(Vector3Int currPos, Card card)
@@ -102,7 +106,7 @@ public class MoveProcessor : MonoBehaviour
                 moveToReturn.isJump = true;
                 break;
             default:
-                moveToReturn = ProccessMove(moveToReturn, card);
+                moveToReturn = ProccessGenericMove(moveToReturn, card);
                 break;
         }
         return moveToReturn;
@@ -116,7 +120,7 @@ public class MoveProcessor : MonoBehaviour
         return fallMove;
     }
 
-    private MoveInfo ProccessMove(MoveInfo move, Card card)
+    private MoveInfo ProccessGenericMove(MoveInfo move, Card card)
     {
         bool xAxisChange = false;
         bool yAxisChange = false;
@@ -127,7 +131,6 @@ public class MoveProcessor : MonoBehaviour
         {
             xAxisChange = true;
         }
-
         if (move.movePos.y != checkPos.y)
         {
             yAxisChange = true;

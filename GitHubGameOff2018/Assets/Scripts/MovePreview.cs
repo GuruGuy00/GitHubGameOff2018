@@ -13,12 +13,10 @@ public class MovePreview : MonoBehaviour
 
     private List<MoveInfo> forcePreviewPoints;
     private TileUtils tileUtils;
-    private MoveProcessor moveProcessor;
     private PlayerController playerController;
 
     private void Awake()
     {
-        moveProcessor = GetComponent<MoveProcessor>();
         playerController = player.GetComponent<PlayerController>();
     }
 
@@ -27,7 +25,7 @@ public class MovePreview : MonoBehaviour
         tileUtils = TileUtils.Instance;
     }
 
-    public void DoPreview()
+    public void DoPreview(List<MoveInfo> processedMoves)
     {
         ClearTiles();
 
@@ -38,7 +36,7 @@ public class MovePreview : MonoBehaviour
         }
         else
         {
-            points = moveProcessor.processedMoves;
+            points = processedMoves;
         }
 
         foreach (MoveInfo move in points)
@@ -58,7 +56,7 @@ public class MovePreview : MonoBehaviour
         tileUtils.previewTilemap.ClearAllTiles();
     }
 
-    public void setPreviewPoints(List<MoveInfo> points)
+    public void SetPreviewPoints(List<MoveInfo> points)
     {
         forcePreviewPoints = points;
     }

@@ -33,8 +33,6 @@ public class PlayerController : ICharacterController
     {
         bool movesComplete = false;
         Vector3Int newPos = worldLoc;
-
-        CurrentActionPoints();
         
         //Spend Action
         newPos = ProcessMoves(newPos);
@@ -87,7 +85,6 @@ public class PlayerController : ICharacterController
         {
             //TODO: Notify the EventManager that we died?
             //TODO: Play death animation
-            
         }
     }
 
