@@ -131,12 +131,8 @@ public class MoveProcessor : MonoBehaviour
         {
             xAxisChange = true;
         }
-        if (move.movePos.y != checkPos.y)
-        {
-            yAxisChange = true;
-        }
 
-        move = CheckMoveValid(move, checkPos, xAxisChange, yAxisChange);
+        move = CheckMoveValid(move, checkPos, xAxisChange);
         return move;
     }
 
@@ -144,124 +140,97 @@ public class MoveProcessor : MonoBehaviour
     {
 
         Vector3Int checkPos = new Vector3Int((int)move.movePos.x + 1, (int)move.movePos.y, 0);
-        move = CheckMoveValid(move, checkPos, true, false);
+        move = CheckMoveValid(move, checkPos, true);
         return move;
     }
 
     private MoveInfo ProcessMoveLeft(MoveInfo move)
     {
         Vector3Int checkPos = new Vector3Int((int)move.movePos.x - 1, (int)move.movePos.y, 0);
-        move = CheckMoveValid(move, checkPos, true, false);
+        move = CheckMoveValid(move, checkPos, true);
         return move;
     }
 
     private MoveInfo ProcessDashRight(MoveInfo move)
     {
         Vector3Int checkPos = new Vector3Int((int)move.movePos.x + 2, (int)move.movePos.y, 0);
-        move = CheckMoveValid(move, checkPos, true, false);
+        move = CheckMoveValid(move, checkPos, true);
         return move;
     }
 
     private MoveInfo ProcessDashLeft(MoveInfo move)
     {
         Vector3Int checkPos = new Vector3Int((int)move.movePos.x - 2, (int)move.movePos.y, 0);
-        move = CheckMoveValid(move, checkPos, true, false);
+        move = CheckMoveValid(move, checkPos, true);
         return move;
     }
 
     private MoveInfo ProcessJump(MoveInfo move)
     {
         Vector3Int checkPos = new Vector3Int((int)move.movePos.x, (int)move.movePos.y + 3, 0);
-        move = CheckMoveValid(move, checkPos, false, true);
+        move = CheckMoveValid(move, checkPos, false);
         return move;
     }
 
     private MoveInfo ProcessMoveUp(MoveInfo move)
     {
         Vector3Int checkPos = new Vector3Int((int)move.movePos.x, (int)move.movePos.y + 1, 0);
-        move = CheckMoveValid(move, checkPos, false, true);
+        move = CheckMoveValid(move, checkPos, false);
         return move;
     }
 
     private MoveInfo ProcessMoveDown(MoveInfo move)
     {
         Vector3Int checkPos = new Vector3Int((int)move.movePos.x, (int)move.movePos.y - 1, 0);
-        move = CheckMoveValid(move, checkPos, false, true);
+        move = CheckMoveValid(move, checkPos, false);
         return move;
     }
 
-    private MoveInfo CheckMoveValid(MoveInfo move, Vector3Int endPos, bool xAxis, bool yAxis)
+    private MoveInfo CheckMoveValid(MoveInfo move, Vector3Int endPos, bool xAxis)
     {
         int loopSafety = 100;
         Vector3Int moveChecker = move.movePos;
-        if (xAxis)
+        //Loop until we hit something, reach our end point, or reach our loop limit
+        while (loopSafety > 0)
         {
-            int x = move.movePos.x;
-            while (loopSafety > 0)
+            bool reachedEndPoint = (xAxis && moveChecker.x == endPos.x) || (!xAxis && moveChecker.y == endPos.y);
+            bool add = (xAxis && moveChecker.x < endPos.x) || (!xAxis && moveChecker.y < endPos.y); 
+            if (!reachedEndPoint)
             {
-                if (moveChecker.x < endPos.x)
-                {
-                    moveChecker.x++;
-                    if (tileUtils.IsTileSolid(tileUtils.groundTilemap, moveChecker))
-                    {
-                        moveChecker.x--;
-                        move.isCollision = true;
-                        break;
-                    }
-                    loopSafety--;
-                }
-                else if (moveChecker.x > endPos.x)
-                {
-                    moveChecker.x--;
-                    if (tileUtils.IsTileSolid(tileUtils.groundTilemap, moveChecker))
-                    {
-                        moveChecker.x++;
-                        move.isCollision = true;
-                        break;
-                    }
-                    loopSafety--;
-                }
-                else
+                moveChecker = CheckMoveCollision(moveChecker, move, xAxis, add);
+                if (move.isCollision)
                 {
                     break;
                 }
             }
-        }
-        else if (yAxis)
-        {
-            int y = move.movePos.y;
-            while (loopSafety > 0)
+            else
             {
-                if (moveChecker.y < endPos.y)
-                {
-                    moveChecker.y++;
-                    if (tileUtils.IsTileSolid(tileUtils.groundTilemap, moveChecker))
-                    {
-                        moveChecker.y--;
-                        move.isCollision = true;
-                        break;
-                    }
-                    loopSafety--;
-                }
-                else if (moveChecker.y > endPos.y)
-                {
-                    moveChecker.y--;
-                    if (tileUtils.IsTileSolid(tileUtils.groundTilemap, moveChecker))
-                    {
-                        moveChecker.y++;
-                        move.isCollision = true;
-                        break;
-                    }
-                    loopSafety--;
-                }
-                else
-                {
-                    break;
-                }
+                break;
             }
+            loopSafety--;
         }
         move.movePos = moveChecker;
         return move;
+    }
+
+    private Vector3Int CheckMoveCollision(Vector3Int moveChecker, MoveInfo move, bool xAxis, bool add)
+    {
+        //Update the move checker
+        if (xAxis && add) { moveChecker.x++; }
+        else if (xAxis && !add) { moveChecker.x--; }
+        else if (!xAxis && add) { moveChecker.y++; }
+        else if (!xAxis && !add) { moveChecker.y--; }
+        //Check if the move checker is on a solid tile
+        if (tileUtils.IsTileSolid(tileUtils.groundTilemap, moveChecker))
+        {
+            move.isCollision = true;
+            //Reverse our move if we hit something
+            if (xAxis && add) { moveChecker.x--; }
+            else if (xAxis && !add) { moveChecker.x++; }
+            else if (!xAxis && add) { moveChecker.y--; }
+            else if (!xAxis && !add) { moveChecker.y++; }
+        }
+        return moveChecker;
     }
 
     private bool IsPlayerGrounded(Vector3Int playerPos)
@@ -269,5 +238,4 @@ public class MoveProcessor : MonoBehaviour
         Vector3Int checkPos = new Vector3Int((int)playerPos.x, (int)playerPos.y - 1, 0);
         return tileUtils.IsTileSolid(tileUtils.groundTilemap, checkPos);
     }
-
 }

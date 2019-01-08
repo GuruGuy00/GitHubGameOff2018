@@ -93,7 +93,7 @@ public class PlayerController : ICharacterController
         return HP <= 0;
     }
 
-    public void setMoveList(List<MoveInfo> moves)
+    public void SetMoveList(List<MoveInfo> moves)
     {
         moveList = moves;
         isProccessingMoves = true;

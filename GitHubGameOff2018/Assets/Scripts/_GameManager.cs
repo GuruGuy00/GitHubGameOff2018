@@ -175,7 +175,7 @@ public class _GameManager : MonoBehaviour {
         //Set the move list for Previewer and PlayeController
         playerController.ConsumeAP();
         List<MoveInfo> moves = new List<MoveInfo>(moveProcessor.processedMoves);
-        playerController.setMoveList(moves);
+        playerController.SetMoveList(moves);
         movePreviewer.SetPreviewPoints(moves);
         //Discard all played cards
         deck.DiscardCards();
