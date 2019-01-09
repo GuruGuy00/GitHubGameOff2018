@@ -9,23 +9,20 @@ public class MoveProcessor : MonoBehaviour
     public GameObject player;
     public Transform playCardsParent;
     public Button submitButton;
+    public int usedActionPoints = 0;
 
     [HideInInspector] public List<MoveInfo> processedMoves;
 
     private TileUtils tileUtils;
     private PlayerController playerController;
-    public int usedActionPoints = 0;
+    private EnemyManager enemyManager;
 
     void Start ()
     {
         processedMoves = new List<MoveInfo>();
         tileUtils = TileUtils.Instance;
         playerController = player.GetComponent<PlayerController>();
-    }
-
-    void Update()
-    {
-
+        enemyManager = FindObjectOfType<EnemyManager>();
     }
 
     public List<MoveInfo> ProcessPlayedCards()
@@ -138,7 +135,6 @@ public class MoveProcessor : MonoBehaviour
 
     private MoveInfo ProcessMoveRight(MoveInfo move)
     {
-
         Vector3Int checkPos = new Vector3Int((int)move.movePos.x + 1, (int)move.movePos.y, 0);
         move = CheckMoveValid(move, checkPos, true);
         return move;
@@ -216,21 +212,42 @@ public class MoveProcessor : MonoBehaviour
     private Vector3Int CheckMoveCollision(Vector3Int moveChecker, MoveInfo move, bool xAxis, bool add)
     {
         //Update the move checker
-        if (xAxis && add) { moveChecker.x++; }
-        else if (xAxis && !add) { moveChecker.x--; }
-        else if (!xAxis && add) { moveChecker.y++; }
+        if (xAxis && add)        { moveChecker.x++; }
+        else if (xAxis && !add)  { moveChecker.x--; }
+        else if (!xAxis && add)  { moveChecker.y++; }
         else if (!xAxis && !add) { moveChecker.y--; }
-        //Check if the move checker is on a solid tile
-        if (tileUtils.IsTileSolid(tileUtils.groundTilemap, moveChecker))
+        //Check if we will hit an enemy
+        if (IsHitEnemy(moveChecker))
         {
             move.isCollision = true;
-            //Reverse our move if we hit something
-            if (xAxis && add) { moveChecker.x--; }
-            else if (xAxis && !add) { moveChecker.x++; }
-            else if (!xAxis && add) { moveChecker.y--; }
+            move.hitEnemy = true;
+        }
+        //Check if we will hit a wall, platform, etc.
+        else if (tileUtils.IsTileSolid(tileUtils.groundTilemap, moveChecker))
+        {
+            move.isCollision = true;
+            //Reverse our move if we did hit something
+            if (xAxis && add)        { moveChecker.x--; }
+            else if (xAxis && !add)  { moveChecker.x++; }
+            else if (!xAxis && add)  { moveChecker.y--; }
             else if (!xAxis && !add) { moveChecker.y++; }
         }
         return moveChecker;
+    }
+
+    private bool IsHitEnemy(Vector3Int location)
+    {
+        //Ask the EnemyManager to find the enemies on screen
+        List<IEnemyController> enemies = enemyManager.LoadEnemiesToProcess();
+        //Check if any of these enemy's locations match the passed-in location
+        foreach (IEnemyController enemy in enemies)
+        {
+            if (enemy.worldLoc == location)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     private bool IsPlayerGrounded(Vector3Int playerPos)

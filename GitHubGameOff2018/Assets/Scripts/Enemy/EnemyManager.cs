@@ -40,7 +40,7 @@ public class EnemyManager : MonoBehaviour
     }
 
     //Load a list of enemies whose turns/actions we want to process
-    private List<IEnemyController> LoadEnemiesToProcess()
+    public List<IEnemyController> LoadEnemiesToProcess()
     {
         IEnemyController[] enemyControllers = FindObjectsOfType<IEnemyController>();
         List<IEnemyController> nearbyEnemies = FindEnemiesInView(enemyControllers);

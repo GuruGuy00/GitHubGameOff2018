@@ -7,15 +7,31 @@ public class TestMoveHelper : MonoBehaviour
 
     public List<GameObject> cards;
     public Transform playedCards;
+    public PlayerController playerController;
+
+    void Start()
+    {
+        playerController = FindObjectOfType<PlayerController>();    
+    }
 
     public void CreateCard(string cardType)
     {
-        foreach (GameObject card in cards)
+        if (cardType == "AP")
         {
-            CardDisplay cd = card.GetComponent<CardDisplay>();
-            if (cd.card.moveName == cardType)
+            if (playerController != null)
             {
-                Instantiate(card, playedCards);
+                playerController.ActionPoints += 6;
+            }   
+        }
+        else
+        {
+            foreach (GameObject card in cards)
+            {
+                CardDisplay cd = card.GetComponent<CardDisplay>();
+                if (cd.card.moveName == cardType)
+                {
+                    Instantiate(card, playedCards);
+                }
             }
         }
     }
