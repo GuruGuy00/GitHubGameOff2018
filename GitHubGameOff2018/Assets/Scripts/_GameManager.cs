@@ -30,8 +30,9 @@ public class _GameManager : MonoBehaviour {
         EndGame
     }
 
-    public GameObject menuPanel; 
-
+    public GameObject menuPanel;
+    public GameObject textInput;
+    
     private Deck deck;
 
     private MoveProcessor moveProcessor;
@@ -61,6 +62,10 @@ public class _GameManager : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             menuPanel.SetActive(!menuPanel.activeInHierarchy);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Tab)) {
+            textInput.SetActive(!textInput.activeInHierarchy);
         }
 
         //Wait until enemy turns are done before ending game
