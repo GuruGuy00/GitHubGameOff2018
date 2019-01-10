@@ -25,7 +25,8 @@ public abstract class ICharacterController : MonoBehaviour
         tileLoc = tileUtils.GetCellPos(tileUtils.groundTilemap, transform.position);
     }
 
-    public virtual bool ApplyMoves(Vector3Int newPos)
+    //Default funcationality that can be overidden by child classes
+    protected virtual bool ApplyMoves(Vector3Int newPos, MoveInfo currMove = default(MoveInfo))
     {
         //ToDo : Play around to see which works the best?
         transform.position = Vector3.SmoothDamp(transform.position, newPos, ref currentVelocity, smoothTime);

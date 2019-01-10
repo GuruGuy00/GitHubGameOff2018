@@ -31,7 +31,7 @@ public abstract class IEnemyController : ICharacterController
         startPosition = worldLoc;
     }
 
-    public override bool ApplyMoves(Vector3Int newPos)
+    protected override bool ApplyMoves(Vector3Int newPos, MoveInfo currMove = default(MoveInfo))
     {
         if (moveType == MoveType.Smooth)
         {
