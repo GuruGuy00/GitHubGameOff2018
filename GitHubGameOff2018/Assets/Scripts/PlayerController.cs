@@ -17,7 +17,15 @@ public class PlayerController : ICharacterController
 
     [Tooltip("Random roll(1-6) when check, else roll 6 all the time")]
     private bool randomRoll = true;
-    private int HP = 100; //TODO: Figure out if we want HP or one-hit death
+
+    private MoveInfo lastMove;
+
+    private int hitPoints = 75;
+    public int HP
+    {
+        get { return hitPoints; }
+    }
+
 
     void OnEnable()
     {
@@ -33,26 +41,58 @@ public class PlayerController : ICharacterController
     {
         bool movesComplete = false;
         Vector3Int newPos = worldLoc;
-        
-        //Spend Action
-        newPos = ProcessMoves(newPos);
-        movesComplete = ApplyMoves(newPos);
 
-        worldLoc = newPos;
+        //Spend Action
+        MoveInfo currMove = null;
+        currMove = ProcessMoves(newPos, currMove);
+        movesComplete = ApplyMoves(currMove.movePos, currMove);
+
+        worldLoc = currMove.movePos;
         tileLoc = tileUtils.GetCellPos(tileUtils.groundTilemap, transform.position);
 
         return movesComplete;
     }
 
-    private Vector3Int ProcessMoves(Vector3Int newPos)
+    private MoveInfo ProcessMoves(Vector3Int newPos, MoveInfo currMove)
     {
         if (!isMoving && moveList.Count > 0)
         {
             isMoving = true;
-            newPos = moveList[0].movePos;
+            currMove = moveList[0];
+            lastMove = currMove;
             moveList.RemoveAt(0);
         }
-        return newPos;
+        else
+        {
+            if (lastMove == null)
+            {
+                Debug.LogError("Last Move Is Null!");
+            }
+            currMove = lastMove;
+        }
+        return currMove;
+    }
+
+    protected override bool ApplyMoves(Vector3Int newPos, MoveInfo currMove = default(MoveInfo))
+    {
+        transform.position = Vector3.SmoothDamp(transform.position, newPos, ref currentVelocity, smoothTime);
+
+        if (Mathf.Abs(transform.position.x - (float)newPos.x) < 0.001
+            && Mathf.Abs(transform.position.y - (float)newPos.y) < 0.001)
+        {
+            transform.position = newPos;
+            isMoving = false;
+            if (currMove.hitEnemy)
+            {
+                hitPoints -= 25;
+            }
+            if (moveList.Count == 0)
+            {
+                isProccessingMoves = false;
+                return true;
+            }
+        }
+        return false;
     }
 
     public void ActionPointRoll()
@@ -80,7 +120,7 @@ public class PlayerController : ICharacterController
 
     private void TakeDamage()
     {
-        HP = 0; //TODO: Receive damage number and lower HP accordingly
+        hitPoints = 0;
         if (IsPlayerDead())
         {
             //TODO: Notify the EventManager that we died?

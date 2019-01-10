@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class SubmitButtonController : MonoBehaviour
 {
     private Button btn;
-    private bool enabled = true;
+    private bool enabledFlag = true;
 
     void Start()
     {
@@ -17,17 +17,17 @@ public class SubmitButtonController : MonoBehaviour
     {
         if (btn != null)
         {
-            btn.interactable = enabled;
+            btn.interactable = enabledFlag;
         }
     }
 
     public void DisableSubmitBtn()
     {
-        enabled = false;
+        enabledFlag = false;
     }
 
     public void EnableSubmitBtn()
     {
-        enabled = true;
+        enabledFlag = true;
     }
 }

@@ -120,7 +120,6 @@ public class MoveProcessor : MonoBehaviour
     private MoveInfo ProccessGenericMove(MoveInfo move, Card card)
     {
         bool xAxisChange = false;
-        bool yAxisChange = false;
         Vector3Int checkPos = move.movePos + card.moveTo;
 
         //Check to see if its an xAxis or yAxis move
