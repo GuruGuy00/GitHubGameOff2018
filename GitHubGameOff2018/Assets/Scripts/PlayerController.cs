@@ -120,7 +120,7 @@ public class PlayerController : ICharacterController
 
     private void TakeDamage()
     {
-        hitPoints = 0;
+        hitPoints -= 25;
         if (IsPlayerDead())
         {
             //TODO: Notify the EventManager that we died?
